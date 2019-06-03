@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="시간이 지나면 또 봐야지">
-    <title>Category: Blog - 시간이 지나면 또 봐야지</title>
+    <title>Tag: AWS 계정 - 시간이 지나면 또 봐야지</title>
     <meta name="author" content="Pora">
     
     
@@ -16,7 +16,7 @@
     <script type="application/ld+json">{}</script>
     <meta property="og:type" content="blog">
 <meta property="og:title" content="시간이 지나면 또 봐야지">
-<meta property="og:url" content="https://borakim-b.github.io/categories/Blog/index.html">
+<meta property="og:url" content="https://borakim-b.github.io/tags/AWS-계정/index.html">
 <meta property="og:site_name" content="시간이 지나면 또 봐야지">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
@@ -50,7 +50,7 @@
 
 
     
-    <link rel="canonical" href="https://borakim-b.github.io/categories/blog/">
+    <link rel="canonical" href="https://borakim-b.github.io/tags/aws-계정/">
 </head>
 
     <body>
@@ -195,21 +195,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
-                        <a class="link-unstyled" href="/2018/05/15/github-blog-hexo-tranquilpeak/">
-                            Github Pages Blog + Hexo (tranquilpeak Theme)
+                        <a class="link-unstyled" href="/2019/06/03/20190603-aws-free-tier/">
+                            AWS 프리티어 사용 및 계정 생성
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time datetime="2018-05-15T14:31:08+09:00">
+    <time datetime="2019-06-03T15:41:16+09:00">
 	
-		    May 15, 2018
+		    Jun 03, 2019
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/Blog/">Blog</a>, <a class="category-link" href="/categories/Blog/Hexo/">Hexo</a>, <a class="category-link" href="/categories/Web/">Web</a>
+    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/AWS/">AWS</a>
 
 
     
@@ -218,32 +218,106 @@
             </div>
             
                 <div class="postShorten-content">
-                    <p>참고.<br><a href="https://hexo.io/ko/docs/setup.html" rel="external nofollow noopener noreferrer" target="_blank">https://hexo.io/ko/docs/setup.html</a><br><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak</a></p>
-<h3 id="설치환경"><a href="#설치환경" class="headerlink" title="설치환경"></a>설치환경</h3><p>node v8.9.1<br>npm 5.5.1</p>
-<h3 id="repository-생성"><a href="#repository-생성" class="headerlink" title="repository 생성"></a>repository 생성</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Username&gt;.github.io</span><br></pre></td></tr></table></figure>
-<p>로컬에 생성한 repository를 clone 받는다.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/&lt;Username&gt;/&lt;Username&gt;.github.io.git</span><br><span class="line">$ <span class="built_in">cd</span> &lt;Username&gt;.github.io</span><br></pre></td></tr></table></figure>
-<h3 id="Hexo-설치"><a href="#Hexo-설치" class="headerlink" title="Hexo 설치"></a>Hexo 설치</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-<h3 id="folder-생성-초기화"><a href="#folder-생성-초기화" class="headerlink" title="folder 생성 초기화"></a>folder 생성 초기화</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;</span><br><span class="line">$ <span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-<p>blog 라는 폴더명으로 생성했다고 가정한다</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init blog</span><br><span class="line">$ <span class="built_in">cd</span> blog</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-<h3 id="theme-설치"><a href="#theme-설치" class="headerlink" title="theme 설치"></a>theme 설치</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> blog/themes</span><br></pre></td></tr></table></figure>
-<p>원하는 테마를 내려받는다. <a href="https://hexo.io/themes/" rel="external nofollow noopener noreferrer" target="_blank">https://hexo.io/themes/</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak.git</span><br><span class="line">$ mv hexo-theme-tranquilpeak tranquilpeak</span><br><span class="line">$ <span class="built_in">cd</span> tranquilpeak</span><br><span class="line">$ npm install -g bower grunt-cli</span><br><span class="line">$ npm install</span><br><span class="line">$ bower install</span><br><span class="line">$ grunt build</span><br></pre></td></tr></table></figure>
-<h3 id="config-yml-수정"><a href="#config-yml-수정" class="headerlink" title="_config.yml 수정"></a>_config.yml 수정</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: tranquilpeak</span><br></pre></td></tr></table></figure>
-<h3 id="Enable-post-assets-folder-Enable-RSS-feed-Enable-pages"><a href="#Enable-post-assets-folder-Enable-RSS-feed-Enable-pages" class="headerlink" title="Enable post assets folder, Enable RSS feed, Enable pages"></a>Enable post assets folder, Enable RSS feed, Enable pages</h3><p><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/DOCUMENTATION.md" rel="external nofollow noopener noreferrer" target="_blank">Hexo configuration</a></p>
-<h3 id="빌드-후-로컬에서-확인해보기"><a href="#빌드-후-로컬에서-확인해보기" class="headerlink" title="빌드 후 로컬에서 확인해보기"></a>빌드 후 로컬에서 확인해보기</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br><span class="line">$ hexo g</span><br><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p><a href="http://localhost:4000" rel="external nofollow noopener noreferrer" target="_blank">http://localhost:4000</a></p>
-<p><code>$ hexo g</code> 빌드가 완료되면 public 폴더가 생성된다.<br>public 폴더 내의 파일을 배포하면 된다.</p>
-<h3 id="관리"><a href="#관리" class="headerlink" title="관리"></a>관리</h3><p>draft 파일은 private 프로젝트로 올려두고,<br>tranquilpeak 는 fork 받아 필요한 부분만 수정하여 별도 프로젝트로 두었다.</p>
-<p>로컬에서 draft 파일을 받아서 포스팅을 작성하고<br>hexo 빌드 후에 public 폴더내의 파일을 borakim-b.github.io 내에 copy 하는 스크립트 실행 후<br>두개의 프로젝트에 모두 code push 하는 형태</p>
-<p><a href="https://github.com/borakim-b/borakim-b.github.io" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/borakim-b/borakim-b.github.io</a><br><a href="https://github.com/borakim-b/github-blog-draft" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/borakim-b/github-blog-draft</a><br><a href="https://github.com/borakim-b/hexo-theme-tranquilpeak" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/borakim-b/hexo-theme-tranquilpeak</a></p>
-<h3 id="포스트-쓰기"><a href="#포스트-쓰기" class="headerlink" title="포스트 쓰기"></a>포스트 쓰기</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new post &lt;title&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="배포-플러그인-설치-후-배포하는-방법"><a href="#배포-플러그인-설치-후-배포하는-방법" class="headerlink" title="배포 플러그인 설치 후 배포하는 방법"></a>배포 플러그인 설치 후 배포하는 방법</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-<p>_config.yml 파일에서 deploy 확인</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/&lt;Username&gt;/&lt;Username&gt;.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<p>배포 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+                    <p>AWS 프리티어는 처음 AWS에 가입한 날부터 12개월 동안 사용 가능</p>
+<p><a href="https://aws.amazon.com/ko/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;all-free-tier.sort-order=asc&amp;awsf.Free%20Tier%20Types=categories%23featured" rel="external nofollow noopener noreferrer" target="_blank">AWS 프리 티어 세부정보</a></p>
+<p>미리보기 (2019. 6. 1 기준. 익숙한 서비스 위주로 확인)</p>
+<p><strong>12 개월 무료</strong> </p>
+<blockquote>
+<blockquote>
+</blockquote>
+<ul>
+<li>Elastic Block Storage <ul>
+<li>30GB </li>
+</ul>
+</li>
+<li>ElastiCache<ul>
+<li>750시간</li>
+<li>cache t2micro 노드 사용량</li>
+</ul>
+</li>
+<li>Trusted Advisor<ul>
+<li>4개</li>
+<li>성능 및 보안에 대한 점검 항목</li>
+</ul>
+</li>
+<li>RDS<ul>
+<li>750시간</li>
+<li>db.t2.micro 데이터 베이스 사용량</li>
+</ul>
+</li>
+<li>EC2<ul>
+<li>750시간</li>
+<li>Linux, RHEL 또는 SLES t2.micro 인스턴스를 월별 <strong>750</strong>시간 사용</li>
+</ul>
+</li>
+<li>S3<ul>
+<li>표준스토리지 5GB</li>
+<li><strong>Get</strong> <strong>요청</strong> <strong>20,000</strong>개</li>
+<li><strong>Put</strong> <strong>요청</strong> <strong>2,000</strong>개</li>
+</ul>
+</li>
+<li>Elastic Container Registry<ul>
+<li>월별 500MB</li>
+<li>docker 이미지 저장 및 검색</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><strong>항상 무료</strong></p>
+<blockquote>
+<blockquote>
+</blockquote>
+<ul>
+<li>SES<ul>
+<li>62000 개</li>
+<li>월별 아웃바운드 메시지</li>
+</ul>
+</li>
+<li>CloudFront<ul>
+<li>50GB의 데이터 송신, 2백만 건의 HTTP 및 HTTPS 요청</li>
+</ul>
+</li>
+<li>Lambda<ul>
+<li>월별 1백만개</li>
+</ul>
+</li>
+<li>DynamoDB<ul>
+<li>25GB 스토리지</li>
+</ul>
+</li>
+<li>CloudWatch<ul>
+<li>사용자 정의 지표 10개 및 경보 10개</li>
+<li><strong>로그</strong> <strong>데이터</strong> <strong>수집</strong> <strong>5GB</strong> <strong>및</strong> <strong>로그</strong> <strong>데이터</strong> <strong>아카이브</strong> <strong>5GB</strong></li>
+<li>대쉬보드 3개</li>
+</ul>
+</li>
+<li>Cognito<ul>
+<li>모바일 자격증명</li>
+<li>사용자 풀 기능에는 월별 50,000 MAU </li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="AWS-계정-생성-하면서-…"><a href="#AWS-계정-생성-하면서-…" class="headerlink" title="AWS 계정 생성 하면서 …"></a>AWS 계정 생성 하면서 …</h3><ul>
+<li><p>계정 생성 시 결제 카드 정보를 입력하게 되어있다.<br>계정 생성 후 등록한 카드로 USD 1달러가 결제 됨 몇일 후에 돌려준다고 함.</p>
+</li>
+<li><p>계정생성이 완료되면 등록한 메일주소로 3개의 소개 및 확인 메일이 옴</p>
+</li>
+<li><p>AWS Management Console로 들어가서 계정 생성 시 입력한 이메일로 로그인 하면 됨.</p>
+</li>
+</ul>
+<h3 id="AWS-계정-생성-후-한일"><a href="#AWS-계정-생성-후-한일" class="headerlink" title="AWS 계정 생성 후 한일"></a>AWS 계정 생성 후 한일</h3><ul>
+<li>루트 계정 MFA 활성화<ul>
+<li>사용자 &gt; 내 보안 자격 증명. 루트 계정에서 MFA 활성화 함.</li>
+</ul>
+</li>
+<li>예상금액 1달러 초과 시 과금알림 설정<ul>
+<li>Budgets &gt; 예산작성 으로 들어가서 비용예산 유형으로 과금설정을 해둠</li>
+<li>1달러가 초과 되었을 경우 이메일로 알림이 오도록 설정해 두었다.</li>
+</ul>
+</li>
+</ul>
 
                     
                         
@@ -251,7 +325,7 @@
                     
                     
                         <p>
-                            <a href="/2018/05/15/github-blog-hexo-tranquilpeak/#post-footer" class="postShorten-excerpt_link link">
+                            <a href="/2019/06/03/20190603-aws-free-tier/#post-footer" class="postShorten-excerpt_link link">
                                 Comment and share
                             </a>
                         </p>
@@ -271,7 +345,6 @@
 </div>
 
 </section>
-
 
 
                 <footer id="footer" class="main-content-wrap">
