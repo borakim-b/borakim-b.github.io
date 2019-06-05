@@ -28,15 +28,36 @@
     </url>
 
     <url>
-        <loc>https://borakim-b.github.io/categories/Tech/</loc>
+        <loc>https://borakim-b.github.io/categories/Tech/AWS/</loc>
         <lastmod>2019-06-03T07:48:02.523Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://borakim-b.github.io/categories/Tech/AWS/</loc>
-        <lastmod>2019-06-03T07:48:02.523Z</lastmod>
+        <loc>https://borakim-b.github.io/categories/Tech/</loc>
+        <lastmod>2019-06-05T07:04:01.334Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://borakim-b.github.io/categories/Tech/Python/</loc>
+        <lastmod>2019-06-05T07:04:01.334Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://borakim-b.github.io/categories/Research/</loc>
+        <lastmod>2019-06-05T07:04:01.334Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://borakim-b.github.io/categories/Research/QR/</loc>
+        <lastmod>2019-06-05T07:04:01.334Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
