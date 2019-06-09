@@ -6,21 +6,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="시간이 지나면 또 봐야지">
-    <title>Archives: 2019/6 - 시간이 지나면 또 봐야지</title>
+    <title>PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..) - 시간이 지나면 또 봐야지</title>
     <meta name="author" content="Pora">
     
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
     
-    <script type="application/ld+json">{}</script>
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="시간이 지나면 또 봐야지">
-<meta property="og:url" content="https://borakim-b.github.io/archives/2019/06/index.html">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데….\nDocker 기반으로 PHP 웹 서비스 개발환경 구성해보기PHPDocker.io 에서 도커 파일 생성\nPHPDocker.io is a tool that will help you build a typical PHP development environment based on Docker with just a few clicks\n\n\n다운로드된 파일을 보면 phpdocker 폴더와 docker-compose.yml 파일이 있음.\n\n\ndocker-compose.yml 파일에 보면 각 컨테이너 서비스 별로 정의되어 있는 것을 확인할 수 있음.redis, mariadb, webserver, php-fpm\nphpdocker 파일내의 nginx 설정파일과 php 실행환경 파일에 대해 컨테이너에서 사용할 경로가 지정되어 있음.\nphp-ini-overrides.ini 파일 수정   12date.timezone = Asia/Seoulshort_open_tag = On\n   short_open_tags는 &lt;?php 를 &lt;? 도 허용한다는..\nCI 3.x 의 경우 nginx.conf 파일 수정   CI 4.x 의 경우에는 수정하지 않아도 되는데..   root /application/public; 에서 root /application로 변경 함.\nCodeIgniter 다운로드   zip 파일 해제 후 1에서 받은 파일과 같은 디렉토리에 위치 시킴.\ndocker 실행   1docker-compose up -d\n   \n확인   http://localhost:8000/   \n결과https://github.com/borakim-b/php-starter-kit\n\nPHP5.4 부터는 내장 웹서버를 제공한다. 간단히 사용할 때만 쓰고.. 권장은 안하는 것 같다.\n","dateCreated":"2019-06-09T18:41:47+09:00","dateModified":"2019-06-09T19:08:32+09:00","datePublished":"2019-06-09T18:41:47+09:00","description":"","headline":"PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/","keywords":"php, docker, CodeIgniter"}</script>
+    <meta name="description" content="CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데…. Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기PHPDocker.io 에서 도커 파일 생성 PHPDocker.io is a tool that will help you bui">
+<meta name="keywords" content="php,docker,CodeIgniter">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)">
+<meta property="og:url" content="https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/index.html">
 <meta property="og:site_name" content="시간이 지나면 또 봐야지">
+<meta property="og:description" content="CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데…. Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기PHPDocker.io 에서 도커 파일 생성 PHPDocker.io is a tool that will help you bui">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://borakim-b.github.io/images/php_docker.png">
+<meta property="og:image" content="https://borakim-b.github.io/images/php_docker_ps.png">
+<meta property="og:image" content="https://borakim-b.github.io/images/php_docker_web.png">
+<meta property="og:updated_time" content="2019-06-09T10:08:32.474Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="시간이 지나면 또 봐야지">
+<meta name="twitter:title" content="PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)">
+<meta name="twitter:description" content="CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데…. Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기PHPDocker.io 에서 도커 파일 생성 PHPDocker.io is a tool that will help you bui">
+<meta name="twitter:image" content="https://borakim-b.github.io/images/php_docker.png">
     
     
         
@@ -50,7 +59,7 @@
 
 
     
-    <link rel="canonical" href="https://borakim-b.github.io/archives/2019/06/">
+    <link rel="canonical" href="https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/">
 </head>
 
     <body>
@@ -58,7 +67,7 @@
             <!-- Define author's picture -->
 
 
-<header id="header" data-behavior="1">
+<header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">시간이 지나면 또 봐야지</a>
@@ -79,7 +88,7 @@
 
     
 
-<nav id="sidebar" data-behavior="1">
+<nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -182,25 +191,21 @@
 </nav>
 
             
-            <div id="main" data-behavior="1" class="
+            <div id="main" data-behavior="4" class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+<article class="post">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/06/09/20190609-php-env-docker/">
-                            PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)
+        </h1>
+    
+    
+        <div class="post-meta">
     <time datetime="2019-06-09T18:41:47+09:00">
 	
 		    Jun 09, 2019
@@ -215,10 +220,13 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데….</p>
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데….</p>
 <h3 id="Docker-기반으로-PHP-웹-서비스-개발환경-구성해보기"><a href="#Docker-기반으로-PHP-웹-서비스-개발환경-구성해보기" class="headerlink" title="Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기"></a>Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기</h3><h5 id="PHPDocker-io-에서-도커-파일-생성"><a href="#PHPDocker-io-에서-도커-파일-생성" class="headerlink" title="PHPDocker.io 에서 도커 파일 생성"></a><a href="https://phpdocker.io/generator" rel="external nofollow noopener noreferrer" target="_blank">PHPDocker.io</a> 에서 도커 파일 생성</h5><blockquote>
 <p>PHPDocker.io is a tool that will help you build a typical PHP development environment based on Docker with just a few clicks</p>
 </blockquote>
@@ -239,315 +247,103 @@
 <hr>
 <p>PHP5.4 부터는 내장 웹서버를 제공한다. 간단히 사용할 때만 쓰고.. 권장은 안하는 것 같다.</p>
 
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/06/09/20190609-php-env-docker/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
             
+
         </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/06/09/20190609-php-start-tip/">
-                            PHP 서비스 개발에 필요한 최소한의 것
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-06-09T18:41:17+09:00">
-	
-		    Jun 09, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/PHP/">PHP</a>
-
-
-    
-</div>
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/CodeIgniter/">CodeIgniter</a> <a class="tag tag--primary tag--small t-link" href="/tags/docker/">docker</a> <a class="tag tag--primary tag--small t-link" href="/tags/php/">php</a>
 
             </div>
-            
-                <div class="postShorten-content">
-                    <h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP?"></a>PHP?</h3><p><a href="https://www.php.net/manual/en/" rel="external nofollow noopener noreferrer" target="_blank">PHP Manual</a></p>
-<blockquote>
-<p>PHP: Hypertext Preprocessor 서버사이드 스크립트 언어</p>
-<p>근본적으로, PHP의 문법은 C스타일을 따른다.<br>PHP 7 is the latest stable release</p>
-<p><a href="https://ko.wikipedia.org/wiki/PHP" rel="external nofollow noopener noreferrer" target="_blank">위키피디아</a></p>
-</blockquote>
-<h3 id="PHP-Web-Framework"><a href="#PHP-Web-Framework" class="headerlink" title="PHP Web Framework"></a>PHP Web Framework</h3><p><a href="https://codeigniter.com/" rel="external nofollow noopener noreferrer" target="_blank">Codeigniter 공식</a><br><a href="http://www.ciboard.co.kr/user_guide/kr/" rel="external nofollow noopener noreferrer" target="_blank">Codeigniter 한글매뉴얼</a></p>
-<p>CI Application Flow (<a href="https://www.codeigniter.com/user_guide/overview/appflow.html" rel="external nofollow noopener noreferrer" target="_blank">https://www.codeigniter.com/user_guide/overview/appflow.html</a>)</p>
-<p><img src="/images/php_ci_appflowchart.gif" alt=""></p>
-<h5 id="템플릿-엔진"><a href="#템플릿-엔진" class="headerlink" title="템플릿 엔진"></a>템플릿 엔진</h5><p><a href="https://tpl.xtac.net/introduction/" rel="external nofollow noopener noreferrer" target="_blank">템플릿언더바(Template Underscore)</a></p>
-<h5 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h5><p><a href="https://www.jetbrains.com/phpstorm/" rel="external nofollow noopener noreferrer" target="_blank">PhpStorm</a></p>
-<hr>
-<p>PHP 프레임 워크로 <a href="https://laravel.com/" rel="external nofollow noopener noreferrer" target="_blank">라라벨</a> 도 있다고 하는데 사용해보지 않았다.<br>템블릿 언더바 문법 중 이러한 <code>&lt;!--{ }--&gt;</code> 템플릿 태그는 정말 난해했다. 정말 코드 가독성이 떨어진다.</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/06/09/20190609-php-start-tip/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/06/05/20190605-python-qrcode-generator/">
-                            QR코드 생성 어떻게 할까
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-06-05T15:29:04+09:00">
-	
-		    Jun 05, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Research/">Research</a>, <a class="category-link" href="/categories/Research/QR/">QR</a>, <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/Python/">Python</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h3 id="QR-코드는-뭘까"><a href="#QR-코드는-뭘까" class="headerlink" title="QR 코드는 뭘까?"></a>QR 코드는 뭘까?</h3><blockquote>
-<p><strong>QR</strong> <strong>코드</strong>(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드 </p>
-<p>바코드의 용량 제한을 극복하고 그 형식과 내용을 확장한 2차원의 바코드</p>
-<p>기존의 바코드는 기본적으로 가로 배열에 최대 20여 자의 숫자 정보만 넣을 수 있는 1차원적 구성이지만, </p>
-<p>QR코드는 가로, 세로를 활용하여 숫자는 최대 7,089자, 문자는 최대 4,296자, 한자도 최대 1,817자 정도를 기록할 수 있는 2차원적 구성이다</p>
-<p>QR코드를 처음 개발한 일본의 덴소웨이브(1994년)가 (고맙게도) 특허권을 행사하지 않아 현재는 누구라도 다양한 목적으로 쉽게 제작, 사용할 수 있다는 점도 빼놓을 수 없다.</p>
-<p><a href="https://terms.naver.com/entry.nhn?docId=3571963&amp;cid=59088&amp;categoryId=59096" rel="external nofollow noopener noreferrer" target="_blank">네이버캐스트</a>, <a href="https://ko.wikipedia.org/wiki/QR_코드" rel="external nofollow noopener noreferrer" target="_blank">위키</a></p>
-</blockquote>
-<h3 id="QR-코드-종류"><a href="#QR-코드-종류" class="headerlink" title="QR 코드 종류"></a>QR 코드 종류</h3><blockquote>
-<p>QR코드 모델2는 코드가 일그러진 경우에도 문제없이 인식이 가능하도록 모델1을 개량한 코드입니다.</p>
-<p>코드를 곡면에 인쇄하거나, 인식시의 각도로 인해 코드가 일그러진 상태에서도, 코드 내부에 배치된 얼라이먼트 패턴에 의해 뛰어난 성능으로 인식할 수 있습니다.</p>
-<p>최대 버전은 40(177 X 177셀)로 7089자리의 숫자까지 취급할 수 있습니다.</p>
-<p><a href="https://www.qrcode.com/ko/codes/" rel="external nofollow noopener noreferrer" target="_blank">https://www.qrcode.com/ko/codes/</a></p>
-</blockquote>
-<p>일상에서 보게되는 QR코드 이미지가 모델2인가 보다.</p>
-<h3 id="QR-코드는-어떻게-만들까"><a href="#QR-코드는-어떻게-만들까" class="headerlink" title="QR 코드는 어떻게 만들까?"></a>QR 코드는 어떻게 만들까?</h3><p><a href="https://segno.readthedocs.io/en/stable/comparison-qrcode-libs.html#create-a-qr-code" rel="external nofollow noopener noreferrer" target="_blank">Python QRCode Generator 라이브러리 비교</a></p>
-<p>간단하게 <a href="https://pypi.org/project/qrcode/" rel="external nofollow noopener noreferrer" target="_blank">qrcode</a> 를 이용해서 QR 이미지를 생성해보면..</p>
-<script src="https://gist.github.com/borakim-b/694fa5d60cb3dce3019ba03e5acee54b.js"></script>
-
-
-
-<p><img src="/images/qrcode_c.png" alt=""></p>
-<p>QR코드 이미지를 스캔하면 <a href="https://borakim-b.github.io/">https://borakim-b.github.io/</a> 로 링크된다.    </p>
-<hr>
-<p>QR Code Generator 서비스를 활용해서 간단하게 만들어 볼 수도 있다.<a href="https://qr.naver.com/" rel="external nofollow noopener noreferrer" target="_blank">네이버QR코드</a>, <a href="https://zxing.appspot.com/generator" rel="external nofollow noopener noreferrer" target="_blank">zxing</a></p>
-<h5 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h5><p><em>QRCode 스캐너</em></p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/06/05/20190605-python-qrcode-generator/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/06/03/20190603-aws-free-tier/">
-                            AWS 프리티어 사용 및 계정 생성
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-06-03T15:41:16+09:00">
-	
-		    Jun 03, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/AWS/">AWS</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>AWS 프리티어는 처음 AWS에 가입한 날부터 12개월 동안 사용 가능</p>
-<p><a href="https://aws.amazon.com/ko/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;all-free-tier.sort-order=asc&amp;awsf.Free%20Tier%20Types=categories%23featured" rel="external nofollow noopener noreferrer" target="_blank">AWS 프리 티어 세부정보</a></p>
-<p>미리보기 (2019. 6. 1 기준. 익숙한 서비스 위주로 확인)</p>
-<p><strong>12 개월 무료</strong> </p>
-<blockquote>
-<blockquote>
-</blockquote>
-<ul>
-<li>Elastic Block Storage <ul>
-<li>30GB </li>
-</ul>
-</li>
-<li>ElastiCache<ul>
-<li>750시간</li>
-<li>cache t2micro 노드 사용량</li>
-</ul>
-</li>
-<li>Trusted Advisor<ul>
-<li>4개</li>
-<li>성능 및 보안에 대한 점검 항목</li>
-</ul>
-</li>
-<li>RDS<ul>
-<li>750시간</li>
-<li>db.t2.micro 데이터 베이스 사용량</li>
-</ul>
-</li>
-<li>EC2<ul>
-<li>750시간</li>
-<li>Linux, RHEL 또는 SLES t2.micro 인스턴스를 월별 <strong>750</strong>시간 사용</li>
-</ul>
-</li>
-<li>S3<ul>
-<li>표준스토리지 5GB</li>
-<li><strong>Get</strong> <strong>요청</strong> <strong>20,000</strong>개</li>
-<li><strong>Put</strong> <strong>요청</strong> <strong>2,000</strong>개</li>
-</ul>
-</li>
-<li>Elastic Container Registry<ul>
-<li>월별 500MB</li>
-<li>docker 이미지 저장 및 검색</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<p><strong>항상 무료</strong></p>
-<blockquote>
-<blockquote>
-</blockquote>
-<ul>
-<li>SES<ul>
-<li>62000 개</li>
-<li>월별 아웃바운드 메시지</li>
-</ul>
-</li>
-<li>CloudFront<ul>
-<li>50GB의 데이터 송신, 2백만 건의 HTTP 및 HTTPS 요청</li>
-</ul>
-</li>
-<li>Lambda<ul>
-<li>월별 1백만개</li>
-</ul>
-</li>
-<li>DynamoDB<ul>
-<li>25GB 스토리지</li>
-</ul>
-</li>
-<li>CloudWatch<ul>
-<li>사용자 정의 지표 10개 및 경보 10개</li>
-<li><strong>로그</strong> <strong>데이터</strong> <strong>수집</strong> <strong>5GB</strong> <strong>및</strong> <strong>로그</strong> <strong>데이터</strong> <strong>아카이브</strong> <strong>5GB</strong></li>
-<li>대쉬보드 3개</li>
-</ul>
-</li>
-<li>Cognito<ul>
-<li>모바일 자격증명</li>
-<li>사용자 풀 기능에는 월별 50,000 MAU </li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<hr>
-<h3 id="AWS-계정-생성-하면서-…"><a href="#AWS-계정-생성-하면서-…" class="headerlink" title="AWS 계정 생성 하면서 …"></a>AWS 계정 생성 하면서 …</h3><ul>
-<li><p>계정 생성 시 결제 카드 정보를 입력하게 되어있다.<br>계정 생성 후 등록한 카드로 USD 1달러가 결제 됨 몇일 후에 돌려준다고 함.</p>
-</li>
-<li><p>계정생성이 완료되면 등록한 메일주소로 3개의 소개 및 확인 메일이 옴</p>
-</li>
-<li><p>AWS Management Console로 들어가서 계정 생성 시 입력한 이메일로 로그인 하면 됨.</p>
-</li>
-</ul>
-<h3 id="AWS-계정-생성-후-한일"><a href="#AWS-계정-생성-후-한일" class="headerlink" title="AWS 계정 생성 후 한일"></a>AWS 계정 생성 후 한일</h3><ul>
-<li>루트 계정 MFA 활성화<ul>
-<li>사용자 &gt; 내 보안 자격 증명. 루트 계정에서 MFA 활성화 함.</li>
-</ul>
-</li>
-<li>예상금액 1달러 초과 시 과금알림 설정<ul>
-<li>Budgets &gt; 예산작성 으로 들어가서 비용예산 유형으로 과금설정을 해둠</li>
-<li>1달러가 초과 되었을 경우 이메일로 알림이 오도록 설정해 두었다.</li>
-</ul>
-</li>
-</ul>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/06/03/20190603-aws-free-tier/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
         
         
-        <li class="pagination-number">page 1 of 1</li>
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/09/20190609-php-start-tip/" data-tooltip="PHP 서비스 개발에 필요한 최소한의 것" aria-label="NEXT: PHP 서비스 개발에 필요한 최소한의 것">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
 
 
 
@@ -558,6 +354,113 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/09/20190609-php-start-tip/" data-tooltip="PHP 서비스 개발에 필요한 최소한의 것" aria-label="NEXT: PHP 서비스 개발에 필요한 최소한의 것">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -722,6 +625,25 @@
 <script src="/assets/js/thumbs.js"></script>
 <script src="/assets/js/tranquilpeak.js"></script>
 <!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/';
+                 
+                    this.page.identifier = '2019/06/09/20190609-php-env-docker/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'borakim-b';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>

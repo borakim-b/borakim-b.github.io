@@ -7,6 +7,22 @@
     </url>
 
     <url>
+        <loc>https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/</loc>
+        <lastmod>2019-06-09T10:12:11.240Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/</loc>
+        <lastmod>2019-06-09T10:08:32.474Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/</loc>
         <lastmod>2019-06-05T07:04:01.334Z</lastmod>
         <changefreq>weekly</changefreq>
