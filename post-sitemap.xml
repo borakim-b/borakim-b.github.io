@@ -7,16 +7,16 @@
     </url>
 
     <url>
-        <loc>https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/</loc>
-        <lastmod>2019-06-09T10:12:11.240Z</lastmod>
+        <loc>https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/</loc>
+        <lastmod>2019-06-10T06:27:33.433Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/</loc>
-        <lastmod>2019-06-09T10:08:32.474Z</lastmod>
+        <loc>https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/</loc>
+        <lastmod>2019-06-10T06:27:06.569Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -24,7 +24,15 @@
 
     <url>
         <loc>https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/</loc>
-        <lastmod>2019-06-05T07:04:01.334Z</lastmod>
+        <lastmod>2019-06-10T06:05:45.710Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/</loc>
+        <lastmod>2019-06-10T06:01:39.318Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -32,15 +40,7 @@
 
     <url>
         <loc>https://borakim-b.github.io/2019/06/03/20190603-aws-free-tier/</loc>
-        <lastmod>2019-06-03T07:48:02.523Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/</loc>
-        <lastmod>2019-06-03T06:46:56.368Z</lastmod>
+        <lastmod>2019-06-10T06:00:23.224Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
