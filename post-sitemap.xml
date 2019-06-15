@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/</loc>
+        <lastmod>2019-06-15T08:55:36.878Z</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1</priority>
+
+    </url>
+
+    <url>
         <loc>https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/</loc>
         <lastmod>2019-06-11T15:29:11.193Z</lastmod>
         <changefreq>daily</changefreq>

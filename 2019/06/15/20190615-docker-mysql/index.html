@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="시간이 지나면 또 봐야지">
-    <title>Archives: 2018 - 시간이 지나면 또 봐야지</title>
+    <title>Mysql 설치 - 시간이 지나면 또 봐야지</title>
     <meta name="author" content="Pora">
     
         <meta name="keywords" content="it,hexo,java,php,python,">
@@ -15,18 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
     
-    <script type="application/ld+json">{}</script>
-    <meta name="description" content="개발 블로그">
-<meta name="keywords" content="it,hexo,java,php,python">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"docker를 이용해서 빠르게 데이터베이스 개발환경을 만들어 본다.\n도커 이미지 다운로드 후 실행123❯ docker search mysql❯ docker pull mysql❯ docker images\n실행\n1❯ docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 --name mysql mysql --default-authentication-plugin=mysql_native_password\n접속정보\n123host: 127.0.0.1Username: rootPassword: 1234\n컨테이너에 접속해서 확인해보려면\n123❯ docker exec -i -t mysql bashroot@a4ce950e20aa:/# mysql -u root -pEnter password:\ndocker-compose.yml 파일을 만들어 더 간단하게 해보면..\n\n\nworking_dir 를 설정 후 호스트의 디렉토리와 마운트 되도록 한다.\nversion은 docker engine 버전 을 고려하여 작성한다.\n기본 Encoding 과 Collation 값을 설정한다.charset 옵션 없이 실행할 경우 DB 기본 Encoding 과 Collation 값이 latin1 로 설정된다.\n\n실행❯ docker-compose up\n끝.docker-compose.yml 로 작성해 두면 빠르게 개발환경을 구성해서 시작하기 좋다.\n","dateCreated":"2019-06-15T17:45:57+09:00","dateModified":"2019-06-15T17:55:36+09:00","datePublished":"2019-06-15T17:45:57+09:00","description":"","headline":"Mysql 설치","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/","keywords":"docker, db, mysql"}</script>
+    <meta name="description" content="docker를 이용해서 빠르게 데이터베이스 개발환경을 만들어 본다. 도커 이미지 다운로드 후 실행123❯ docker search mysql❯ docker pull mysql❯ docker images 실행 1❯ docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 --name mysql mysql --defau">
+<meta name="keywords" content="docker,db,mysql">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="시간이 지나면 또 봐야지">
-<meta property="og:url" content="https://borakim-b.github.io/archives/2018/index.html">
+<meta property="og:title" content="Mysql 설치">
+<meta property="og:url" content="https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/index.html">
 <meta property="og:site_name" content="시간이 지나면 또 봐야지">
-<meta property="og:description" content="개발 블로그">
+<meta property="og:description" content="docker를 이용해서 빠르게 데이터베이스 개발환경을 만들어 본다. 도커 이미지 다운로드 후 실행123❯ docker search mysql❯ docker pull mysql❯ docker images 실행 1❯ docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 --name mysql mysql --defau">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-06-15T08:55:36.878Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="시간이 지나면 또 봐야지">
-<meta name="twitter:description" content="개발 블로그">
+<meta name="twitter:title" content="Mysql 설치">
+<meta name="twitter:description" content="docker를 이용해서 빠르게 데이터베이스 개발환경을 만들어 본다. 도커 이미지 다운로드 후 실행123❯ docker search mysql❯ docker pull mysql❯ docker images 실행 1❯ docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 --name mysql mysql --defau">
     
     
         
@@ -56,7 +57,7 @@
 
 
     
-    <link rel="canonical" href="https://borakim-b.github.io/archives/2018/">
+    <link rel="canonical" href="https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/">
 </head>
 
     <body>
@@ -64,7 +65,7 @@
             <!-- Define author's picture -->
 
 
-<header id="header" data-behavior="1">
+<header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">시간이 지나면 또 봐야지</a>
@@ -85,7 +86,7 @@
 
     
 
-<nav id="sidebar" data-behavior="1">
+<nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -188,64 +189,156 @@
 </nav>
 
             
-            <div id="main" data-behavior="1" class="
+            <div id="main" data-behavior="4" class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+<article class="post">
     
     
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/05/15/github-blog-hexo-tranquilpeak/">
-                            Github Pages Blog + Hexo (tranquilpeak Theme)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-05-15T14:31:08+09:00">
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Mysql 설치
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-06-15T17:45:57+09:00">
 	
-		    May 15, 2018
+		    Jun 15, 2019
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/Blog/">Blog</a>, <a class="category-link" href="/categories/Blog/Hexo/">Hexo</a>, <a class="category-link" href="/categories/Web/">Web</a>
+    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/DB/">DB</a>, <a class="category-link" href="/categories/Tech/DB/Mysql/">Mysql</a>, <a class="category-link" href="/categories/Tech/Docker/">Docker</a>
 
 
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>참고.<br><a href="https://hexo.io/ko/docs/setup.html" rel="external nofollow noopener noreferrer" target="_blank">https://hexo.io/ko/docs/setup.html</a><br><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak</a><br>
-                    
-                        <a href="/2018/05/15/github-blog-hexo-tranquilpeak/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </p></div>
-            
-        </div>
-        
-    </article>
     
-    <div class="pagination-bar">
-    <ul class="pagination">
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>docker를 이용해서 빠르게 데이터베이스 개발환경을 만들어 본다.</p>
+<h3 id="도커-이미지-다운로드-후-실행"><a href="#도커-이미지-다운로드-후-실행" class="headerlink" title="도커 이미지 다운로드 후 실행"></a>도커 이미지 다운로드 후 실행</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">❯ docker search mysql</span><br><span class="line">❯ docker pull mysql</span><br><span class="line">❯ docker images</span><br></pre></td></tr></table></figure>
+<p>실행</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 --name mysql mysql --default-authentication-plugin=mysql_native_password</span><br></pre></td></tr></table></figure>
+<p>접속정보</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">host: 127.0.0.1</span><br><span class="line">Username: root</span><br><span class="line">Password: 1234</span><br></pre></td></tr></table></figure>
+<p>컨테이너에 접속해서 확인해보려면</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">❯ docker exec -i -t mysql bash</span><br><span class="line">root@a4ce950e20aa:/# mysql -u root -p</span><br><span class="line">Enter password:</span><br></pre></td></tr></table></figure>
+<h3 id="docker-compose-yml-파일을-만들어-더-간단하게-해보면"><a href="#docker-compose-yml-파일을-만들어-더-간단하게-해보면" class="headerlink" title="docker-compose.yml 파일을 만들어 더 간단하게 해보면.."></a>docker-compose.yml 파일을 만들어 더 간단하게 해보면..</h3><script src="https://gist.github.com/borakim-b/e923539bdd54240c46930dd024b05991.js"></script>
+
+<ul>
+<li>working_dir 를 설정 후 호스트의 디렉토리와 마운트 되도록 한다.</li>
+<li>version은 <a href="https://docs.docker.com/compose/compose-file/" rel="external nofollow noopener noreferrer" target="_blank">docker engine 버전</a> 을 고려하여 작성한다.</li>
+<li>기본 Encoding 과 Collation 값을 설정한다.<br>charset 옵션 없이 실행할 경우 DB 기본 Encoding 과 Collation 값이 latin1 로 설정된다.</li>
+</ul>
+<p>실행<br><code>❯ docker-compose up</code></p>
+<h3 id="끝"><a href="#끝" class="headerlink" title="끝."></a>끝.</h3><p>docker-compose.yml 로 작성해 두면 빠르게 개발환경을 구성해서 시작하기 좋다.</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/db/">db</a> <a class="tag tag--primary tag--small t-link" href="/tags/docker/">docker</a> <a class="tag tag--primary tag--small t-link" href="/tags/mysql/">mysql</a>
+
+            </div>
         
         
-        <li class="pagination-number">page 1 of 1</li>
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/09/20190609-php-env-docker/" data-tooltip="PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)" aria-label="NEXT: PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
 
 
 
@@ -256,6 +349,113 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/06/09/20190609-php-env-docker/" data-tooltip="PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)" aria-label="NEXT: PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -447,6 +647,25 @@
 <script src="/assets/js/thumbs.js"></script>
 <script src="/assets/js/tranquilpeak.js"></script>
 <!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/';
+                 
+                    this.page.identifier = '2019/06/15/20190615-docker-mysql/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'borakim-b';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
