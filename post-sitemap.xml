@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://borakim-b.github.io/2019/06/24/20190624-angular-start/</loc>
+        <lastmod>2019-06-24T09:39:11.896Z</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1</priority>
+
+    </url>
+
+    <url>
         <loc>https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/</loc>
         <lastmod>2019-06-15T09:05:26.577Z</lastmod>
         <changefreq>daily</changefreq>
@@ -15,7 +23,7 @@
     </url>
 
     <url>
-        <loc>https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/</loc>
+        <loc>https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/</loc>
         <lastmod>2019-06-11T15:29:11.193Z</lastmod>
         <changefreq>daily</changefreq>
         <priority>1</priority>
@@ -23,7 +31,7 @@
     </url>
 
     <url>
-        <loc>https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/</loc>
+        <loc>https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/</loc>
         <lastmod>2019-06-11T15:29:11.193Z</lastmod>
         <changefreq>daily</changefreq>
         <priority>1</priority>
