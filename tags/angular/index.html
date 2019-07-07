@@ -195,6 +195,95 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2019/07/08/20190708-travis-angular-s3/">
+                            Angular 프로젝트 Travis 빌드 후 Amazon S3에 업로드 해보자
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-07-08T05:34:54+09:00">
+	
+		    Jul 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/Angular/">Angular</a>, <a class="category-link" href="/categories/Tech/CI/">CI</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>Angular 웹 프로젝트 배포는 어떻게 할까? <code>GitHub - Travis CI - S3</code> - Ansible Deploy<br><a href="https://travis-ci.com/" rel="external nofollow noopener noreferrer" target="_blank">Travis CI</a> 에 대해서 알아보고 프로젝트 빌드 후 Amazon S3에 업로드 하는 예제를 만들어 본다.</p>
+<h2 id="Travis-CI-란"><a href="#Travis-CI-란" class="headerlink" title="Travis CI 란?"></a>Travis CI 란?</h2><h3 id="소개"><a href="#소개" class="headerlink" title="소개"></a><a href="https://docs.travis-ci.com/user/languages/" rel="external nofollow noopener noreferrer" target="_blank">소개</a></h3><blockquote>
+<p>As a continuous integration platform, Travis CI supports your development process by automatically building and testing code changes, providing immediate feedback on the success of the change. Travis CI can also automate other parts of your development process by managing deployments and notifications.</p>
+<p>…</p>
+<p>When you run a build, Travis CI clones your GitHub repository into a brand new virtual environment, and carries out a series of tasks to build and test your code.</p>
+</blockquote>
+<h3 id="요금정책"><a href="#요금정책" class="headerlink" title="요금정책"></a><a href="https://travis-ci.com/plans" rel="external nofollow noopener noreferrer" target="_blank">요금정책</a></h3><p>Trial 사용가능.</p>
+<blockquote>
+<p>Set up your first project in just one minute.<br>Your first 100 builds are free!</p>
+<p>…</p>
+<p>Always free for open source projects</p>
+</blockquote>
+<h2 id="AWS"><a href="#AWS" class="headerlink" title="AWS"></a><u>AWS</u></h2><p>S3 접근 권한만 가진 사용자를 생성해서 사용한다.</p>
+<h3 id="IAM-Identity-and-Access-Management-gt-사용자-추가"><a href="#IAM-Identity-and-Access-Management-gt-사용자-추가" class="headerlink" title="IAM(Identity and Access Management) &gt; 사용자 추가"></a>IAM(Identity and Access Management) &gt; 사용자 추가</h3><p>AWS 엑세스 유형 </p>
+<ul>
+<li>프로그래밍 방식 엑세스</li>
+</ul>
+<p>S3 &gt; 정책필터 </p>
+<ul>
+<li>AmazonS3FullAccess</li>
+</ul>
+<p>사용자 생성이 완료되면 <code>엑세스 키 ID</code> 와 <code>시크릿 엑세스 키</code> 를 확인할 수 있다. (보안자격증명 &gt; 엑세스키)<br><u>해당 키는 Travis CI 설정에서 사용함.</u></p>
+<h3 id="S3-버킷-생성"><a href="#S3-버킷-생성" class="headerlink" title="S3 버킷 생성"></a>S3 버킷 생성</h3><p>버킷 생성 시 <code>권한 &gt; 모든 퍼블릭 엑세스 차단</code> 옵션으로 생성한다.</p>
+<h2 id="Travis-CI"><a href="#Travis-CI" class="headerlink" title="Travis CI"></a><u>Travis CI</u></h2><p>github 계정 연결 후 로그인하면 Github 저장소를 선택할 수 있다.</p>
+<h3 id="Integration-대상-프로젝트-선택"><a href="#Integration-대상-프로젝트-선택" class="headerlink" title="Integration 대상 프로젝트 선택"></a>Integration 대상 프로젝트 선택</h3><p>github &gt; Personal settings &gt; Applications &gt; Installed Github Apps<br>Travis CI &gt; Configure<br>Repository access 설정 &gt; CI 적용할 repository 선택 후 저장.</p>
+<h3 id="APP-gt-Settings"><a href="#APP-gt-Settings" class="headerlink" title="APP &gt; Settings"></a>APP &gt; Settings</h3><h4 id="General"><a href="#General" class="headerlink" title="General"></a>General</h4><p>코드 push 되었을 때 빌드되도록 설정.</p>
+<p><img src="/images/travis-setting-g.png" alt=""></p>
+<h4 id="Environment-Variables"><a href="#Environment-Variables" class="headerlink" title="Environment Variables"></a>Environment Variables</h4><p>travis 빌드에 사용할 환경변수를 설정한다.</p>
+<p><img src="/images/travis-setting-ev.png" alt=""></p>
+<h3 id="Config-파일-설정-travis-yml"><a href="#Config-파일-설정-travis-yml" class="headerlink" title="Config 파일 설정 (.travis.yml)"></a>Config 파일 설정 (.travis.yml)</h3><p><a href="https://docs.travis-ci.com/user/deployment/s3" rel="external nofollow noopener noreferrer" target="_blank">S3 Deployment 참고</a></p>
+<h4 id="travis-yml-파일-생성"><a href="#travis-yml-파일-생성" class="headerlink" title=".travis.yml 파일 생성"></a>.travis.yml 파일 생성</h4><script src="https://gist.github.com/borakim-b/0f830a63f39520dc6e0e129927dded44.js"></script>
+
+<p>.travis.yml 파일을 master 브랜치에 push 하면 코드변경사항이 push될 때마다 빌드가 실행 된다.<br>angular cli 설치 후 빌드, 빌드결과를 zip 파일로 만들어 S3에 업로드한다.<br>배포과정은 Job log 에서 확인 할 수 있고, 결과는 메일로 발송된다. <a href="https://docs.travis-ci.com/user/notifications#configuring-slack-notifications" rel="external nofollow noopener noreferrer" target="_blank">Slack</a>같은 채널로 알림을 받을 수도 있다.</p>
+<h4 id="Job-log"><a href="#Job-log" class="headerlink" title="Job log"></a>Job log</h4><p><img src="/images/travis-job-log.png" alt=""></p>
+<h2 id="결과"><a href="#결과" class="headerlink" title="결과"></a>결과</h2><p><img src="/images/travis-history-r.png" alt=""></p>
+<p><img src="/images/travis-s3-r.png" alt=""></p>
+<h3 id="빌드가-실패했을-때"><a href="#빌드가-실패했을-때" class="headerlink" title="빌드가 실패했을 때"></a>빌드가 실패했을 때</h3><p>빌드 요청은 <code>More options &gt; Requests</code> 에서 확인할 수 있다.<br>단순 Syntax 오류 같은 경우 <code>Could not parse..</code> 라고 메시지가 노출 됨.<br>로컬에서 .travis.yml 기준으로 확인해볼 수 있다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">❯ sudo gem install travis</span><br><span class="line">❯ travis lint</span><br><span class="line">Warnings for .travis.yml:</span><br><span class="line">[x] syntax error: (&lt;unknown&gt;): found character that cannot start any token while scanning for the next token at line 19 column 3</span><br></pre></td></tr></table></figure>
+<h3 id="끝"><a href="#끝" class="headerlink" title="끝."></a>끝.</h3><p>이후에 과정은 S3에 업로드된 파일을 Instance에 배포 하면 된다.</p>
+<p>.</p>
+<p>.</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/07/08/20190708-travis-angular-s3/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -476,11 +565,30 @@
                     <hr>
                 </div>
                 
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/07/08/20190708-travis-angular-s3/">
+                            <h3 class="media-heading">Angular 프로젝트 Travis 빌드 후 Amazon S3에 업로드 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jul 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
             </div>
         </div>
         <div class="modal-footer">
             <p class="results-count text-medium" data-message-zero="no post found" data-message-one="1 post found" data-message-other="{n} posts found">
-                9 posts found
+                10 posts found
             </p>
         </div>
     </div>
