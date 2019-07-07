@@ -15,22 +15,22 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데….\nDocker 기반으로 PHP 웹 서비스 개발환경 구성해보기\nPHPDocker.io 에서 도커 파일 생성\nPHPDocker.io is a tool that will help you build a typical PHP development environment based on Docker with just a few clicks\n\n\n다운로드된 파일을 보면 phpdocker 폴더와 docker-compose.yml 파일이 있음.\n\n\ndocker-compose.yml 파일에 보면 각 컨테이너 서비스 별로 정의되어 있는 것을 확인할 수 있음.redis, mariadb, webserver, php-fpm\nphpdocker 파일내의 nginx 설정파일과 php 실행환경 파일에 대해 컨테이너에서 사용할 경로가 지정되어 있음.\nphp-ini-overrides.ini 파일 수정   12date.timezone = Asia/Seoulshort_open_tag = On\n   short_open_tags는 &lt;?php 를 &lt;? 도 허용한다는..\nCI 3.x 의 경우 nginx.conf 파일 수정   CI 4.x 의 경우에는 수정하지 않아도 되는데..   root /application/public; 에서 root /application로 변경 함.\nCodeIgniter 다운로드   zip 파일 해제 후 1에서 받은 파일과 같은 디렉토리에 위치 시킴.\ndocker 실행   1docker-compose up -d\n   \n확인   http://localhost:8000/   \n결과https://github.com/borakim-b/php-starter-kit\n\nPHP5.4 부터는 내장 웹서버를 제공한다. 간단히 사용할 때만 쓰고.. 권장은 안하는 것 같다.\n","dateCreated":"2019-06-09T18:41:47+09:00","dateModified":"2019-06-12T00:29:11+09:00","datePublished":"2019-06-09T18:41:47+09:00","description":"CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데….\nDocker 기반으로 PHP 웹 서비스 개발환경 구성해보기","headline":"PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/","keywords":"php, docker, CodeIgniter"}</script>
-    <meta name="description" content="CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데…. Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고Docker를 활용해 개발환경을 구성해본다.\n\nPHP 개발환경 구성CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데….\nDocker 기반으로 PHP 웹 서비스 개발환경 구성해보기PHPDocker.io 에서 도커 파일 생성\nPHPDocker.io is a tool that will help you build a typical PHP development environment based on Docker with just a few clicks\n\n\n다운로드된 파일을 보면 phpdocker 폴더와 docker-compose.yml 파일이 있음.\n\n\ndocker-compose.yml 파일에 보면 각 컨테이너 서비스 별로 정의되어 있는 것을 확인할 수 있음.redis, mariadb, webserver, php-fpm\nphpdocker 파일내의 nginx 설정파일과 php 실행환경 파일에 대해 컨테이너에서 사용할 경로가 지정되어 있음.\nphp-ini-overrides.ini 파일 수정   12date.timezone = Asia/Seoulshort_open_tag = On\n   short_open_tags는 &lt;?php 를 &lt;? 도 허용한다는..\nCI 3.x 의 경우 nginx.conf 파일 수정   CI 4.x 의 경우에는 수정하지 않아도 되는데..   root /application/public; 에서 root /application로 변경 함.\nCodeIgniter 다운로드   zip 파일 해제 후 1에서 받은 파일과 같은 디렉토리에 위치 시킴.\ndocker 실행   1docker-compose up -d\n   \n확인   http://localhost:8000/   \n결과https://github.com/borakim-b/php-starter-kit\n\nPHP5.4 부터는 내장 웹서버를 제공한다. 간단히 사용할 때만 쓰고.. 권장은 안하는 것 같다.\n","dateCreated":"2019-06-09T18:41:47+09:00","dateModified":"2019-07-07T15:26:16+09:00","datePublished":"2019-06-09T18:41:47+09:00","description":"PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고Docker를 활용해 개발환경을 구성해본다.","headline":"PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/","keywords":"php, docker, CodeIgniter"}</script>
+    <meta name="description" content="PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고Docker를 활용해 개발환경을 구성해본다.">
 <meta name="keywords" content="php,docker,CodeIgniter">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)">
 <meta property="og:url" content="https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/index.html">
 <meta property="og:site_name" content="시간이 지나면 또 봐야지">
-<meta property="og:description" content="CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데…. Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기">
+<meta property="og:description" content="PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고Docker를 활용해 개발환경을 구성해본다.">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://borakim-b.github.io/images/php_docker.png">
 <meta property="og:image" content="https://borakim-b.github.io/images/php_docker_ps.png">
 <meta property="og:image" content="https://borakim-b.github.io/images/php_docker_web.png">
-<meta property="og:updated_time" content="2019-06-11T15:29:11.193Z">
+<meta property="og:updated_time" content="2019-07-07T06:26:16.872Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)">
-<meta name="twitter:description" content="CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데…. Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기">
+<meta name="twitter:description" content="PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고Docker를 활용해 개발환경을 구성해본다.">
 <meta name="twitter:image" content="https://borakim-b.github.io/images/php_docker.png">
     
     
@@ -228,9 +228,10 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데….</p>
-<h3 id="Docker-기반으로-PHP-웹-서비스-개발환경-구성해보기"><a href="#Docker-기반으로-PHP-웹-서비스-개발환경-구성해보기" class="headerlink" title="Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기"></a>Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기</h3><a id="more"></a>
-<h5 id="PHPDocker-io-에서-도커-파일-생성"><a href="#PHPDocker-io-에서-도커-파일-생성" class="headerlink" title="PHPDocker.io 에서 도커 파일 생성"></a><a href="https://phpdocker.io/generator" rel="external nofollow noopener noreferrer" target="_blank">PHPDocker.io</a> 에서 도커 파일 생성</h5><blockquote>
+            <p>PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고<br>Docker를 활용해 개발환경을 구성해본다.</p>
+<a id="more"></a>
+<h2 id="PHP-개발환경-구성"><a href="#PHP-개발환경-구성" class="headerlink" title="PHP 개발환경 구성"></a>PHP 개발환경 구성</h2><p>CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데….</p>
+<h3 id="Docker-기반으로-PHP-웹-서비스-개발환경-구성해보기"><a href="#Docker-기반으로-PHP-웹-서비스-개발환경-구성해보기" class="headerlink" title="Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기"></a>Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기</h3><h5 id="PHPDocker-io-에서-도커-파일-생성"><a href="#PHPDocker-io-에서-도커-파일-생성" class="headerlink" title="PHPDocker.io 에서 도커 파일 생성"></a><a href="https://phpdocker.io/generator" rel="external nofollow noopener noreferrer" target="_blank">PHPDocker.io</a> 에서 도커 파일 생성</h5><blockquote>
 <p>PHPDocker.io is a tool that will help you build a typical PHP development environment based on Docker with just a few clicks</p>
 </blockquote>
 <p><img src="/images/php_docker.png" alt=""></p>
@@ -529,7 +530,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><p>참고.<br><a href="https://hexo.io/ko/docs/setup.html" rel="external nofollow noopener noreferrer" target="_blank">https://hexo.io/ko/docs/setup.html</a><br><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak</a><br></p></div>
+                        <div class="media-content hide-xs font-merryweather"><p>Hexo 블로그 프레임워크를 이용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.</p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -548,9 +549,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><p>AWS 프리티어는 처음 AWS에 가입한 날부터 12개월 동안 사용 가능</p>
-<p><a href="https://aws.amazon.com/ko/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;all-free-tier.sort-order=asc&amp;awsf.Free%20Tier%20Types=categories%23featured" rel="external nofollow noopener noreferrer" target="_blank">AWS 프리 티어 세부정보</a></p>
-<p>미리보기 (2019. 6. 1 기준. 익숙한 서비스 위주로 확인)<br></p></div>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 프리티어 사용 방법을 알아보고, 사용하는 과정에서 확인한 사항을 기록해보자.<br></p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -569,8 +568,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><h3 id="QR-코드는-뭘까"><a href="#QR-코드는-뭘까" class="headerlink" title="QR 코드는 뭘까?"></a>QR 코드는 뭘까?</h3><blockquote>
-<p><strong>QR</strong> <strong>코드</strong>(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드<br></p></blockquote></div>
+                        <div class="media-content hide-xs font-merryweather"><p>QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.<br></p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -589,11 +587,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP?"></a>PHP?</h3><blockquote>
-<p>PHP: Hypertext Preprocessor 서버사이드 스크립트 언어</p>
-<p>근본적으로, PHP의 문법은 C스타일을 따른다.<br>PHP 7 is the latest stable release</p>
-<p><a href="https://ko.wikipedia.org/wiki/PHP" rel="external nofollow noopener noreferrer" target="_blank">위키피디아</a></p>
-</blockquote></div>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP 언어에 대해서 알아보고 PHP 웹 프레임워크, 템플릿엔진, 개발 시 사용한 IDE 에 대해 정리해본다.<br></p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -612,8 +606,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><p>CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데….</p>
-<h3 id="Docker-기반으로-PHP-웹-서비스-개발환경-구성해보기"><a href="#Docker-기반으로-PHP-웹-서비스-개발환경-구성해보기" class="headerlink" title="Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기"></a>Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기</h3></div>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고<br>Docker를 활용해 개발환경을 구성해본다.</p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>

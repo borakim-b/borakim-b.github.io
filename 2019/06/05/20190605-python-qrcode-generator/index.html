@@ -15,20 +15,20 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"QR 코드는 뭘까?\nQR 코드(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드\n바코드의 용량 제한을 극복하고 그 형식과 내용을 확장한 2차원의 바코드\n기존의 바코드는 기본적으로 가로 배열에 최대 20여 자의 숫자 정보만 넣을 수 있는 1차원적 구성이지만, \nQR코드는 가로, 세로를 활용하여 숫자는 최대 7,089자, 문자는 최대 4,296자, 한자도 최대 1,817자 정도를 기록할 수 있는 2차원적 구성이다\nQR코드를 처음 개발한 일본의 덴소웨이브(1994년)가 (고맙게도) 특허권을 행사하지 않아 현재는 누구라도 다양한 목적으로 쉽게 제작, 사용할 수 있다는 점도 빼놓을 수 없다.\n네이버캐스트, 위키\n\nQR 코드 종류\nQR코드 모델2는 코드가 일그러진 경우에도 문제없이 인식이 가능하도록 모델1을 개량한 코드입니다.\n코드를 곡면에 인쇄하거나, 인식시의 각도로 인해 코드가 일그러진 상태에서도, 코드 내부에 배치된 얼라이먼트 패턴에 의해 뛰어난 성능으로 인식할 수 있습니다.\n최대 버전은 40(177 X 177셀)로 7089자리의 숫자까지 취급할 수 있습니다.\nhttps://www.qrcode.com/ko/codes/\n\n일상에서 보게되는 QR코드 이미지가 모델2인가 보다.\nQR 코드는 어떻게 만들까?Python QRCode Generator 라이브러리 비교\n간단하게 qrcode 를 이용해서 QR 이미지를 생성해보면..\n\n\n\n\n\nQR코드 이미지를 스캔하면 https://borakim-b.github.io/ 로 링크된다.    \n\nQR Code Generator 서비스를 활용해서 간단하게 만들어 볼 수도 있다.네이버QR코드, zxing\nTODOQRCode 스캐너\n","dateCreated":"2019-06-05T15:29:04+09:00","dateModified":"2019-06-12T00:29:11+09:00","datePublished":"2019-06-05T15:29:04+09:00","description":"QR 코드는 뭘까?\nQR 코드(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드","headline":"QR코드 생성 어떻게 할까","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/","keywords":"python, qr, qrcode, QR코드"}</script>
-    <meta name="description" content="QR 코드는 뭘까? QR 코드(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.\nQR 코드는 뭘까?\nQR 코드(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드 \n바코드의 용량 제한을 극복하고 그 형식과 내용을 확장한 2차원의 바코드\n기존의 바코드는 기본적으로 가로 배열에 최대 20여 자의 숫자 정보만 넣을 수 있는 1차원적 구성이지만, \nQR코드는 가로, 세로를 활용하여 숫자는 최대 7,089자, 문자는 최대 4,296자, 한자도 최대 1,817자 정도를 기록할 수 있는 2차원적 구성이다\nQR코드를 처음 개발한 일본의 덴소웨이브(1994년)가 (고맙게도) 특허권을 행사하지 않아 현재는 누구라도 다양한 목적으로 쉽게 제작, 사용할 수 있다는 점도 빼놓을 수 없다.\n네이버캐스트, 위키\n\nQR 코드 종류\nQR코드 모델2는 코드가 일그러진 경우에도 문제없이 인식이 가능하도록 모델1을 개량한 코드입니다.\n코드를 곡면에 인쇄하거나, 인식시의 각도로 인해 코드가 일그러진 상태에서도, 코드 내부에 배치된 얼라이먼트 패턴에 의해 뛰어난 성능으로 인식할 수 있습니다.\n최대 버전은 40(177 X 177셀)로 7089자리의 숫자까지 취급할 수 있습니다.\nhttps://www.qrcode.com/ko/codes/\n\n일상에서 보게되는 QR코드 이미지가 모델2인가 보다.\nQR 코드는 어떻게 만들까?Python QRCode Generator 라이브러리 비교\n간단하게 qrcode 를 이용해서 QR 이미지를 생성해보면..\n\n\n\n\n\nQR코드 이미지를 스캔하면 https://borakim-b.github.io/ 로 링크된다.    \n\nQR Code Generator 서비스를 활용해서 간단하게 만들어 볼 수도 있다.네이버QR코드, zxing\nTODOQRCode 스캐너\n","dateCreated":"2019-06-05T15:29:04+09:00","dateModified":"2019-07-07T15:32:24+09:00","datePublished":"2019-06-05T15:29:04+09:00","description":"QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.","headline":"QR코드 생성 어떻게 할까","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/","keywords":"python, qr, qrcode, QR코드"}</script>
+    <meta name="description" content="QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.">
 <meta name="keywords" content="python,qr,qrcode,QR코드">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="QR코드 생성 어떻게 할까">
 <meta property="og:url" content="https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/index.html">
 <meta property="og:site_name" content="시간이 지나면 또 봐야지">
-<meta property="og:description" content="QR 코드는 뭘까? QR 코드(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드">
+<meta property="og:description" content="QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://borakim-b.github.io/images/qrcode_c.png">
-<meta property="og:updated_time" content="2019-06-11T15:29:11.192Z">
+<meta property="og:updated_time" content="2019-07-07T06:32:24.240Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="QR코드 생성 어떻게 할까">
-<meta name="twitter:description" content="QR 코드는 뭘까? QR 코드(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드">
+<meta name="twitter:description" content="QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.">
 <meta name="twitter:image" content="https://borakim-b.github.io/images/qrcode_c.png">
     
     
@@ -226,8 +226,9 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h3 id="QR-코드는-뭘까"><a href="#QR-코드는-뭘까" class="headerlink" title="QR 코드는 뭘까?"></a>QR 코드는 뭘까?</h3><blockquote>
-<p><strong>QR</strong> <strong>코드</strong>(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드<br><a id="more"></a></p>
+            <p>QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.<br><a id="more"></a></p>
+<h3 id="QR-코드는-뭘까"><a href="#QR-코드는-뭘까" class="headerlink" title="QR 코드는 뭘까?"></a>QR 코드는 뭘까?</h3><blockquote>
+<p><strong>QR</strong> <strong>코드</strong>(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드 </p>
 <p>바코드의 용량 제한을 극복하고 그 형식과 내용을 확장한 2차원의 바코드</p>
 <p>기존의 바코드는 기본적으로 가로 배열에 최대 20여 자의 숫자 정보만 넣을 수 있는 1차원적 구성이지만, </p>
 <p>QR코드는 가로, 세로를 활용하여 숫자는 최대 7,089자, 문자는 최대 4,296자, 한자도 최대 1,817자 정도를 기록할 수 있는 2차원적 구성이다</p>
@@ -532,7 +533,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><p>참고.<br><a href="https://hexo.io/ko/docs/setup.html" rel="external nofollow noopener noreferrer" target="_blank">https://hexo.io/ko/docs/setup.html</a><br><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak</a><br></p></div>
+                        <div class="media-content hide-xs font-merryweather"><p>Hexo 블로그 프레임워크를 이용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.</p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -551,9 +552,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><p>AWS 프리티어는 처음 AWS에 가입한 날부터 12개월 동안 사용 가능</p>
-<p><a href="https://aws.amazon.com/ko/free/?all-free-tier.sort-by=item.additionalFields.SortRank&amp;all-free-tier.sort-order=asc&amp;awsf.Free%20Tier%20Types=categories%23featured" rel="external nofollow noopener noreferrer" target="_blank">AWS 프리 티어 세부정보</a></p>
-<p>미리보기 (2019. 6. 1 기준. 익숙한 서비스 위주로 확인)<br></p></div>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 프리티어 사용 방법을 알아보고, 사용하는 과정에서 확인한 사항을 기록해보자.<br></p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -572,8 +571,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><h3 id="QR-코드는-뭘까"><a href="#QR-코드는-뭘까" class="headerlink" title="QR 코드는 뭘까?"></a>QR 코드는 뭘까?</h3><blockquote>
-<p><strong>QR</strong> <strong>코드</strong>(Quick Response code)은 흑백 격자무늬 패턴으로 정보를 나타내는 매트릭스 형식의 이차원 바코드<br></p></blockquote></div>
+                        <div class="media-content hide-xs font-merryweather"><p>QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.<br></p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -592,11 +590,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP?"></a>PHP?</h3><blockquote>
-<p>PHP: Hypertext Preprocessor 서버사이드 스크립트 언어</p>
-<p>근본적으로, PHP의 문법은 C스타일을 따른다.<br>PHP 7 is the latest stable release</p>
-<p><a href="https://ko.wikipedia.org/wiki/PHP" rel="external nofollow noopener noreferrer" target="_blank">위키피디아</a></p>
-</blockquote></div>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP 언어에 대해서 알아보고 PHP 웹 프레임워크, 템플릿엔진, 개발 시 사용한 IDE 에 대해 정리해본다.<br></p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -615,8 +609,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><p>CI 프레임워크를 사용해서 서비스를 개발할 때 zip 파일을 내려받은 후 웹서버의 config에 root 경로를 설정하고.. 필요한 라이브러리 다운받고 환경설정하고 하는데….</p>
-<h3 id="Docker-기반으로-PHP-웹-서비스-개발환경-구성해보기"><a href="#Docker-기반으로-PHP-웹-서비스-개발환경-구성해보기" class="headerlink" title="Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기"></a>Docker 기반으로 PHP 웹 서비스 개발환경 구성해보기</h3></div>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고<br>Docker를 활용해 개발환경을 구성해본다.</p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
