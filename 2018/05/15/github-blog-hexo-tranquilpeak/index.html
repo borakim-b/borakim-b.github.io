@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="시간이 지나면 또 봐야지">
-    <title>Github Pages Blog + Hexo (tranquilpeak Theme) - 시간이 지나면 또 봐야지</title>
+    <title>Hexo blog framework 를 이용한 Github Pages Blog 만들기. - 시간이 지나면 또 봐야지</title>
     <meta name="author" content="Pora">
     
         <meta name="keywords" content="it,hexo,java,php,python,angular,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"Hexo 블로그 프레임워크를 이용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.\n\nHexo tranquilpeak Theme 이용해 Github 블로그 만들기참고.https://hexo.io/ko/docs/setup.htmlhttps://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak\n설치환경node v8.9.1npm 5.5.1\nrepository 생성1&lt;Username&gt;.github.io\n로컬에 생성한 repository를 clone 받는다.\n12$ git clone https://github.com/&lt;Username&gt;/&lt;Username&gt;.github.io.git$ cd &lt;Username&gt;.github.io\nHexo 설치1$ npm install -g hexo-cli\nfolder 생성 초기화123$ hexo init &lt;folder&gt;$ cd &lt;folder&gt;$ npm install\nblog 라는 폴더명으로 생성했다고 가정한다\n123$ hexo init blog$ cd blog$ npm install\ntheme 설치1$ cd blog/themes\n원하는 테마를 내려받는다. https://hexo.io/themes/\n1234567$ git clone https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak.git$ mv hexo-theme-tranquilpeak tranquilpeak$ cd tranquilpeak$ npm install -g bower grunt-cli$ npm install$ bower install$ grunt build\n_config.yml 수정1234# Extensions## Plugins: https://hexo.io/plugins/## Themes: https://hexo.io/themes/theme: tranquilpeak\nEnable post assets folder, Enable RSS feed, Enable pagesHexo configuration\n빌드 후 로컬에서 확인해보기123$ hexo clean$ hexo g$ hexo server\nhttp://localhost:4000\n$ hexo g 빌드가 완료되면 public 폴더가 생성된다.public 폴더 내의 파일을 배포하면 된다.\n관리draft 파일은 private 프로젝트로 올려두고,tranquilpeak 는 fork 받아 필요한 부분만 수정하여 별도 프로젝트로 두었다.\n로컬에서 draft 파일을 받아서 포스팅을 작성하고hexo 빌드 후에 public 폴더내의 파일을 borakim-b.github.io 내에 copy 하는 스크립트 실행 후두개의 프로젝트에 모두 code push 하는 형태\nhttps://github.com/borakim-b/borakim-b.github.iohttps://github.com/borakim-b/github-blog-drafthttps://github.com/borakim-b/hexo-theme-tranquilpeak\n포스트 쓰기1$ hexo new post &lt;title&gt;\n배포 플러그인 설치 후 배포하는 방법1$ npm install hexo-deployer-git --save\n_config.yml 파일에서 deploy 확인\n123456# Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:  type: git  repo: https://github.com/&lt;Username&gt;/&lt;Username&gt;.github.io.git  branch: master\n배포 \n1$ hexo deploy\n","dateCreated":"2018-05-15T14:31:08+09:00","dateModified":"2019-07-07T15:11:46+09:00","datePublished":"2018-05-15T14:31:08+09:00","description":"Hexo 블로그 프레임워크를 이용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.","headline":"Github Pages Blog + Hexo (tranquilpeak Theme)","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/","keywords":"hexo, blog, github, tranquilpeak"}</script>
-    <meta name="description" content="Hexo 블로그 프레임워크를 이용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.\nHexo 란?\nHexo is a fast, simple and powerful blog framework. You write posts in Markdown (or other languages) and Hexo generates static files with a beautiful theme in seconds.\n\nHexo 블로그 프레임워크 설치설치환경node v8.9.1npm 5.5.1\nrepository 생성1&lt;Username&gt;.github.io\n로컬에 생성한 repository를 clone 받는다.\n12$ git clone https://github.com/&lt;Username&gt;/&lt;Username&gt;.github.io.git$ cd &lt;Username&gt;.github.io\nHexo 설치1$ npm install -g hexo-cli\nfolder 생성 초기화123$ hexo init &lt;folder&gt;$ cd &lt;folder&gt;$ npm install\nblog 라는 폴더명으로 생성했다고 가정한다\n123$ hexo init blog$ cd blog$ npm install\ntranquilpeak Theme 적용.1$ cd blog/themes\n원하는 테마를 내려받는다. https://hexo.io/themes/\n1234567$ git clone https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak.git$ mv hexo-theme-tranquilpeak tranquilpeak$ cd tranquilpeak$ npm install -g bower grunt-cli$ npm install$ bower install$ grunt build\n_config.yml 수정1234# Extensions## Plugins: https://hexo.io/plugins/## Themes: https://hexo.io/themes/theme: tranquilpeak\nEnable post assets folder, Enable RSS feed, Enable pagesHexo configuration\n빌드 후 로컬에서 확인해보기123$ hexo clean$ hexo g$ hexo server\nhttp://localhost:4000\n$ hexo g 빌드가 완료되면 public 폴더가 생성된다.public 폴더 내의 파일을 배포하면 된다.\n관리draft 파일은 private 프로젝트로 올려두고,tranquilpeak 는 fork 받아 필요한 부분만 수정하여 별도 프로젝트로 두었다.\n로컬에서 draft 파일을 받아서 포스팅을 작성하고hexo 빌드 후에 public 폴더내의 파일을 borakim-b.github.io 내에 copy 하는 스크립트 실행 후두개의 프로젝트에 모두 code push 하는 형태\nhttps://github.com/borakim-b/borakim-b.github.iohttps://github.com/borakim-b/github-blog-drafthttps://github.com/borakim-b/hexo-theme-tranquilpeak\n포스트 쓰기1$ hexo new post &lt;title&gt;\n배포 플러그인 설치 후 배포하는 방법1$ npm install hexo-deployer-git --save\n_config.yml 파일에서 deploy 확인\n123456# Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:  type: git  repo: https://github.com/&lt;Username&gt;/&lt;Username&gt;.github.io.git  branch: master\n배포 \n1$ hexo deploy\n","dateCreated":"2018-05-15T14:31:08+09:00","dateModified":"2019-07-10T12:13:02+09:00","datePublished":"2018-05-15T14:31:08+09:00","description":"Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.","headline":"Hexo blog framework 를 이용한 Github Pages Blog 만들기.","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/","keywords":"hexo, blog, github, tranquilpeak"}</script>
+    <meta name="description" content="Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.">
 <meta name="keywords" content="hexo,blog,github,tranquilpeak">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Github Pages Blog + Hexo (tranquilpeak Theme)">
+<meta property="og:title" content="Hexo blog framework 를 이용한 Github Pages Blog 만들기.">
 <meta property="og:url" content="https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/index.html">
 <meta property="og:site_name" content="시간이 지나면 또 봐야지">
-<meta property="og:description" content="Hexo 블로그 프레임워크를 이용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.">
+<meta property="og:description" content="Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-07-07T06:11:46.495Z">
+<meta property="og:updated_time" content="2019-07-10T03:13:02.139Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Github Pages Blog + Hexo (tranquilpeak Theme)">
-<meta name="twitter:description" content="Hexo 블로그 프레임워크를 이용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.">
+<meta name="twitter:title" content="Hexo blog framework 를 이용한 Github Pages Blog 만들기.">
+<meta name="twitter:description" content="Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.">
     
     
         
@@ -199,7 +199,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Github Pages Blog + Hexo (tranquilpeak Theme)
+            Hexo blog framework 를 이용한 Github Pages Blog 만들기.
         </h1>
     
     
@@ -224,10 +224,11 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>Hexo 블로그 프레임워크를 이용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.</p>
-<a id="more"></a>
-<h2 id="Hexo-tranquilpeak-Theme-이용해-Github-블로그-만들기"><a href="#Hexo-tranquilpeak-Theme-이용해-Github-블로그-만들기" class="headerlink" title="Hexo tranquilpeak Theme 이용해 Github 블로그 만들기"></a>Hexo tranquilpeak Theme 이용해 Github 블로그 만들기</h2><p>참고.<br><a href="https://hexo.io/ko/docs/setup.html" rel="external nofollow noopener noreferrer" target="_blank">https://hexo.io/ko/docs/setup.html</a><br><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak</a></p>
-<h3 id="설치환경"><a href="#설치환경" class="headerlink" title="설치환경"></a>설치환경</h3><p>node v8.9.1<br>npm 5.5.1</p>
+            <p>Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.<br><a id="more"></a></p>
+<h2 id="Hexo-란"><a href="#Hexo-란" class="headerlink" title="Hexo 란?"></a>Hexo 란?</h2><blockquote>
+<p>Hexo is a fast, simple and powerful blog framework. You write posts in <a href="http://daringfireball.net/projects/markdown/" rel="external nofollow noopener noreferrer" target="_blank">Markdown</a> (or other languages) and Hexo generates static files with a beautiful theme in seconds.</p>
+</blockquote>
+<h2 id="Hexo-블로그-프레임워크-설치"><a href="#Hexo-블로그-프레임워크-설치" class="headerlink" title="Hexo 블로그 프레임워크 설치"></a><a href="https://hexo.io/ko/docs/setup.html" rel="external nofollow noopener noreferrer" target="_blank">Hexo 블로그 프레임워크 설치</a></h2><h3 id="설치환경"><a href="#설치환경" class="headerlink" title="설치환경"></a>설치환경</h3><p>node v8.9.1<br>npm 5.5.1</p>
 <h3 id="repository-생성"><a href="#repository-생성" class="headerlink" title="repository 생성"></a>repository 생성</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Username&gt;.github.io</span><br></pre></td></tr></table></figure>
 <p>로컬에 생성한 repository를 clone 받는다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/&lt;Username&gt;/&lt;Username&gt;.github.io.git</span><br><span class="line">$ <span class="built_in">cd</span> &lt;Username&gt;.github.io</span><br></pre></td></tr></table></figure>
@@ -235,7 +236,7 @@
 <h3 id="folder-생성-초기화"><a href="#folder-생성-초기화" class="headerlink" title="folder 생성 초기화"></a>folder 생성 초기화</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;</span><br><span class="line">$ <span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
 <p>blog 라는 폴더명으로 생성했다고 가정한다</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init blog</span><br><span class="line">$ <span class="built_in">cd</span> blog</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-<h3 id="theme-설치"><a href="#theme-설치" class="headerlink" title="theme 설치"></a>theme 설치</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> blog/themes</span><br></pre></td></tr></table></figure>
+<h3 id="tranquilpeak-Theme-적용"><a href="#tranquilpeak-Theme-적용" class="headerlink" title="tranquilpeak Theme 적용."></a><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" rel="external nofollow noopener noreferrer" target="_blank">tranquilpeak</a> Theme 적용.</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> blog/themes</span><br></pre></td></tr></table></figure>
 <p>원하는 테마를 내려받는다. <a href="https://hexo.io/themes/" rel="external nofollow noopener noreferrer" target="_blank">https://hexo.io/themes/</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak.git</span><br><span class="line">$ mv hexo-theme-tranquilpeak tranquilpeak</span><br><span class="line">$ <span class="built_in">cd</span> tranquilpeak</span><br><span class="line">$ npm install -g bower grunt-cli</span><br><span class="line">$ npm install</span><br><span class="line">$ bower install</span><br><span class="line">$ grunt build</span><br></pre></td></tr></table></figure>
 <h3 id="config-yml-수정"><a href="#config-yml-수정" class="headerlink" title="_config.yml 수정"></a>_config.yml 수정</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: tranquilpeak</span><br></pre></td></tr></table></figure>
@@ -243,7 +244,7 @@
 <h3 id="빌드-후-로컬에서-확인해보기"><a href="#빌드-후-로컬에서-확인해보기" class="headerlink" title="빌드 후 로컬에서 확인해보기"></a>빌드 후 로컬에서 확인해보기</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br><span class="line">$ hexo g</span><br><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 <p><a href="http://localhost:4000" rel="external nofollow noopener noreferrer" target="_blank">http://localhost:4000</a></p>
 <p><code>$ hexo g</code> 빌드가 완료되면 public 폴더가 생성된다.<br>public 폴더 내의 파일을 배포하면 된다.</p>
-<h3 id="관리"><a href="#관리" class="headerlink" title="관리"></a>관리</h3><p>draft 파일은 private 프로젝트로 올려두고,<br>tranquilpeak 는 fork 받아 필요한 부분만 수정하여 별도 프로젝트로 두었다.</p>
+<h2 id="관리"><a href="#관리" class="headerlink" title="관리"></a>관리</h2><p>draft 파일은 private 프로젝트로 올려두고,<br>tranquilpeak 는 fork 받아 필요한 부분만 수정하여 별도 프로젝트로 두었다.</p>
 <p>로컬에서 draft 파일을 받아서 포스팅을 작성하고<br>hexo 빌드 후에 public 폴더내의 파일을 borakim-b.github.io 내에 copy 하는 스크립트 실행 후<br>두개의 프로젝트에 모두 code push 하는 형태</p>
 <p><a href="https://github.com/borakim-b/borakim-b.github.io" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/borakim-b/borakim-b.github.io</a><br><a href="https://github.com/borakim-b/github-blog-draft" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/borakim-b/github-blog-draft</a><br><a href="https://github.com/borakim-b/hexo-theme-tranquilpeak" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/borakim-b/hexo-theme-tranquilpeak</a></p>
 <h3 id="포스트-쓰기"><a href="#포스트-쓰기" class="headerlink" title="포스트 쓰기"></a>포스트 쓰기</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new post &lt;title&gt;</span><br></pre></td></tr></table></figure>
@@ -521,7 +522,7 @@
                     
                     <div class="media-body">
                         <a class="link-unstyled" href="https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/">
-                            <h3 class="media-heading">Github Pages Blog + Hexo (tranquilpeak Theme)</h3>
+                            <h3 class="media-heading">Hexo blog framework 를 이용한 Github Pages Blog 만들기.</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -530,7 +531,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><p>Hexo 블로그 프레임워크를 이용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.</p></div>
+                        <div class="media-content hide-xs font-merryweather"><p>Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.<br></p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>

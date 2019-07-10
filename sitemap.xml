@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/</loc>
+    
+    <lastmod>2019-07-10T03:13:02.139Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://borakim-b.github.io/2019/07/08/20190708-travis-angular-s3/</loc>
     
     <lastmod>2019-07-07T20:55:45.518Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/</loc>
     
     <lastmod>2019-07-07T06:15:42.385Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/</loc>
-    
-    <lastmod>2019-07-07T06:11:46.495Z</lastmod>
     
   </url>
   
