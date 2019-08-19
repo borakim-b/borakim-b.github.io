@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="시간이 지나면 또 봐야지">
-    <title>시간이 지나면 또 봐야지</title>
+    <title>AWS 컨테이너 관련 서비스 - 시간이 지나면 또 봐야지</title>
     <meta name="author" content="Pora">
     
         <meta name="keywords" content="it,hexo,java,php,python,angular,">
@@ -15,18 +15,24 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Website","@id":"https://borakim-b.github.io","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"name":"시간이 지나면 또 봐야지","description":"개발 블로그","url":"https://borakim-b.github.io","keywords":"it, hexo, java, php, python, angular"}</script>
-    <meta name="description" content="개발 블로그">
-<meta name="keywords" content="it,hexo,java,php,python,angular">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"AWS 컨테이너 관련 서비스를 알아보기 위한 리서치 용도로 링크만 걸어두었다.\nAmazon ECS(Elastic Container Service)\nAWS Fargate\nAmazon EKS(Elastic Kubernetes Service)\nAWS App Mesh\n가이드\n\n\nAWS Cloud MapFirecracker\nAWS RE:Invent\n\n","dateCreated":"2019-08-20T01:01:50+09:00","dateModified":"2019-08-20T01:14:36+09:00","datePublished":"2019-08-20T01:01:50+09:00","description":"AWS 컨테이너 관련 서비스를 알아보기 위한 리서치 용도로 링크만 걸어두었다.","headline":"AWS 컨테이너 관련 서비스","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/","keywords":"aws"}</script>
+    <meta name="description" content="AWS 컨테이너 관련 서비스를 알아보기 위한 리서치 용도로 링크만 걸어두었다.">
+<meta name="keywords" content="aws">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="시간이 지나면 또 봐야지">
-<meta property="og:url" content="https://borakim-b.github.io/page/2/index.html">
+<meta property="og:title" content="AWS 컨테이너 관련 서비스">
+<meta property="og:url" content="https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/index.html">
 <meta property="og:site_name" content="시간이 지나면 또 봐야지">
-<meta property="og:description" content="개발 블로그">
+<meta property="og:description" content="AWS 컨테이너 관련 서비스를 알아보기 위한 리서치 용도로 링크만 걸어두었다.">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://borakim-b.github.io/images/aws_ecs.png">
+<meta property="og:image" content="https://borakim-b.github.io/images/aws_farate.png">
+<meta property="og:image" content="https://borakim-b.github.io/images/aws_eks.png">
+<meta property="og:image" content="https://borakim-b.github.io/images/aws_app_mesh.png">
+<meta property="og:updated_time" content="2019-08-19T16:14:36.331Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="시간이 지나면 또 봐야지">
-<meta name="twitter:description" content="개발 블로그">
+<meta name="twitter:title" content="AWS 컨테이너 관련 서비스">
+<meta name="twitter:description" content="AWS 컨테이너 관련 서비스를 알아보기 위한 리서치 용도로 링크만 걸어두었다.">
+<meta name="twitter:image" content="https://borakim-b.github.io/images/aws_ecs.png">
     
     
         
@@ -56,7 +62,7 @@
 
 
     
-    <link rel="canonical" href="https://borakim-b.github.io/page/2/">
+    <link rel="canonical" href="https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/">
 </head>
 
     <body>
@@ -64,7 +70,7 @@
             <!-- Define author's picture -->
 
 
-<header id="header" data-behavior="1">
+<header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">시간이 지나면 또 봐야지</a>
@@ -85,7 +91,7 @@
 
     
 
-<nav id="sidebar" data-behavior="1">
+<nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -188,113 +194,151 @@
 </nav>
 
             
-            <div id="main" data-behavior="1" class="
+            <div id="main" data-behavior="4" class="
                         hasCoverMetaIn
                         ">
-                <section class="postShorten-group main-content-wrap">
+                
+<article class="post">
     
     
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/06/03/20190603-aws-free-tier/">
-                            AWS 프리티어 사용 및 계정 생성
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-06-03T15:41:16+09:00">
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            AWS 컨테이너 관련 서비스
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-08-20T01:01:50+09:00">
 	
-		    Jun 03, 2019
+		    Aug 20, 2019
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/AWS/">AWS</a>
+    <a class="category-link" href="/categories/Research/">Research</a>, <a class="category-link" href="/categories/Research/AWS/">AWS</a>
 
 
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>AWS 프리티어 사용 방법을 알아보고, 사용하는 과정에서 확인한 사항을 기록해보자.<br>
-                    
-                        <a href="/2019/06/03/20190603-aws-free-tier/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </p></div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/05/15/github-blog-hexo-tranquilpeak/">
-                            Hexo blog framework 를 이용한 Github Pages Blog 만들기.
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-05-15T14:31:08+09:00">
-	
-		    May 15, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Blog/">Blog</a>, <a class="category-link" href="/categories/Blog/Hexo/">Hexo</a>, <a class="category-link" href="/categories/Web/">Web</a>
-
-
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.<br>
-                    
-                        <a href="/2018/05/15/github-blog-hexo-tranquilpeak/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </p></div>
-            
-        </div>
-        
-    </article>
     
-    <div class="pagination-bar">
-    <ul class="pagination">
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>AWS 컨테이너 관련 서비스를 알아보기 위한 리서치 용도로 링크만 걸어두었다.<br><a id="more"></a></p>
+<h2 id="Amazon-ECS-Elastic-Container-Service"><a href="#Amazon-ECS-Elastic-Container-Service" class="headerlink" title="Amazon ECS(Elastic Container Service)"></a><a href="https://aws.amazon.com/ko/ecs/" rel="external nofollow noopener noreferrer" target="_blank">Amazon ECS(Elastic Container Service)</a></h2><p><img src="/images/aws_ecs.png" alt=""></p>
+<h2 id="AWS-Fargate"><a href="#AWS-Fargate" class="headerlink" title="AWS Fargate"></a><a href="https://aws.amazon.com/ko/fargate/" rel="external nofollow noopener noreferrer" target="_blank">AWS Fargate</a></h2><p><img src="/images/aws_farate.png" alt=""></p>
+<h2 id="Amazon-EKS-Elastic-Kubernetes-Service"><a href="#Amazon-EKS-Elastic-Kubernetes-Service" class="headerlink" title="Amazon EKS(Elastic Kubernetes Service)"></a><a href="https://aws.amazon.com/ko/eks/" rel="external nofollow noopener noreferrer" target="_blank">Amazon EKS(Elastic Kubernetes Service)</a></h2><p><img src="/images/aws_eks.png" alt=""></p>
+<h2 id="AWS-App-Mesh"><a href="#AWS-App-Mesh" class="headerlink" title="AWS App Mesh"></a><a href="https://aws.amazon.com/ko/app-mesh/" rel="external nofollow noopener noreferrer" target="_blank">AWS App Mesh</a></h2><ul>
+<li><a href="https://aws.amazon.com/ko/app-mesh/getting-started/" rel="external nofollow noopener noreferrer" target="_blank">가이드</a></li>
+</ul>
+<p><img src="/images/aws_app_mesh.png" alt=""></p>
+<h2 id="AWS-Cloud-Map"><a href="#AWS-Cloud-Map" class="headerlink" title="AWS Cloud Map"></a><a href="https://aws.amazon.com/ko/cloud-map/" rel="external nofollow noopener noreferrer" target="_blank">AWS Cloud Map</a></h2><h2 id="Firecracker"><a href="#Firecracker" class="headerlink" title="Firecracker"></a><a href="https://firecracker-microvm.github.io/" rel="external nofollow noopener noreferrer" target="_blank">Firecracker</a></h2><ul>
+<li><a href="https://aws.amazon.com/ko/blogs/korea/firecracker-lightweight-virtualization-for-serverless-computing/" rel="external nofollow noopener noreferrer" target="_blank">AWS RE:Invent</a></li>
+</ul>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
         
-          <li class="pagination-prev">
-            <a class="btn btn--default btn--small" href="/">
-              <i class="fa fa-angle-left text-base icon-mr"></i>
-              <span>NEWER POSTS</span>
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/aws/">aws</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/08/03/20190803-python-opencv-stillcut/" data-tooltip="동영상 스틸 컷 만들어보기" aria-label="NEXT: 동영상 스틸 컷 만들어보기">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
-          </li>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
         
         
-        <li class="pagination-number">page 2 of 2</li>
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
 
 
                 <footer id="footer" class="main-content-wrap">
@@ -304,6 +348,113 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/08/03/20190803-python-opencv-stillcut/" data-tooltip="동영상 스틸 컷 만들어보기" aria-label="NEXT: 동영상 스틸 컷 만들어보기">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -563,6 +714,25 @@
 <script src="/assets/js/thumbs.js"></script>
 <script src="/assets/js/tranquilpeak.js"></script>
 <!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/';
+                 
+                    this.page.identifier = '2019/08/20/20190820-aws-container-service/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'borakim-b';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>

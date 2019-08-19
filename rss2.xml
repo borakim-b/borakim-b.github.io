@@ -8,8 +8,24 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>개발 블로그</description>
-    <pubDate>Sat, 03 Aug 2019 13:00:04 GMT</pubDate>
+    <pubDate>Mon, 19 Aug 2019 16:14:36 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>AWS 컨테이너 관련 서비스</title>
+      <link>https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/</link>
+      <guid>https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/</guid>
+      <pubDate>Mon, 19 Aug 2019 16:01:50 GMT</pubDate>
+      <description>
+      
+        &lt;p&gt;AWS 컨테이너 관련 서비스를 알아보기 위한 리서치 용도로 링크만 걸어두었다.&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>AWS 컨테이너 관련 서비스를 알아보기 위한 리서치 용도로 링크만 걸어두었다.<br><a id="more"></a></p><h2 id="Amazon-ECS-Elastic-Container-Service"><a href="#Amazon-ECS-Elastic-Container-Service" class="headerlink" title="Amazon ECS(Elastic Container Service)"></a><a href="https://aws.amazon.com/ko/ecs/" rel="external nofollow noopener noreferrer" target="_blank">Amazon ECS(Elastic Container Service)</a></h2><p><img src="/images/aws_ecs.png" alt=""></p><h2 id="AWS-Fargate"><a href="#AWS-Fargate" class="headerlink" title="AWS Fargate"></a><a href="https://aws.amazon.com/ko/fargate/" rel="external nofollow noopener noreferrer" target="_blank">AWS Fargate</a></h2><p><img src="/images/aws_farate.png" alt=""></p><h2 id="Amazon-EKS-Elastic-Kubernetes-Service"><a href="#Amazon-EKS-Elastic-Kubernetes-Service" class="headerlink" title="Amazon EKS(Elastic Kubernetes Service)"></a><a href="https://aws.amazon.com/ko/eks/" rel="external nofollow noopener noreferrer" target="_blank">Amazon EKS(Elastic Kubernetes Service)</a></h2><p><img src="/images/aws_eks.png" alt=""></p><h2 id="AWS-App-Mesh"><a href="#AWS-App-Mesh" class="headerlink" title="AWS App Mesh"></a><a href="https://aws.amazon.com/ko/app-mesh/" rel="external nofollow noopener noreferrer" target="_blank">AWS App Mesh</a></h2><ul><li><a href="https://aws.amazon.com/ko/app-mesh/getting-started/" rel="external nofollow noopener noreferrer" target="_blank">가이드</a></li></ul><p><img src="/images/aws_app_mesh.png" alt=""></p><h2 id="AWS-Cloud-Map"><a href="#AWS-Cloud-Map" class="headerlink" title="AWS Cloud Map"></a><a href="https://aws.amazon.com/ko/cloud-map/" rel="external nofollow noopener noreferrer" target="_blank">AWS Cloud Map</a></h2><h2 id="Firecracker"><a href="#Firecracker" class="headerlink" title="Firecracker"></a><a href="https://firecracker-microvm.github.io/" rel="external nofollow noopener noreferrer" target="_blank">Firecracker</a></h2><ul><li><a href="https://aws.amazon.com/ko/blogs/korea/firecracker-lightweight-virtualization-for-serverless-computing/" rel="external nofollow noopener noreferrer" target="_blank">AWS RE:Invent</a></li></ul>]]></content:encoded>
+      
+      <comments>https://borakim-b.github.io/2019/08/20/20190820-aws-container-service/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>동영상 스틸 컷 만들어보기</title>
