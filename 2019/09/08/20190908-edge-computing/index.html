@@ -1,0 +1,755 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="시간이 지나면 또 봐야지">
+    <title>엣지컴퓨팅(Edge computing) 이란? - 시간이 지나면 또 봐야지</title>
+    <meta name="author" content="Pora">
+    
+        <meta name="keywords" content="it,hexo,java,php,python,angular,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"엣지 컴퓨팅에 대해서 알아보고 클라우드 컴퓨팅과 비교해보자.\n정의\n다양한 단말기기에서 발생하는 데이터를 클라우드와 같은 중앙 집중식 데이터센터로 보내지 않고, 데이터가 발생한 현장 혹은 근거리에서 실시간 처리하는 방식으로 데이터 흐름 가속화를 지원하는 컴퓨팅 방식...기존의 클라우드 컴퓨팅(cloud computing)과는 다른 컴퓨팅 접근방법으로, 서로를 대체하는 것이 아닌 각각의 문제점을 보완하는 공생관계에 가깝다.\n클라우드(중앙구름) 환경의 일부 작은 규모의 플랫폼으로 보아 클라우드렛(cloudlet, 작은구름) 용어로 쓰기도하고,단말 기기 주변(Edge)에서 처리되는 것을 가리켜 포크 컴퓨팅(fog computing)이라고도 한다.\n..\nIT용어사전\n\n\n중앙에서 모든 데이터의 처리를 해야하는 클라우드 컴퓨팅과 다르게 엣지컴퓨팅의 경우 엣지에서 처리한 데이터의 인사이트만 클라우드에 전송하므로 데이터 처리량이 늘어날수록 부하가 많아지는 클라우드 컴퓨팅의 단점을 극복할 수 있다.\n참고관련있어 보이는 서비스들을 링크해보았다.\nAWS Lambda@Edge\n\nLambda@Edge는 Amazon CloudFront의 기능 중 하나로서 애플리케이션의 사용자에게 더 가까운 위치에서 코드를 실행하여 성능을 개선하고 지연 시간을 단축할 수 있게 해 줍니다\n\nAWS IoT Greengrass\n\n엣지 디바이스에 로컬 컴퓨팅, 메시징, 데이터 캐싱, 동기화 및 ML 추론 기능 제공AWS IoT Greengrass에서는 인터넷에 연결되어 있지 않더라도 커넥티드 디바이스에서 AWS Lambda 함수를 실행하고, 기계 학습 모델을 기반으로 예측을 실행하고, 디바이스 데이터를 동기화 상태로 유지하고, 다른 디바이스와 안전하게 통신할 수 있습니다.\n\nAzure IoT Edge\n\n특정 워크로드를 네트워크 에지로 이동하면 디바이스가 클라우드와 통신하는 데 걸리는 시간을 줄이고, 로컬 변경 사항에 더 빠르게 대응하며, 길어진 오프라인 기간에도 안정적으로 작동할 수 있습니다.\n\n","dateCreated":"2019-09-08T18:16:00+09:00","dateModified":"2019-09-08T18:25:30+09:00","datePublished":"2019-09-08T18:16:00+09:00","description":"엣지 컴퓨팅에 대해서 알아보고 클라우드 컴퓨팅과 비교해보자.","headline":"엣지컴퓨팅(Edge computing) 이란?","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2019/09/08/20190908-edge-computing/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2019/09/08/20190908-edge-computing/","keywords":"EdgeComputing, Cloud"}</script>
+    <meta name="description" content="엣지 컴퓨팅에 대해서 알아보고 클라우드 컴퓨팅과 비교해보자.">
+<meta name="keywords" content="EdgeComputing,Cloud">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="엣지컴퓨팅(Edge computing) 이란?">
+<meta property="og:url" content="https://borakim-b.github.io/2019/09/08/20190908-edge-computing/index.html">
+<meta property="og:site_name" content="시간이 지나면 또 봐야지">
+<meta property="og:description" content="엣지 컴퓨팅에 대해서 알아보고 클라우드 컴퓨팅과 비교해보자.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://borakim-b.github.io/images/edge-computing.jpg">
+<meta property="og:updated_time" content="2019-09-08T09:25:30.244Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="엣지컴퓨팅(Edge computing) 이란?">
+<meta name="twitter:description" content="엣지 컴퓨팅에 대해서 알아보고 클라우드 컴퓨팅과 비교해보자.">
+<meta name="twitter:image" content="https://borakim-b.github.io/images/edge-computing.jpg">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=640">
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-119521365-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+    
+    <link rel="canonical" href="https://borakim-b.github.io/2019/09/08/20190908-edge-computing/">
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">시간이 지나면 또 봐야지</a>
+    </div>
+    
+        
+            <a class="header-right-icon st-search-show-outputs" href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=110" alt="Author&#39;s picture">
+                </a>
+                <h4 class="sidebar-profile-name">Pora</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>:)</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="Home">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="Categories">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="Tags">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="Archives">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link open-algolia-search" href="#search" title="Search">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="About">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/borakim-b/" target="_blank" rel="external nofollow noopener noreferrer" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/atom.xml" title="RSS">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4" class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            엣지컴퓨팅(Edge computing) 이란?
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-09-08T18:16:00+09:00">
+	
+		    Sep 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/Research/">Research</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>엣지 컴퓨팅에 대해서 알아보고 <a href="https://ko.wikipedia.org/wiki/%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C_%EC%BB%B4%ED%93%A8%ED%8C%85" rel="external nofollow noopener noreferrer" target="_blank">클라우드 컴퓨팅</a>과 비교해보자.<br><a id="more"></a></p>
+<h2 id="정의"><a href="#정의" class="headerlink" title="정의"></a>정의</h2><blockquote>
+<p>다양한 단말기기에서 발생하는 데이터를 클라우드와 같은 중앙 집중식 데이터센터로 보내지 않고, 데이터가 발생한 현장 혹은 근거리에서 실시간 처리하는 방식으로 데이터 흐름 가속화를 지원하는 컴퓨팅 방식.<br>..<br>기존의 클라우드 컴퓨팅(cloud computing)과는 다른 컴퓨팅 접근방법으로, 서로를 대체하는 것이 아닌 각각의 문제점을 보완하는 공생관계에 가깝다.</p>
+<p>클라우드(중앙구름) 환경의 일부 작은 규모의 플랫폼으로 보아 클라우드렛(cloudlet, 작은구름) 용어로 쓰기도하고,<br>단말 기기 주변(Edge)에서 처리되는 것을 가리켜 포크 컴퓨팅(fog computing)이라고도 한다.</p>
+<p>..</p>
+<p><a href="https://terms.naver.com/entry.nhn?docId=5670035&amp;cid=42346&amp;categoryId=42346" rel="external nofollow noopener noreferrer" target="_blank">IT용어사전</a></p>
+</blockquote>
+<p><img src="/images/edge-computing.jpg" alt=""></p>
+<p>중앙에서 모든 데이터의 처리를 해야하는 클라우드 컴퓨팅과 다르게 엣지컴퓨팅의 경우 엣지에서 처리한 데이터의 인사이트만 클라우드에 전송하므로 데이터 처리량이 늘어날수록 부하가 많아지는 클라우드 컴퓨팅의 단점을 극복할 수 있다.</p>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><p>관련있어 보이는 서비스들을 링크해보았다.</p>
+<p><a href="https://aws.amazon.com/ko/lambda/edge/" rel="external nofollow noopener noreferrer" target="_blank">AWS Lambda@Edge</a></p>
+<blockquote>
+<p>Lambda@Edge는 <a href="https://aws.amazon.com/cloudfront/" rel="external nofollow noopener noreferrer" target="_blank">Amazon CloudFront</a>의 기능 중 하나로서 애플리케이션의 사용자에게 더 가까운 위치에서 코드를 실행하여 성능을 개선하고 지연 시간을 단축할 수 있게 해 줍니다</p>
+</blockquote>
+<p><a href="https://aws.amazon.com/ko/greengrass/" rel="external nofollow noopener noreferrer" target="_blank">AWS IoT Greengrass</a></p>
+<blockquote>
+<p>엣지 디바이스에 로컬 컴퓨팅, 메시징, 데이터 캐싱, 동기화 및 ML 추론 기능 제공<br>AWS IoT Greengrass에서는 인터넷에 연결되어 있지 않더라도 커넥티드 디바이스에서 <a href="https://aws.amazon.com/lambda/" rel="external nofollow noopener noreferrer" target="_blank">AWS Lambda</a> 함수를 실행하고, 기계 학습 모델을 기반으로 예측을 실행하고, 디바이스 데이터를 동기화 상태로 유지하고, 다른 디바이스와 안전하게 통신할 수 있습니다.</p>
+</blockquote>
+<p><a href="https://azure.microsoft.com/ko-kr/services/iot-edge/" rel="external nofollow noopener noreferrer" target="_blank">Azure IoT Edge</a></p>
+<blockquote>
+<p>특정 워크로드를 네트워크 에지로 이동하면 디바이스가 클라우드와 통신하는 데 걸리는 시간을 줄이고, 로컬 변경 사항에 더 빠르게 대응하며, 길어진 오프라인 기간에도 안정적으로 작동할 수 있습니다.</p>
+</blockquote>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Cloud/">Cloud</a> <a class="tag tag--primary tag--small t-link" href="/tags/EdgeComputing/">EdgeComputing</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/08/20190908-windows-docker-batch/" data-tooltip="Windows docker build 배치파일 만들기." aria-label="NEXT: Windows docker build 배치파일 만들기.">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/09/08/20190908-edge-computing/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/09/08/20190908-edge-computing/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/09/08/20190908-edge-computing/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 Pora. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/08/20190908-windows-docker-batch/" data-tooltip="Windows docker build 배치파일 만들기." aria-label="NEXT: Windows docker build 배치파일 만들기.">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/09/08/20190908-edge-computing/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/09/08/20190908-edge-computing/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/09/08/20190908-edge-computing/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/09/08/20190908-edge-computing/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/09/08/20190908-edge-computing/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/09/08/20190908-edge-computing/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=110" alt="Author&#39;s picture">
+        
+            <h4 id="about-card-name">Pora</h4>
+        
+            <div id="about-card-bio"><p>:)</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="external nofollow noopener noreferrer" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search" class="form-control input--large search-input" placeholder="Search ">
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/">
+                            <h3 class="media-heading">Hexo blog framework 를 이용한 Github Pages Blog 만들기.</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    May 15, 2018
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/03/20190603-aws-free-tier/">
+                            <h3 class="media-heading">AWS 프리티어 사용 및 계정 생성</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 3, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 프리티어 사용 방법을 알아보고, 사용하는 과정에서 확인한 사항을 기록해보자.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/">
+                            <h3 class="media-heading">QR코드 생성 어떻게 할까</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 5, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/">
+                            <h3 class="media-heading">PHP 서비스 개발에 필요한 최소한의 것</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 9, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP 언어에 대해서 알아보고 PHP 웹 프레임워크, 템플릿엔진, 개발 시 사용한 IDE 에 대해 정리해본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/">
+                            <h3 class="media-heading">PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 9, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고<br>Docker를 활용해 개발환경을 구성해본다.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/">
+                            <h3 class="media-heading">Mysql 설치</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 15, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>docker를 이용해서 빠르게 데이터베이스 개발환경을 만들어 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/24/20190624-angular-start/">
+                            <h3 class="media-heading">Angular 빠르게 시작하기</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 24, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Bootstrap, Material 테마 설치 후 Angular CLI 이용해 빠르게 개발을 시작해 본다.<br>별도의 API서버가 없는 상태에서 프로토타입을 개발하는 방법을 확인해 본다.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/28/20190628-custom-header-x/">
+                            <h3 class="media-heading">Custom HTTP 헤더 네이밍 컨벤션?</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 28, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>개발을 하다보면 추가적인 정보를 헤더에 담아야 할 때가 있다.<br>이 때 헤더의 이름을 어떻게 지으면 좋을까?<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/28/20190628-aws-instance-ssh/">
+                            <h3 class="media-heading">AWS 인스턴스 생성하고 SSH 원격 접속 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 28, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 인스턴스 생성 시 보안그룹 설정 할 때 참고할 사항과 인스턴스 요금을 알아보고<br>인스턴스 생성 후 SSH Config 설정을 통해 원격접속 해본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/07/08/20190708-travis-angular-s3/">
+                            <h3 class="media-heading">Angular 프로젝트 Travis 빌드 후 Amazon S3에 업로드 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jul 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Angular 웹 프로젝트 배포는 어떻게 할까? <code>GitHub - Travis CI - S3</code> - Ansible Deploy<br><a href="https://travis-ci.com/" rel="external nofollow noopener noreferrer" target="_blank">Travis CI</a> 에 대해서 알아보고 프로젝트 빌드 후 Amazon S3에 업로드 하는 예제를 만들어 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium" data-message-zero="no post found" data-message-one="1 post found" data-message-other="{n} posts found">
+                14 posts found
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://borakim-b.github.io/2019/09/08/20190908-edge-computing/';
+                 
+                    this.page.identifier = '2019/09/08/20190908-edge-computing/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'borakim-b';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('H3PVV9NBL2', 'e4acc2614ed0e6947c524bc3280d28a2');
+        var algoliaIndex = algoliaClient.initIndex('my-hexo-blog');
+    </script>
+
+
+    </body>
+</html>
