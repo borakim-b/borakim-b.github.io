@@ -1,0 +1,791 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="시간이 지나면 또 봐야지">
+    <title>Spring Cloud Netfilx를 이용하여 API Gateway 서버 만들기 - 시간이 지나면 또 봐야지</title>
+    <meta name="author" content="Pora">
+    
+        <meta name="keywords" content="it,hexo,java,php,python,angular,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"Zuul Gateway API, Eureka Server, MicroService(EurekaClient) 구성 후 Docker를 이용해 컨테이너화 해보자.\nSpring Cloud Netflix는 Spring Boot 어플리케이션을 위한 Netflix OSS 통합을 제공한다.\n정의Spring Cloud Netflix\nThis project provides Netflix OSS integrations for Spring Boot apps through autoconfiguration and binding to the Spring Environment and other Spring programming model idioms. With a few simple annotations you can quickly enable and configure the common patterns inside your application and build large distributed systems with battle-tested Netflix components. The patterns provided include Service Discovery (Eureka), Circuit Breaker (Hystrix), Intelligent Routing (Zuul) and Client Side Load Balancing (Ribbon).\n\nreference\nNetflix OSS(Open Soure Software)Zuul\nZuul is the front door for all requests from devices and web sites to the backend of the Netflix streaming application\nAs an edge service application,\nZuul is built to enable dynamic routing, monitoring, resiliency and security\n..\n\nEureka\npurpose of load balancing and failover of middle-tier servers\nEureka Server, Eureka Client\n…\n\n\nEureka 에 대해서 이해할 때 Service Discovery 에 대해 알고가자.\n클라우드에서 인스턴스는 동적으로 할당된다. IP주소 및 포트 정보도 변경된다.\n\nEurekaServer (Servie Registry Server) 에 등록된 서비스들은 Eureka Client가 Eureka Server로 부터 레지스트리 정보를 가져와서 로컬에 캐시하고, 캐시된 레지스트리 정보를 이용해서 다른 서비스들을 찾을 수 있다.\n\n[그림]\nRibbonClient Side Load Balancing Library\nRibbon Client는 Eureka Client가 알려주는 사용가능한 서비스들을 대상으로 LoadBalancing (기본 Round Robin 방식) 할 수 있다. \n개발Gradle Project, Spring Boot 2.1, Java 8\nSpring Initializr 를 통해서 프로젝트를 생성 했다. (EurekaServer, ZuulAPIGateway, TestService)\n각 프로젝트의 주요 dependency 설정과 어플리케이션 설정 내용에 대해서만 작성 함.\nEureka ServerDependenciesSpring Boot Actuator, Spring Security, Eureka Server\n1234567dependencies &#123;\timplementation 'org.springframework.boot:spring-boot-starter-actuator'\timplementation 'org.springframework.boot:spring-boot-starter-security'\timplementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'\ttestImplementation 'org.springframework.boot:spring-boot-starter-test'\ttestImplementation 'org.springframework.security:spring-security-test'&#125;\n설정 (bootstrap.yml)1234567891011121314151617181920212223242526272829303132spring:  application:    name: $&#123;EUREKA_SERVER_NAME:eureka-server&#125;server:  port: $&#123;PORT:8081&#125;eureka:  instance:    hostname: $&#123;EUREKA_SERVER_NAME:eureka-server&#125;    prefer-ip-address: true    lease-expiration-duration-in-seconds: 5    lease-renewal-interval-in-seconds: 5  client:    registerWithEureka: false    fetchRegistry: false    serviceUrl:            defaultZone: http://$&#123;EUREKA_SERVER_NAME:eureka-server&#125;:$&#123;PORT:8081&#125;/eureka/  server:    enable-self-preservation: false    max-threads-for-peer-replication: 0    management:  endpoints:    web:      exposure:        include: \"*\"  endpoint:    shutdown:      enabled: true    health:      show-details: ALWAYS\nZuulAPIGatewayDependenciesSpring Boot Actuator, Spring Security, Eureka Discovery Client, Zuul, Ribbon\n123456789dependencies &#123;\timplementation 'org.springframework.boot:spring-boot-starter-actuator'\timplementation 'org.springframework.boot:spring-boot-starter-security'\timplementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'\timplementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'\timplementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'\ttestImplementation 'org.springframework.boot:spring-boot-starter-test'\ttestImplementation 'org.springframework.security:spring-security-test'&#125;\n설정 (bootstrap.yml)123456789101112131415161718192021222324252627282930313233343536373839404142434445spring:  application:    name: zuul-api-gateway    server:  port: $&#123;PORT:8080&#125;     eureka:  instance:    hostname: zuul-api-gateway    prefer-ip-address: true  client:    registerWithEureka: true    fetchRegistry: true    serviceUrl:            defaultZone: http://$&#123;EUREKA_SERVER_NAME:eureka-server&#125;:$&#123;EUREKA_SERVER_PORT:8081&#125;/eureka/zuul:  ignored-services: '*'  prefix: /api  ribbonIsolationStrategy: THREAD  threadPool:    useSeparateThreadPools: true  routes:    test-service:      path: /test-service/**      sensitive-headers:      service-id: test-serviceribbon:   eureka:    enabled: true        okhttp:    enabled: true  management:  endpoints:    web:      exposure:        include: \"*\"  endpoint:    shutdown:      enabled: true    health:      show-details: ALWAYS\nTestServiceDependenciesSpring Boot Actuator, Spring Security, SpringWeb, Eureka Discovery Client\n12345678dependencies &#123;\timplementation 'org.springframework.boot:spring-boot-starter-actuator'\timplementation 'org.springframework.boot:spring-boot-starter-security'\timplementation 'org.springframework.boot:spring-boot-starter-web'\timplementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'\ttestImplementation 'org.springframework.boot:spring-boot-starter-test'\ttestImplementation 'org.springframework.security:spring-security-test'&#125;\n설정 (bootstrap.yml)123456789101112131415161718192021222324252627spring:  application:    name: test-serviceserver:    port: $&#123;PORT:8090&#125;eureka:  instance:    hostname: test-service    prefer-ip-address: true  client:    registerWithEureka: true    fetchRegistry: true    serviceUrl:            defaultZone: http://$&#123;EUREKA_SERVER_NAME:eureka-server&#125;:$&#123;EUREKA_SERVER_PORT:8081&#125;/eureka/            enabled: truemanagement:  endpoints:    web:      exposure:        include: \"*\"  endpoint:    shutdown:      enabled: true    health:      show-details: ALWAYS\n로드밸런싱이 잘되는지 확인 용 API1234567891011121314@RestControllerpublic class TestController &#123;\t@Value(\"$&#123;server.port&#125;\")\tprivate int port;\t@RequestMapping(value = \"/hello\", method = RequestMethod.GET)\tResponseEntity&lt;Map&lt;String, String&gt;&gt; sample() &#123;\t\t\t\tMap&lt;String, String&gt; result = new HashMap&lt;String, String&gt;();\t\tresult.put(\"msg\", String.format(\"eureka client! PORT: %s\", port));\t\t\t\t\t\treturn ResponseEntity.ok(result);\t&#125;&#125;\nDocker를 이용한 컨테이너화Docker Compose를 이용해 컨테이너 생성 후 테스트.\ndocker-comopse.yml\n1234567891011121314151617181920212223242526272829303132333435363738394041424344version: '3'services:  eureka-server:    image: 'eureka-server:0.1'    ports:      - '8081:8081'    environment:      - EUREKA_SERVER_NAME=eureka-server      - PORT=8081        test-service1:    image: 'test-service:0.1'    ports:      - '8090:8090'    environment:      - EUREKA_SERVER_NAME=eureka-server      - EUREKA_SERVER_PORT=8081      - PORT=8090    links:      - eureka-server        test-service2:    image: 'test-service:0.1'    ports:      - '8091:8091'    environment:      - EUREKA_SERVER_NAME=eureka-server      - EUREKA_SERVER_PORT=8081      - PORT=8091    links:      - eureka-server         zuul-api-gateway:    image: 'zuul-api-gateway:0.1'    ports:      - '8080:8080'    environment:      - EUREKA_SERVER_NAME=eureka-server      - EUREKA_SERVER_PORT=8081      - PORT=8080    links:      - eureka-server      - test-service1      - test-service2\n– 컨테이너 간의 통신을 위해서 link 방식을 사용 함.\n\n동적 IP 이슈를 피할 수 있다\n동일 docker host에 존재할 경우만 가능하고, 타 host에 존재하면 안됨.\n\n결과Eureka Server Dashboard\nhttp://localhost:8081/\n\nGATEWAY 1개, SERVICE 2개가 Eureka registry에 등록된 것을 확인할 수 있다.\nGateway API URL\nhttp://localhost:8080/&lt;API Prefix&gt;/&lt;Endpoint Service ID&gt;/&lt;Service API&gt;\nhttp://localhost:8080/api/test-service/hello\n로드밸런싱 확인\ntest-service1(8090), test-service2(8091) 로 로드밸런싱이 잘되는지 확인.\n1&#123;&quot;msg&quot;:&quot;eureka client! PORT: 8090&quot;&#125;\n","dateCreated":"2019-09-28T20:02:42+09:00","dateModified":"2019-09-28T20:37:23+09:00","datePublished":"2019-09-28T20:02:42+09:00","description":"Zuul Gateway API, Eureka Server, MicroService(EurekaClient) 구성 후 Docker를 이용해 컨테이너화 해보자.","headline":"Spring Cloud Netfilx를 이용하여 API Gateway 서버 만들기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/","keywords":"docker, spring, springboot, MSA"}</script>
+    <meta name="description" content="Zuul Gateway API, Eureka Server, MicroService(EurekaClient) 구성 후 Docker를 이용해 컨테이너화 해보자.">
+<meta name="keywords" content="docker,spring,springboot,MSA">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Spring Cloud Netfilx를 이용하여 API Gateway 서버 만들기">
+<meta property="og:url" content="https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/index.html">
+<meta property="og:site_name" content="시간이 지나면 또 봐야지">
+<meta property="og:description" content="Zuul Gateway API, Eureka Server, MicroService(EurekaClient) 구성 후 Docker를 이용해 컨테이너화 해보자.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://borakim-b.github.io/images/eureka-goodnote.jpg">
+<meta property="og:image" content="https://borakim-b.github.io/images/eureka-server-dashboard.png">
+<meta property="og:updated_time" content="2019-09-28T11:37:23.760Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Cloud Netfilx를 이용하여 API Gateway 서버 만들기">
+<meta name="twitter:description" content="Zuul Gateway API, Eureka Server, MicroService(EurekaClient) 구성 후 Docker를 이용해 컨테이너화 해보자.">
+<meta name="twitter:image" content="https://borakim-b.github.io/images/eureka-goodnote.jpg">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=640">
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-119521365-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+    
+    <link rel="canonical" href="https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/">
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">시간이 지나면 또 봐야지</a>
+    </div>
+    
+        
+            <a class="header-right-icon st-search-show-outputs" href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=110" alt="Author&#39;s picture">
+                </a>
+                <h4 class="sidebar-profile-name">Pora</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>:)</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="Home">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="Categories">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="Tags">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="Archives">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link open-algolia-search" href="#search" title="Search">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="About">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/borakim-b/" target="_blank" rel="external nofollow noopener noreferrer" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/atom.xml" title="RSS">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4" class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Spring Cloud Netfilx를 이용하여 API Gateway 서버 만들기
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-09-28T20:02:42+09:00">
+	
+		    Sep 28, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/Docker/">Docker</a>, <a class="category-link" href="/categories/Tech/Java/">Java</a>, <a class="category-link" href="/categories/Tech/Java/Spring/">Spring</a>, <a class="category-link" href="/categories/Tech/MSA/">MSA</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>Zuul Gateway API, Eureka Server, MicroService(EurekaClient) 구성 후 Docker를 이용해 컨테이너화 해보자.<br><a id="more"></a></p>
+<p><u><a href="https://spring.io/projects/spring-cloud-netflix#overview" rel="external nofollow noopener noreferrer" target="_blank">Spring Cloud Netflix</a>는 Spring Boot 어플리케이션을 위한 Netflix OSS 통합을 제공한다.</u></p>
+<h2 id="정의"><a href="#정의" class="headerlink" title="정의"></a>정의</h2><h3 id="Spring-Cloud-Netflix"><a href="#Spring-Cloud-Netflix" class="headerlink" title="Spring Cloud Netflix"></a>Spring Cloud Netflix</h3><blockquote>
+<p>This project provides Netflix OSS integrations for Spring Boot apps through autoconfiguration and binding to the Spring Environment and other Spring programming model idioms. With a few simple annotations you can quickly enable and configure the common patterns inside your application and build large distributed systems with battle-tested Netflix components. The patterns provided include Service Discovery (Eureka), Circuit Breaker (Hystrix), Intelligent Routing (Zuul) and Client Side Load Balancing (Ribbon).</p>
+</blockquote>
+<p><a href="https://cloud.spring.io/spring-cloud-netflix/reference/html/" rel="external nofollow noopener noreferrer" target="_blank">reference</a></p>
+<h3 id="Netflix-OSS-Open-Soure-Software"><a href="#Netflix-OSS-Open-Soure-Software" class="headerlink" title="Netflix OSS(Open Soure Software)"></a>Netflix OSS(Open Soure Software)</h3><h4 id="Zuul"><a href="#Zuul" class="headerlink" title="Zuul"></a><a href="https://github.com/Netflix/zuul" rel="external nofollow noopener noreferrer" target="_blank">Zuul</a></h4><blockquote>
+<p>Zuul is the front door for all requests from devices and web sites to the backend of the Netflix streaming application</p>
+<p>As an edge service application,</p>
+<p>Zuul is built to enable dynamic routing, monitoring, resiliency and security</p>
+<p>..</p>
+</blockquote>
+<h4 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a><a href="https://github.com/Netflix/eureka" rel="external nofollow noopener noreferrer" target="_blank">Eureka</a></h4><blockquote>
+<p>purpose of load balancing and failover of middle-tier servers</p>
+<p>Eureka Server, Eureka Client</p>
+<p>…</p>
+</blockquote>
+<p><img src="/images/eureka-goodnote.jpg" alt="eureka-goodnote"></p>
+<p>Eureka 에 대해서 이해할 때 <a href="https://www.nginx.com/blog/service-discovery-in-a-microservices-architecture/" rel="external nofollow noopener noreferrer" target="_blank">Service Discovery</a> 에 대해 알고가자.</p>
+<p>클라우드에서 인스턴스는 동적으로 할당된다. IP주소 및 포트 정보도 변경된다.</p>
+<ul>
+<li>EurekaServer (Servie Registry Server) 에 등록된 서비스들은 Eureka Client가 Eureka Server로 부터 레지스트리 정보를 가져와서 로컬에 캐시하고, 캐시된 레지스트리 정보를 이용해서 다른 서비스들을 찾을 수 있다.</li>
+</ul>
+<p>[그림]</p>
+<h4 id="Ribbon"><a href="#Ribbon" class="headerlink" title="Ribbon"></a><a href="https://github.com/Netflix/ribbon" rel="external nofollow noopener noreferrer" target="_blank">Ribbon</a></h4><p>Client Side Load Balancing Library</p>
+<p>Ribbon Client는 Eureka Client가 알려주는 사용가능한 서비스들을 대상으로 LoadBalancing (기본 Round Robin 방식) 할 수 있다. </p>
+<h2 id="개발"><a href="#개발" class="headerlink" title="개발"></a>개발</h2><p>Gradle Project, Spring Boot 2.1, Java 8</p>
+<p><a href="https://start.spring.io" rel="external nofollow noopener noreferrer" target="_blank">Spring Initializr</a> 를 통해서 프로젝트를 생성 했다. (EurekaServer, ZuulAPIGateway, TestService)</p>
+<p>각 프로젝트의 주요 dependency 설정과 어플리케이션 설정 내용에 대해서만 작성 함.</p>
+<h3 id="Eureka-Server"><a href="#Eureka-Server" class="headerlink" title="Eureka Server"></a>Eureka Server</h3><h4 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h4><p>Spring Boot Actuator, Spring Security, Eureka Server</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">	implementation <span class="string">'org.springframework.boot:spring-boot-starter-actuator'</span></span><br><span class="line">	implementation <span class="string">'org.springframework.boot:spring-boot-starter-security'</span></span><br><span class="line">	implementation <span class="string">'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'</span></span><br><span class="line">	testImplementation <span class="string">'org.springframework.boot:spring-boot-starter-test'</span></span><br><span class="line">	testImplementation <span class="string">'org.springframework.security:spring-security-test'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="설정-bootstrap-yml"><a href="#설정-bootstrap-yml" class="headerlink" title="설정 (bootstrap.yml)"></a>설정 (bootstrap.yml)</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">$&#123;EUREKA_SERVER_NAME:eureka-server&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="string">$&#123;PORT:8081&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    hostname:</span> <span class="string">$&#123;EUREKA_SERVER_NAME:eureka-server&#125;</span></span><br><span class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    lease-expiration-duration-in-seconds:</span> <span class="number">5</span></span><br><span class="line"><span class="attr">    lease-renewal-interval-in-seconds:</span> <span class="number">5</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    registerWithEureka:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    fetchRegistry:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">            defaultZone:</span> <span class="attr">http://$&#123;EUREKA_SERVER_NAME:eureka-server&#125;:$&#123;PORT:8081&#125;/eureka/</span></span><br><span class="line"><span class="attr">  server:</span></span><br><span class="line"><span class="attr">    enable-self-preservation:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    max-threads-for-peer-replication:</span> <span class="number">0</span></span><br><span class="line">    </span><br><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  endpoints:</span></span><br><span class="line"><span class="attr">    web:</span></span><br><span class="line"><span class="attr">      exposure:</span></span><br><span class="line"><span class="attr">        include:</span> <span class="string">"*"</span></span><br><span class="line"><span class="attr">  endpoint:</span></span><br><span class="line"><span class="attr">    shutdown:</span></span><br><span class="line"><span class="attr">      enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    health:</span></span><br><span class="line"><span class="attr">      show-details:</span> <span class="string">ALWAYS</span></span><br></pre></td></tr></table></figure>
+<h3 id="ZuulAPIGateway"><a href="#ZuulAPIGateway" class="headerlink" title="ZuulAPIGateway"></a>ZuulAPIGateway</h3><h4 id="Dependencies-1"><a href="#Dependencies-1" class="headerlink" title="Dependencies"></a>Dependencies</h4><p>Spring Boot Actuator, Spring Security, Eureka Discovery Client, Zuul, Ribbon</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">	implementation <span class="string">'org.springframework.boot:spring-boot-starter-actuator'</span></span><br><span class="line">	implementation <span class="string">'org.springframework.boot:spring-boot-starter-security'</span></span><br><span class="line">	implementation <span class="string">'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'</span></span><br><span class="line">	implementation <span class="string">'org.springframework.cloud:spring-cloud-starter-netflix-zuul'</span></span><br><span class="line">	implementation <span class="string">'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'</span></span><br><span class="line">	testImplementation <span class="string">'org.springframework.boot:spring-boot-starter-test'</span></span><br><span class="line">	testImplementation <span class="string">'org.springframework.security:spring-security-test'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="설정-bootstrap-yml-1"><a href="#설정-bootstrap-yml-1" class="headerlink" title="설정 (bootstrap.yml)"></a>설정 (bootstrap.yml)</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">zuul-api-gateway</span></span><br><span class="line">    </span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="string">$&#123;PORT:8080&#125;</span></span><br><span class="line">     </span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    hostname:</span> <span class="string">zuul-api-gateway</span></span><br><span class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    registerWithEureka:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    fetchRegistry:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">            defaultZone:</span> <span class="attr">http://$&#123;EUREKA_SERVER_NAME:eureka-server&#125;:$&#123;EUREKA_SERVER_PORT:8081&#125;/eureka/</span></span><br><span class="line"></span><br><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  ignored-services:</span> <span class="string">'*'</span></span><br><span class="line"><span class="attr">  prefix:</span> <span class="string">/api</span></span><br><span class="line"><span class="attr">  ribbonIsolationStrategy:</span> <span class="string">THREAD</span></span><br><span class="line"><span class="attr">  threadPool:</span></span><br><span class="line"><span class="attr">    useSeparateThreadPools:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    test-service:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/test-service/**</span></span><br><span class="line"><span class="attr">      sensitive-headers:</span></span><br><span class="line"><span class="attr">      service-id:</span> <span class="string">test-service</span></span><br><span class="line"></span><br><span class="line"><span class="attr">ribbon:</span> </span><br><span class="line"><span class="attr">  eureka:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span>      </span><br><span class="line"><span class="attr">  okhttp:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br><span class="line">  </span><br><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  endpoints:</span></span><br><span class="line"><span class="attr">    web:</span></span><br><span class="line"><span class="attr">      exposure:</span></span><br><span class="line"><span class="attr">        include:</span> <span class="string">"*"</span></span><br><span class="line"><span class="attr">  endpoint:</span></span><br><span class="line"><span class="attr">    shutdown:</span></span><br><span class="line"><span class="attr">      enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    health:</span></span><br><span class="line"><span class="attr">      show-details:</span> <span class="string">ALWAYS</span></span><br></pre></td></tr></table></figure>
+<h3 id="TestService"><a href="#TestService" class="headerlink" title="TestService"></a>TestService</h3><h4 id="Dependencies-2"><a href="#Dependencies-2" class="headerlink" title="Dependencies"></a>Dependencies</h4><p>Spring Boot Actuator, Spring Security, SpringWeb, Eureka Discovery Client</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">	implementation <span class="string">'org.springframework.boot:spring-boot-starter-actuator'</span></span><br><span class="line">	implementation <span class="string">'org.springframework.boot:spring-boot-starter-security'</span></span><br><span class="line">	implementation <span class="string">'org.springframework.boot:spring-boot-starter-web'</span></span><br><span class="line">	implementation <span class="string">'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'</span></span><br><span class="line">	testImplementation <span class="string">'org.springframework.boot:spring-boot-starter-test'</span></span><br><span class="line">	testImplementation <span class="string">'org.springframework.security:spring-security-test'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="설정-bootstrap-yml-2"><a href="#설정-bootstrap-yml-2" class="headerlink" title="설정 (bootstrap.yml)"></a>설정 (bootstrap.yml)</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">test-service</span></span><br><span class="line"></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">    port:</span> <span class="string">$&#123;PORT:8090&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    hostname:</span> <span class="string">test-service</span></span><br><span class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    registerWithEureka:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    fetchRegistry:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">            defaultZone:</span> <span class="attr">http://$&#123;EUREKA_SERVER_NAME:eureka-server&#125;:$&#123;EUREKA_SERVER_PORT:8081&#125;/eureka/</span></span><br><span class="line"><span class="attr">            enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  endpoints:</span></span><br><span class="line"><span class="attr">    web:</span></span><br><span class="line"><span class="attr">      exposure:</span></span><br><span class="line"><span class="attr">        include:</span> <span class="string">"*"</span></span><br><span class="line"><span class="attr">  endpoint:</span></span><br><span class="line"><span class="attr">    shutdown:</span></span><br><span class="line"><span class="attr">      enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    health:</span></span><br><span class="line"><span class="attr">      show-details:</span> <span class="string">ALWAYS</span></span><br></pre></td></tr></table></figure>
+<h4 id="로드밸런싱이-잘되는지-확인-용-API"><a href="#로드밸런싱이-잘되는지-확인-용-API" class="headerlink" title="로드밸런싱이 잘되는지 확인 용 API"></a>로드밸런싱이 잘되는지 확인 용 API</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Value</span>(<span class="string">"$&#123;server.port&#125;"</span>)</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@RequestMapping</span>(value = <span class="string">"/hello"</span>, method = RequestMethod.GET)</span><br><span class="line">	ResponseEntity&lt;Map&lt;String, String&gt;&gt; sample() &#123;		</span><br><span class="line">		Map&lt;String, String&gt; result = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">		result.put(<span class="string">"msg"</span>, String.format(<span class="string">"eureka client! PORT: %s"</span>, port));</span><br><span class="line">				</span><br><span class="line">		<span class="keyword">return</span> ResponseEntity.ok(result);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Docker를-이용한-컨테이너화"><a href="#Docker를-이용한-컨테이너화" class="headerlink" title="Docker를 이용한 컨테이너화"></a>Docker를 이용한 컨테이너화</h3><p>Docker Compose를 이용해 컨테이너 생성 후 테스트.</p>
+<p>docker-comopse.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  eureka-server:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'eureka-server:0.1'</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'8081:8081'</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">EUREKA_SERVER_NAME=eureka-server</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">PORT=8081</span></span><br><span class="line">      </span><br><span class="line"><span class="attr">  test-service1:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'test-service:0.1'</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'8090:8090'</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">EUREKA_SERVER_NAME=eureka-server</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">EUREKA_SERVER_PORT=8081</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">PORT=8090</span></span><br><span class="line"><span class="attr">    links:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">eureka-server</span></span><br><span class="line">      </span><br><span class="line"><span class="attr">  test-service2:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'test-service:0.1'</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'8091:8091'</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">EUREKA_SERVER_NAME=eureka-server</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">EUREKA_SERVER_PORT=8081</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">PORT=8091</span></span><br><span class="line"><span class="attr">    links:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">eureka-server</span> </span><br><span class="line">      </span><br><span class="line"><span class="attr">  zuul-api-gateway:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'zuul-api-gateway:0.1'</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'8080:8080'</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">EUREKA_SERVER_NAME=eureka-server</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">EUREKA_SERVER_PORT=8081</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">PORT=8080</span></span><br><span class="line"><span class="attr">    links:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">eureka-server</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">test-service1</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">test-service2</span></span><br></pre></td></tr></table></figure>
+<p>– 컨테이너 간의 통신을 위해서 link 방식을 사용 함.</p>
+<ul>
+<li>동적 IP 이슈를 피할 수 있다</li>
+<li>동일 docker host에 존재할 경우만 가능하고, 타 host에 존재하면 안됨.</li>
+</ul>
+<h3 id="결과"><a href="#결과" class="headerlink" title="결과"></a>결과</h3><p><strong>Eureka Server Dashboard</strong></p>
+<p><code>http://localhost:8081/</code></p>
+<p><img src="/images/eureka-server-dashboard.png" alt="eureka-server-dashboard"></p>
+<p>GATEWAY 1개, SERVICE 2개가 Eureka registry에 등록된 것을 확인할 수 있다.</p>
+<p><strong>Gateway API URL</strong></p>
+<p><code>http://localhost:8080/&lt;API Prefix&gt;/&lt;Endpoint Service ID&gt;/&lt;Service API&gt;</code></p>
+<p><code>http://localhost:8080/api/test-service/hello</code></p>
+<p><strong>로드밸런싱 확인</strong></p>
+<p>test-service1(8090), test-service2(8091) 로 로드밸런싱이 잘되는지 확인.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;msg&quot;:&quot;eureka client! PORT: 8090&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/MSA/">MSA</a> <a class="tag tag--primary tag--small t-link" href="/tags/docker/">docker</a> <a class="tag tag--primary tag--small t-link" href="/tags/spring/">spring</a> <a class="tag tag--primary tag--small t-link" href="/tags/springboot/">springboot</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/08/20190908-edge-computing/" data-tooltip="엣지컴퓨팅(Edge computing) 이란?" aria-label="NEXT: 엣지컴퓨팅(Edge computing) 이란?">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 Pora. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/08/20190908-edge-computing/" data-tooltip="엣지컴퓨팅(Edge computing) 이란?" aria-label="NEXT: 엣지컴퓨팅(Edge computing) 이란?">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=110" alt="Author&#39;s picture">
+        
+            <h4 id="about-card-name">Pora</h4>
+        
+            <div id="about-card-bio"><p>:)</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="external nofollow noopener noreferrer" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search" class="form-control input--large search-input" placeholder="Search ">
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/">
+                            <h3 class="media-heading">Hexo blog framework 를 이용한 Github Pages Blog 만들기.</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    May 15, 2018
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/03/20190603-aws-free-tier/">
+                            <h3 class="media-heading">AWS 프리티어 사용 및 계정 생성</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 3, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 프리티어 사용 방법을 알아보고, 사용하는 과정에서 확인한 사항을 기록해보자.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/">
+                            <h3 class="media-heading">QR코드 생성 어떻게 할까</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 5, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/">
+                            <h3 class="media-heading">PHP 서비스 개발에 필요한 최소한의 것</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 9, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP 언어에 대해서 알아보고 PHP 웹 프레임워크, 템플릿엔진, 개발 시 사용한 IDE 에 대해 정리해본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/">
+                            <h3 class="media-heading">PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 9, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고<br>Docker를 활용해 개발환경을 구성해본다.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/">
+                            <h3 class="media-heading">Mysql 설치</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 15, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>docker를 이용해서 빠르게 데이터베이스 개발환경을 만들어 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/24/20190624-angular-start/">
+                            <h3 class="media-heading">Angular 빠르게 시작하기</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 24, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Bootstrap, Material 테마 설치 후 Angular CLI 이용해 빠르게 개발을 시작해 본다.<br>별도의 API서버가 없는 상태에서 프로토타입을 개발하는 방법을 확인해 본다.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/28/20190628-custom-header-x/">
+                            <h3 class="media-heading">Custom HTTP 헤더 네이밍 컨벤션?</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 28, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>개발을 하다보면 추가적인 정보를 헤더에 담아야 할 때가 있다.<br>이 때 헤더의 이름을 어떻게 지으면 좋을까?<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/28/20190628-aws-instance-ssh/">
+                            <h3 class="media-heading">AWS 인스턴스 생성하고 SSH 원격 접속 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 28, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 인스턴스 생성 시 보안그룹 설정 할 때 참고할 사항과 인스턴스 요금을 알아보고<br>인스턴스 생성 후 SSH Config 설정을 통해 원격접속 해본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/07/08/20190708-travis-angular-s3/">
+                            <h3 class="media-heading">Angular 프로젝트 Travis 빌드 후 Amazon S3에 업로드 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jul 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Angular 웹 프로젝트 배포는 어떻게 할까? <code>GitHub - Travis CI - S3</code> - Ansible Deploy<br><a href="https://travis-ci.com/" rel="external nofollow noopener noreferrer" target="_blank">Travis CI</a> 에 대해서 알아보고 프로젝트 빌드 후 Amazon S3에 업로드 하는 예제를 만들어 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium" data-message-zero="no post found" data-message-one="1 post found" data-message-other="{n} posts found">
+                15 posts found
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://borakim-b.github.io/2019/09/28/20190928-zuul-gateway/';
+                 
+                    this.page.identifier = '2019/09/28/20190928-zuul-gateway/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'borakim-b';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('H3PVV9NBL2', 'e4acc2614ed0e6947c524bc3280d28a2');
+        var algoliaIndex = algoliaClient.initIndex('my-hexo-blog');
+    </script>
+
+
+    </body>
+</html>
