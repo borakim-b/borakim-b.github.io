@@ -269,7 +269,7 @@
 <ul>
 <li><code>services</code> service 정의.</li>
 </ul>
-<h3 id="Docker를-이용하여-컨테이너화-해보기"><a href="#Docker를-이용하여-컨테이너화-해보기" class="headerlink" title="Docker를 이용하여 컨테이너화 해보기"></a>Docker를 이용하여 컨테이너화 해보기</h3><h4 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.7</span></span><br><span class="line"><span class="keyword">RUN</span> apt-get update</span><br><span class="line">RUN apt-get install -y gunicorn</span><br><span class="line"></span><br><span class="line">COPY . /app</span><br><span class="line">WORKDIR /app</span><br><span class="line">RUN pip install --no-cache-dir -r requirements.txt</span><br><span class="line">ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:8080", "--access-logfile", "access.log", "--error-logfile", "error.log", "run:app"]</span><br></pre></td></tr></table></figure>
+<h3 id="Docker를-이용하여-컨테이너화-해보기"><a href="#Docker를-이용하여-컨테이너화-해보기" class="headerlink" title="Docker를 이용하여 컨테이너화 해보기"></a>Docker를 이용하여 컨테이너화 해보기</h3><h4 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.7</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update</span></span><br><span class="line"><span class="bash">RUN apt-get install -y gunicorn</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">COPY . /app</span></span><br><span class="line"><span class="bash">WORKDIR /app</span></span><br><span class="line"><span class="bash">RUN pip install --no-cache-dir -r requirements.txt</span></span><br><span class="line"><span class="bash">ENTRYPOINT [<span class="string">"gunicorn"</span>, <span class="string">"-b"</span>, <span class="string">"0.0.0.0:8080"</span>, <span class="string">"--access-logfile"</span>, <span class="string">"access.log"</span>, <span class="string">"--error-logfile"</span>, <span class="string">"error.log"</span>, <span class="string">"run:app"</span>]</span></span><br></pre></td></tr></table></figure>
 <h4 id="이미지-빌드"><a href="#이미지-빌드" class="headerlink" title="이미지 빌드"></a>이미지 빌드</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t flask-test-app:latest .</span><br></pre></td></tr></table></figure>
 <h4 id="컨테이너-생성"><a href="#컨테이너-생성" class="headerlink" title="컨테이너 생성"></a>컨테이너 생성</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -d -v /var/run/docker.sock:/var/run/docker.sock -p 8080:8080 --name flask-test-app flask-test-app:latest</span><br></pre></td></tr></table></figure>
 <h3 id="끝"><a href="#끝" class="headerlink" title="끝"></a>끝</h3><p>간단하게 API 서버를 구성해볼 수 있고, 관련 API 문서(Swagger UI documentation)도 만들 수 있다.</p>
@@ -293,7 +293,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/12/08/20191208-eureka-log/" data-tooltip="유레카 서버와 유레카 클라이언트 어떻게 동작할까?" aria-label="PREVIOUS: 유레카 서버와 유레카 클라이언트 어떻게 동작할까?">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -388,7 +389,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/12/08/20191208-eureka-log/" data-tooltip="유레카 서버와 유레카 클라이언트 어떻게 동작할까?" aria-label="PREVIOUS: 유레카 서버와 유레카 클라이언트 어떻게 동작할까?">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -732,7 +734,7 @@
         </div>
         <div class="modal-footer">
             <p class="results-count text-medium" data-message-zero="no post found" data-message-one="1 post found" data-message-other="{n} posts found">
-                16 posts found
+                17 posts found
             </p>
         </div>
     </div>

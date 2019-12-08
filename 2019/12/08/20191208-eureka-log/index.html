@@ -1,0 +1,831 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="시간이 지나면 또 봐야지">
+    <title>유레카 서버와 유레카 클라이언트 어떻게 동작할까? - 시간이 지나면 또 봐야지</title>
+    <meta name="author" content="Pora">
+    
+        <meta name="keywords" content="it,hexo,java,php,python,angular,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"Eureka Server 서버를 내장한 어플리케이션의 로그와 Eureka Client가 구현되어있는 어플리케이션 로그를 보면서 유레카의 동작방식을 이해해 보자.\n어플리케이션 로그Eureka 서버12345678910111213141516171819202122232425262728293031323334353637383940414243442019-11-29 13:11:20.165  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8761 (http)2019-11-29 13:11:20.325  INFO 1 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]2019-11-29 13:11:20.326  INFO 1 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.22]2019-11-29 13:11:20.651  INFO 1 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext2019-11-29 13:11:20.652  INFO 1 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 6067 ms...2019-11-29 13:11:29.470  INFO 1 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 20 endpoint(s) beneath base path '/actuator'2019-11-29 13:11:29.974  INFO 1 --- [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING2019-11-29 13:11:30.113  INFO 1 --- [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-12019-11-29 13:11:30.124  INFO 1 --- [main] com.netflix.discovery.DiscoveryClient    : Client configured to neither register nor query for data.2019-11-29 13:11:30.158  INFO 1 --- [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1575000690156 with initial instances count: 02019-11-29 13:11:30.330  INFO 1 --- [main] c.n.eureka.DefaultEurekaServerContext    : Initializing ...2019-11-29 13:11:30.337  INFO 1 --- [main] c.n.eureka.cluster.PeerEurekaNodes       : Adding new peer nodes [http://registry:8761/eureka/]2019-11-29 13:11:31.081  INFO 1 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson2019-11-29 13:11:31.083  INFO 1 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson2019-11-29 13:11:31.084  INFO 1 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml2019-11-29 13:11:31.089  INFO 1 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml2019-11-29 13:11:31.570  INFO 1 --- [main] c.n.eureka.cluster.PeerEurekaNodes       : Replica node URL:  http://registry:8761/eureka/2019-11-29 13:11:31.613  INFO 1 --- [main] c.n.e.registry.AbstractInstanceRegistry  : Finished initializing remote region registries. All known remote regions: []2019-11-29 13:11:31.614  INFO 1 --- [main] c.n.eureka.DefaultEurekaServerContext    : Initialized2019-11-29 13:11:31.902  INFO 1 --- [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application REGISTRY with eureka with status UP2019-11-29 13:11:31.980  INFO 1 --- [Thread-11] o.s.c.n.e.server.EurekaServerBootstrap   : Setting the eureka configuration..2019-11-29 13:11:31.981  INFO 1 --- [Thread-11] o.s.c.n.e.server.EurekaServerBootstrap   : Eureka data center value eureka.datacenter is not set, defaulting to default2019-11-29 13:11:31.981  INFO 1 --- [Thread-11] o.s.c.n.e.server.EurekaServerBootstrap   : Eureka environment value eureka.environment is not set, defaulting to test2019-11-29 13:11:32.092  INFO 1 --- [Thread-11] o.s.c.n.e.server.EurekaServerBootstrap   : isAws returned false2019-11-29 13:11:32.099  INFO 1 --- [Thread-11] o.s.c.n.e.server.EurekaServerBootstrap   : Initialized server context2019-11-29 13:11:32.100  INFO 1 --- [Thread-11] c.n.e.r.PeerAwareInstanceRegistryImpl    : Got 1 instances from neighboring DS node2019-11-29 13:11:32.100  INFO 1 --- [Thread-11] c.n.e.r.PeerAwareInstanceRegistryImpl    : Renew threshold is: 12019-11-29 13:11:32.100  INFO 1 --- [Thread-11] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP2019-11-29 13:11:32.163  INFO 1 --- [Thread-11] e.s.EurekaServerInitializerConfiguration : Started Eureka Server2019-11-29 13:11:32.289  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8761 (http) with context path ''2019-11-29 13:11:32.310  INFO 1 --- [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 87612019-11-29 13:11:32.312  INFO 1 --- [main] k.c.s.e.e.EurekaServerApplication        : Started EurekaServerApplication in 20.454 seconds (JVM running for 21.053)2019-11-29 13:11:33.010  INFO 1 --- [nio-8761-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2019-11-29 13:11:33.010  INFO 1 --- [nio-8761-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2019-11-29 13:11:33.019  INFO 1 --- [nio-8761-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms2019-11-29 13:11:34.244  INFO 1 --- [nio-8761-exec-2] c.n.e.registry.AbstractInstanceRegistry  : Registered instance TEST-SERVICE/53614fa559ab:test-service:9300 with status UP (replication=false)2019-11-29 13:11:36.253  INFO 1 --- [nio-8761-exec-4] c.n.e.registry.AbstractInstanceRegistry  : Registered instance ZUUL-GATEWAY/7cf3a25fe7e2:zuul-gateway:8080 with status UP (replication=false)2019-11-29 13:11:47.191  INFO 1 --- [nio-8761-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance TEST-SERVICE/382f8bf1dfec:test-service:20180 with status UP (replication=false)2019-11-29 13:12:32.157  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms2019-11-29 13:13:32.157  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms2019-11-29 13:14:32.156  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms2019-11-29 13:15:32.156  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms2019-11-29 13:16:32.156  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms\nEureka의 인스턴스 상태관련 로그1234562019-11-29 13:11:29.974  INFO 1 --- [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING...2019-11-29 13:11:34.244  INFO 1 --- [nio-8761-exec-2] c.n.e.registry.AbstractInstanceRegistry  : Registered instance TEST-SERVICE/53614fa559ab:test-service:9300 with status UP (replication=false)...2019-11-29 13:12:32.157  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms2019-11-29 13:13:32.157  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms\n서비스 레지스트리의 initial instance status는 STARTING 으로 설정 함.TEST-SERVICE/53614fa559ab:test-service:9300 (appID/instanceId)appID는 Application Name 이고, instanceId는 ${spring.cloud.hostname}:${spring.application.name}:${server.port} 의 조합이다.\n일반적인 서비스 레지스트리의 Instance LifecycleNetflix Eureka와 같은 대부분의 서비스 레지스트리는 인스턴스를 조회하고, 등록하는 인터페이스를 제공한다. (REST API) 그리고 인스턴스 생명주기는 3가지 단계로 표현된다.\n\nRegister\n서비스 레지스트리에 microservice instance를 등록 함.\n\nHeartbeat\n등록된 instance는 사전 정의된 interval에 따라 레지스트리에 heartbeat을 보낸다.\n레지스트리가 특정시간동안 heartbeat을 받지 못하면 인스턴스는 down 상태로 판단하고, 레지스트리에서 삭제한다.\n\nDeregister/Down\ninstance가 삭제되었을 경우에 서비스 레지스트리에 등록해제(deregister) 해주는 과정이 필요하다.\nderegister 요청을 받으면 instance는 down 상태가 되고, 레지스트리에서 삭제된다.\n\n\nEureka의 Instance Lifecycle 및 Instance의 상태Instance의 Lifecycle 단계 별로 유레카 Instance Status 값의 변화를 알아보자.\n\nSTARTING\n유레카 서버에 서비스가 등록되면서 STARTING 상태가 됨.\n\nUP\n서비스 어플리케이션이 요청을 받을 수 있는 상태가 되면 STARTING 에서 UP 상태로 변경 됨.\n\nHEARTBEAT\n사전에 정의된 interval(eureka.instance.lease-renewal-interval-in-seconds default:30)에 따라 유레카 서버에 heartbeat을 보내고, 특정시간(eureka.instance.lease-expiration-duration-in-seconds default: 90)동안 유레카 서버가 heartbeat를 받지 못하면 레지스트리에서 해당 인스턴스를 제거한다.\n\nDOWN\n인스턴스가 종료되면 DOWN 상태로 변경 한다.\n\n\n참고\nEureka-REST-operations\nhttps://dzone.com/articles/service-registration-with-go-lang-and-eureka \n\nEureka Server Peer Node 구성관련로그12019-11-29 13:11:30.337  INFO 1 --- [main] c.n.eureka.cluster.PeerEurekaNodes       : Adding new peer nodes [http://registry:8761/eureka/]\n참고\nUnderstanding Eureka Peer to Peer Communication\n\nEureka Client - 서비스12345678910111213141516171819202122232425...com.netflix.discovery.DiscoveryClient    : Disable delta property : true2019-11-29 13:42:21.296  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null2019-11-29 13:42:21.296  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false2019-11-29 13:42:21.296  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false2019-11-29 13:42:21.297  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true2019-11-29 13:42:21.297  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true2019-11-29 13:42:21.297  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server2019-11-29 13:42:21.524  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200...2019-11-29 13:42:21.546  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1575002541545 with initial instances count: 22019-11-29 13:42:21.548  INFO 1 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application TEST-SERVICE with eureka with status UP2019-11-29 13:42:21.549  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1575002541549, current=UP, previous=STARTING]2019-11-29 13:42:21.554  INFO 1 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TEST-SERVICE/364b4deadbc7:test-service:20233: registering service...2019-11-29 13:42:21.632  INFO 1 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TEST-SERVICE/364b4deadbc7:test-service:20233 - registration status: 2042019-11-29 13:42:21.640  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 20233 (http) with context path ''2019-11-29 13:42:21.645  INFO 1 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 202332019-11-29 13:42:21.648  INFO 1 --- [           main] k.c.s.e.e.TestServiceApplication         : Started TestServiceApplication in 6.367 seconds (JVM running for 7.332)2019-11-29 13:42:24.538  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Disable delta property : true2019-11-29 13:42:24.539  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null2019-11-29 13:42:24.540  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false2019-11-29 13:42:24.540  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application is null : false2019-11-29 13:42:24.540  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : false2019-11-29 13:42:24.540  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application version is -1: false2019-11-29 13:42:24.540  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server\n유레카 클라이언트는 유레카 서버로 부터 registry를 fetch해서 캐싱한다.서비스 목록을 3초마다 캐싱하도록 설정된 경우의 로그다.\n2019-11-29 13:42:21.297 Getting all instance registry info from the eureka server 로그가 출력된 이후 3초가 지난 2019-11-29 13:42:24.540 에 또 fetch해 오는 것을 확인 할 수 있다.\n관련 설정123456eureka:  client:    registerWithEureka: true    fetchRegistry: true    registry-fetch-interval-seconds: 3    disable-delta: true\nregistry-fetch-interval-seconds 서버로부터 레지스트리 정보를 읽어와 로컬에 캐시하게 되는데 이때 레지스트리 fetch 간격 (초) \ndisable-delta 레지스트리 정보의 변경된 부분만 fetch 함.\n\n  Indicates whether the eureka client should disable fetching of delta and should rather resort to getting the full registry information. Note that the delta fetches can reduce the traffic tremendously, because the rate of change with the eureka server is normally much lower than the rate of fetches. The changes are effective at runtime at the next registry fetch cycle as specified by registryFetchIntervalSeconds \n\n참고\nEureka configuration_properties\n\nInstance Scale Out 상황에서의 로그 확인TEST-SERVICE가 레지스트리에 등록되어 있는 상황에서 TEST-SEVICE 의 Instance가 1개 더 생성되었을 때의 로그를 확인해보자.\nEureka Server1234...2019-11-29 13:42:21.627  INFO 1 --- [nio-8761-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance TEST-SERVICE/364b4deadbc7:test-service:20233 with status UP (replication=false)2019-11-29 13:42:32.160  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms...\nEureka Client123452019-11-29 13:42:21.546  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1575002541545 with initial instances count: 22019-11-29 13:42:21.548  INFO 1 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application TEST-SERVICE with eureka with status UP2019-11-29 13:42:21.549  INFO 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1575002541549, current=UP, previous=STARTING]2019-11-29 13:42:21.554  INFO 1 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TEST-SERVICE/364b4deadbc7:test-service:20233: registering service...2019-11-29 13:42:21.632  INFO 1 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TEST-SERVICE/364b4deadbc7:test-service:20233 - registration status: 204\n서버로그와 클라이언트 로그를 대조해 보면..클라이언트 - 2019-11-29 13:42:21.554 registering service ...\n서버 - 2019-11-29 13:42:21.627 Registered instance ...\n클라이언트 - 2019-11-29 13:42:21.632 registration status: 204\n\n\n\nOperation\nHTTP action\nDescription\n\n\n\n\nRegister new application instance\nPOST /eureka/v2/apps/appID\nInput: JSON/XML payload HTTP Code: 204 on success\n\n\n\n\n서비스 등록요청\n유레카 레지스트리 인스턴스 등록\n등록완료\n\nInstance Scale In 상황에서의 로그 확인Eureka Server122019-12-07 11:18:25.478  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms2019-12-07 11:18:28.611  INFO 1 --- [nio-8761-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance TEST-SERVICE/291358de0d8d:test-service:9300 (replication=false)\n\n\n\nOperation\nHTTP action\nDescription\n\n\n\n\nDe-register application instance\nDELETE /eureka/v2/apps/appID/instanceID\nHTTP Code: 200 on success\n\n\n\n끝\n","dateCreated":"2019-12-08T23:37:02+09:00","dateModified":"2019-12-08T23:50:14+09:00","datePublished":"2019-12-08T23:37:02+09:00","description":"Eureka Server 서버를 내장한 어플리케이션의 로그와 Eureka Client가 구현되어있는 어플리케이션 로그를 보면서 유레카의 동작방식을 이해해 보자.","headline":"유레카 서버와 유레카 클라이언트 어떻게 동작할까?","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2019/12/08/20191208-eureka-log/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2019/12/08/20191208-eureka-log/","keywords":"docker, spring, springboot, MSA"}</script>
+    <meta name="description" content="Eureka Server 서버를 내장한 어플리케이션의 로그와 Eureka Client가 구현되어있는 어플리케이션 로그를 보면서 유레카의 동작방식을 이해해 보자.">
+<meta name="keywords" content="docker,spring,springboot,MSA">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="유레카 서버와 유레카 클라이언트 어떻게 동작할까?">
+<meta property="og:url" content="https://borakim-b.github.io/2019/12/08/20191208-eureka-log/index.html">
+<meta property="og:site_name" content="시간이 지나면 또 봐야지">
+<meta property="og:description" content="Eureka Server 서버를 내장한 어플리케이션의 로그와 Eureka Client가 구현되어있는 어플리케이션 로그를 보면서 유레카의 동작방식을 이해해 보자.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://borakim-b.github.io/images/eureka-server-client.jpg">
+<meta property="og:updated_time" content="2019-12-08T14:50:14.098Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="유레카 서버와 유레카 클라이언트 어떻게 동작할까?">
+<meta name="twitter:description" content="Eureka Server 서버를 내장한 어플리케이션의 로그와 Eureka Client가 구현되어있는 어플리케이션 로그를 보면서 유레카의 동작방식을 이해해 보자.">
+<meta name="twitter:image" content="https://borakim-b.github.io/images/eureka-server-client.jpg">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=640">
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-119521365-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+    
+    <link rel="canonical" href="https://borakim-b.github.io/2019/12/08/20191208-eureka-log/">
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">시간이 지나면 또 봐야지</a>
+    </div>
+    
+        
+            <a class="header-right-icon st-search-show-outputs" href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=110" alt="Author&#39;s picture">
+                </a>
+                <h4 class="sidebar-profile-name">Pora</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>:)</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="Home">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="Categories">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="Tags">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="Archives">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link open-algolia-search" href="#search" title="Search">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="About">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/borakim-b/" target="_blank" rel="external nofollow noopener noreferrer" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/atom.xml" title="RSS">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4" class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            유레카 서버와 유레카 클라이언트 어떻게 동작할까?
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-12-08T23:37:02+09:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/Docker/">Docker</a>, <a class="category-link" href="/categories/Tech/Java/">Java</a>, <a class="category-link" href="/categories/Tech/Java/Spring/">Spring</a>, <a class="category-link" href="/categories/Tech/MSA/">MSA</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>Eureka Server 서버를 내장한 어플리케이션의 로그와 Eureka Client가 구현되어있는 어플리케이션 로그를 보면서 유레카의 동작방식을 이해해 보자.<br><a id="more"></a></p>
+<h2 id="어플리케이션-로그"><a href="#어플리케이션-로그" class="headerlink" title="어플리케이션 로그"></a>어플리케이션 로그</h2><h3 id="Eureka-서버"><a href="#Eureka-서버" class="headerlink" title="Eureka 서버"></a>Eureka 서버</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">11</span>:<span class="number">20.165</span>  INFO <span class="number">1</span> --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : <span class="function">Tomcat initialized with <span class="title">port</span><span class="params">(s)</span>: 8761 <span class="params">(http)</span></span></span><br><span class="line"><span class="function">2019-11-29 13:11:20.325  INFO 1 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]</span></span><br><span class="line"><span class="function">2019-11-29 13:11:20.326  INFO 1 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.22]</span></span><br><span class="line"><span class="function">2019-11-29 13:11:20.651  INFO 1 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext</span></span><br><span class="line"><span class="function">2019-11-29 13:11:20.652  INFO 1 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 6067 ms</span></span><br><span class="line"><span class="function">...</span></span><br><span class="line"><span class="function">2019-11-29 13:11:29.470  INFO 1 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 20 <span class="title">endpoint</span><span class="params">(s)</span> beneath base path '/actuator'</span></span><br><span class="line"><span class="function">2019-11-29 13:11:29.974  INFO 1 --- [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING</span></span><br><span class="line"><span class="function">2019-11-29 13:11:30.113  INFO 1 --- [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1</span></span><br><span class="line"><span class="function">2019-11-29 13:11:30.124  INFO 1 --- [main] com.netflix.discovery.DiscoveryClient    : Client configured to neither register nor query <span class="keyword">for</span> data.</span></span><br><span class="line"><span class="function">2019-11-29 13:11:30.158  INFO 1 --- [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1575000690156 with initial instances count: 0</span></span><br><span class="line"><span class="function">2019-11-29 13:11:30.330  INFO 1 --- [main] c.n.eureka.DefaultEurekaServerContext    : Initializing ...</span></span><br><span class="line"><span class="function">2019-11-29 13:11:30.337  INFO 1 --- [main] c.n.eureka.cluster.PeerEurekaNodes       : Adding new peer nodes [http:<span class="comment">//registry:8761/eureka/]</span></span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.081  INFO 1 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson</span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.083  INFO 1 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson</span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.084  INFO 1 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml</span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.089  INFO 1 --- [main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml</span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.570  INFO 1 --- [main] c.n.eureka.cluster.PeerEurekaNodes       : Replica node URL:  http:<span class="comment">//registry:8761/eureka/</span></span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.613  INFO 1 --- [main] c.n.e.registry.AbstractInstanceRegistry  : Finished initializing remote region registries. All known remote regions: []</span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.614  INFO 1 --- [main] c.n.eureka.DefaultEurekaServerContext    : Initialized</span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.902  INFO 1 --- [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application REGISTRY with eureka with status UP</span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.980  INFO 1 --- [Thread-11] o.s.c.n.e.server.EurekaServerBootstrap   : Setting the eureka configuration..</span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.981  INFO 1 --- [Thread-11] o.s.c.n.e.server.EurekaServerBootstrap   : Eureka data center value eureka.datacenter is not set, defaulting to <span class="keyword">default</span></span></span><br><span class="line"><span class="function">2019-11-29 13:11:31.981  INFO 1 --- [Thread-11] o.s.c.n.e.server.EurekaServerBootstrap   : Eureka environment value eureka.environment is not set, defaulting to test</span></span><br><span class="line"><span class="function">2019-11-29 13:11:32.092  INFO 1 --- [Thread-11] o.s.c.n.e.server.EurekaServerBootstrap   : isAws returned <span class="keyword">false</span></span></span><br><span class="line"><span class="function">2019-11-29 13:11:32.099  INFO 1 --- [Thread-11] o.s.c.n.e.server.EurekaServerBootstrap   : Initialized server context</span></span><br><span class="line"><span class="function">2019-11-29 13:11:32.100  INFO 1 --- [Thread-11] c.n.e.r.PeerAwareInstanceRegistryImpl    : Got 1 instances from neighboring DS node</span></span><br><span class="line"><span class="function">2019-11-29 13:11:32.100  INFO 1 --- [Thread-11] c.n.e.r.PeerAwareInstanceRegistryImpl    : Renew threshold is: 1</span></span><br><span class="line"><span class="function">2019-11-29 13:11:32.100  INFO 1 --- [Thread-11] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP</span></span><br><span class="line"><span class="function">2019-11-29 13:11:32.163  INFO 1 --- [Thread-11] e.s.EurekaServerInitializerConfiguration : Started Eureka Server</span></span><br><span class="line"><span class="function">2019-11-29 13:11:32.289  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on <span class="title">port</span><span class="params">(s)</span>: 8761 <span class="params">(http)</span> with context path ''</span></span><br><span class="line"><span class="function">2019-11-29 13:11:32.310  INFO 1 --- [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8761</span></span><br><span class="line"><span class="function">2019-11-29 13:11:32.312  INFO 1 --- [main] k.c.s.e.e.EurekaServerApplication        : Started EurekaServerApplication in 20.454 <span class="title">seconds</span> <span class="params">(JVM running <span class="keyword">for</span> <span class="number">21.053</span>)</span></span></span><br><span class="line"><span class="function">2019-11-29 13:11:33.010  INFO 1 --- [nio-8761-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'</span></span><br><span class="line"><span class="function">2019-11-29 13:11:33.010  INFO 1 --- [nio-8761-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'</span></span><br><span class="line"><span class="function">2019-11-29 13:11:33.019  INFO 1 --- [nio-8761-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms</span></span><br><span class="line"><span class="function">2019-11-29 13:11:34.244  INFO 1 --- [nio-8761-exec-2] c.n.e.registry.AbstractInstanceRegistry  : Registered instance TEST-SERVICE/53614fa559ab:test-service:9300 with status <span class="title">UP</span> <span class="params">(replication=<span class="keyword">false</span>)</span></span></span><br><span class="line"><span class="function">2019-11-29 13:11:36.253  INFO 1 --- [nio-8761-exec-4] c.n.e.registry.AbstractInstanceRegistry  : Registered instance ZUUL-GATEWAY/7cf3a25fe7e2:zuul-gateway:8080 with status <span class="title">UP</span> <span class="params">(replication=<span class="keyword">false</span>)</span></span></span><br><span class="line"><span class="function">2019-11-29 13:11:47.191  INFO 1 --- [nio-8761-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance TEST-SERVICE/382f8bf1dfec:test-service:20180 with status <span class="title">UP</span> <span class="params">(replication=<span class="keyword">false</span>)</span></span></span><br><span class="line"><span class="function">2019-11-29 13:12:32.157  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms</span></span><br><span class="line"><span class="function">2019-11-29 13:13:32.157  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms</span></span><br><span class="line"><span class="function">2019-11-29 13:14:32.156  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms</span></span><br><span class="line"><span class="function">2019-11-29 13:15:32.156  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms</span></span><br><span class="line"><span class="function">2019-11-29 13:16:32.156  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms</span></span><br></pre></td></tr></table></figure>
+<h4 id="Eureka의-인스턴스-상태"><a href="#Eureka의-인스턴스-상태" class="headerlink" title="Eureka의 인스턴스 상태"></a>Eureka의 인스턴스 상태</h4><h5 id="관련-로그"><a href="#관련-로그" class="headerlink" title="관련 로그"></a>관련 로그</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">11</span>:<span class="number">29.974</span>  INFO <span class="number">1</span> --- [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING</span><br><span class="line">...</span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">11</span>:<span class="number">34.244</span>  INFO <span class="number">1</span> --- [nio-<span class="number">8761</span>-exec-<span class="number">2</span>] c.n.e.registry.AbstractInstanceRegistry  : Registered instance TEST-SERVICE/<span class="number">53614f</span>a559ab:test-service:<span class="number">9300</span> <span class="function">with status <span class="title">UP</span> <span class="params">(replication=<span class="keyword">false</span>)</span></span></span><br><span class="line"><span class="function">...</span></span><br><span class="line"><span class="function">2019-11-29 13:12:32.157  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms</span></span><br><span class="line"><span class="function">2019-11-29 13:13:32.157  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms</span></span><br></pre></td></tr></table></figure>
+<p>서비스 레지스트리의 initial instance status는 STARTING 으로 설정 함.<br>TEST-SERVICE/53614fa559ab:test-service:9300 (appID/instanceId)<br>appID는 Application Name 이고, instanceId는 <code>${spring.cloud.hostname}:${spring.application.name}:${server.port}</code> 의 조합이다.</p>
+<h5 id="일반적인-서비스-레지스트리의-Instance-Lifecycle"><a href="#일반적인-서비스-레지스트리의-Instance-Lifecycle" class="headerlink" title="일반적인 서비스 레지스트리의 Instance Lifecycle"></a>일반적인 서비스 레지스트리의 Instance Lifecycle</h5><p>Netflix Eureka와 같은 대부분의 서비스 레지스트리는 인스턴스를 조회하고, 등록하는 인터페이스를 제공한다. (REST API) 그리고 인스턴스 생명주기는 3가지 단계로 표현된다.</p>
+<ol>
+<li><p>Register</p>
+<p>서비스 레지스트리에 microservice instance를 등록 함.</p>
+</li>
+<li><p>Heartbeat</p>
+<p>등록된 instance는 사전 정의된 interval에 따라 레지스트리에 heartbeat을 보낸다.</p>
+<p>레지스트리가 특정시간동안 heartbeat을 받지 못하면 인스턴스는 down 상태로 판단하고, 레지스트리에서 삭제한다.</p>
+</li>
+<li><p>Deregister/Down</p>
+<p>instance가 삭제되었을 경우에 서비스 레지스트리에 등록해제(deregister) 해주는 과정이 필요하다.</p>
+<p>deregister 요청을 받으면 instance는 down 상태가 되고, 레지스트리에서 삭제된다.</p>
+</li>
+</ol>
+<h5 id="Eureka의-Instance-Lifecycle-및-Instance의-상태"><a href="#Eureka의-Instance-Lifecycle-및-Instance의-상태" class="headerlink" title="Eureka의 Instance Lifecycle 및 Instance의 상태"></a>Eureka의 Instance Lifecycle 및 Instance의 상태</h5><p>Instance의 Lifecycle 단계 별로 유레카 Instance Status 값의 변화를 알아보자.</p>
+<ol>
+<li><p>STARTING</p>
+<p>유레카 서버에 서비스가 등록되면서 <code>STARTING</code> 상태가 됨.</p>
+</li>
+<li><p>UP</p>
+<p>서비스 어플리케이션이 요청을 받을 수 있는 상태가 되면 <code>STARTING</code> 에서 <code>UP</code> 상태로 변경 됨.</p>
+</li>
+<li><p>HEARTBEAT</p>
+<p>사전에 정의된 interval(<code>eureka.instance.lease-renewal-interval-in-seconds</code> default:30)에 따라 유레카 서버에 heartbeat을 보내고, 특정시간(<code>eureka.instance.lease-expiration-duration-in-seconds</code> default: 90)동안 유레카 서버가 heartbeat를 받지 못하면 레지스트리에서 해당 인스턴스를 제거한다.</p>
+</li>
+<li><p>DOWN</p>
+<p>인스턴스가 종료되면 <code>DOWN</code> 상태로 변경 한다.</p>
+</li>
+</ol>
+<h5 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h5><blockquote>
+<p><a href="https://github.com/Netflix/eureka/wiki/Eureka-REST-operations" rel="external nofollow noopener noreferrer" target="_blank">Eureka-REST-operations</a></p>
+<p><a href="https://dzone.com/articles/service-registration-with-go-lang-and-eureka" rel="external nofollow noopener noreferrer" target="_blank">https://dzone.com/articles/service-registration-with-go-lang-and-eureka</a> </p>
+</blockquote>
+<h4 id="Eureka-Server-Peer-Node-구성"><a href="#Eureka-Server-Peer-Node-구성" class="headerlink" title="Eureka Server Peer Node 구성"></a>Eureka Server Peer Node 구성</h4><h5 id="관련로그"><a href="#관련로그" class="headerlink" title="관련로그"></a>관련로그</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">11</span>:<span class="number">30.337</span>  INFO <span class="number">1</span> --- [main] c.n.eureka.cluster.PeerEurekaNodes       : Adding <span class="keyword">new</span> peer nodes [http:<span class="comment">//registry:8761/eureka/]</span></span><br></pre></td></tr></table></figure>
+<h5 id="참고-1"><a href="#참고-1" class="headerlink" title="참고"></a>참고</h5><blockquote>
+<p><a href="https://github.com/Netflix/eureka/wiki/Understanding-Eureka-Peer-to-Peer-Communication" rel="external nofollow noopener noreferrer" target="_blank">Understanding Eureka Peer to Peer Communication</a></p>
+</blockquote>
+<h3 id="Eureka-Client-서비스"><a href="#Eureka-Client-서비스" class="headerlink" title="Eureka Client - 서비스"></a>Eureka Client - 서비스</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">com.netflix.discovery.DiscoveryClient    : Disable delta property : <span class="keyword">true</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.296</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : <span class="keyword">null</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.296</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : <span class="keyword">false</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.296</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : Application is <span class="keyword">null</span> : <span class="keyword">false</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.297</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : <span class="keyword">true</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.297</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : Application version is -<span class="number">1</span>: <span class="keyword">true</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.297</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server</span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.524</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : The response status is <span class="number">200</span></span><br><span class="line">...</span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.546</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp <span class="number">1575002541545</span> with initial instances count: <span class="number">2</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.548</span>  INFO <span class="number">1</span> --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application TEST-SERVICE with eureka with status UP</span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.549</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=<span class="number">1575002541549</span>, current=UP, previous=STARTING]</span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.554</span>  INFO <span class="number">1</span> --- [nfoReplicator-<span class="number">0</span>] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TEST-SERVICE/<span class="number">364</span>b4deadbc7:test-service:<span class="number">20233</span>: registering service...</span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.632</span>  INFO <span class="number">1</span> --- [nfoReplicator-<span class="number">0</span>] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TEST-SERVICE/<span class="number">364</span>b4deadbc7:test-service:<span class="number">20233</span> - registration status: <span class="number">204</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.640</span>  INFO <span class="number">1</span> --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : <span class="function">Tomcat started on <span class="title">port</span><span class="params">(s)</span>: 20233 <span class="params">(http)</span> with context path ''</span></span><br><span class="line"><span class="function">2019-11-29 13:42:21.645  INFO 1 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 20233</span></span><br><span class="line"><span class="function">2019-11-29 13:42:21.648  INFO 1 --- [           main] k.c.s.e.e.TestServiceApplication         : Started TestServiceApplication in 6.367 <span class="title">seconds</span> <span class="params">(JVM running <span class="keyword">for</span> <span class="number">7.332</span>)</span></span></span><br><span class="line"><span class="function">2019-11-29 13:42:24.538  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Disable delta property : <span class="keyword">true</span></span></span><br><span class="line"><span class="function">2019-11-29 13:42:24.539  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : <span class="keyword">null</span></span></span><br><span class="line"><span class="function">2019-11-29 13:42:24.540  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : <span class="keyword">false</span></span></span><br><span class="line"><span class="function">2019-11-29 13:42:24.540  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application is <span class="keyword">null</span> : <span class="keyword">false</span></span></span><br><span class="line"><span class="function">2019-11-29 13:42:24.540  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : <span class="keyword">false</span></span></span><br><span class="line"><span class="function">2019-11-29 13:42:24.540  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application version is -1: <span class="keyword">false</span></span></span><br><span class="line"><span class="function">2019-11-29 13:42:24.540  INFO 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server</span></span><br></pre></td></tr></table></figure>
+<h4 id="유레카-클라이언트는-유레카-서버로-부터-registry를-fetch해서-캐싱한다"><a href="#유레카-클라이언트는-유레카-서버로-부터-registry를-fetch해서-캐싱한다" class="headerlink" title="유레카 클라이언트는 유레카 서버로 부터 registry를 fetch해서 캐싱한다."></a>유레카 클라이언트는 유레카 서버로 부터 registry를 fetch해서 캐싱한다.</h4><p>서비스 목록을 3초마다 캐싱하도록 설정된 경우의 로그다.</p>
+<p><code>2019-11-29 13:42:21.297 Getting all instance registry info from the eureka server</code> 로그가 출력된 이후 3초가 지난 <code>2019-11-29 13:42:24.540</code> 에 또 fetch해 오는 것을 확인 할 수 있다.</p>
+<h5 id="관련-설정"><a href="#관련-설정" class="headerlink" title="관련 설정"></a>관련 설정</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    registerWithEureka:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    fetchRegistry:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    registry-fetch-interval-seconds:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">    disable-delta:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p><code>registry-fetch-interval-seconds</code> 서버로부터 레지스트리 정보를 읽어와 로컬에 캐시하게 되는데 이때 레지스트리 fetch 간격 (초) </p>
+<p><code>disable-delta</code> 레지스트리 정보의 변경된 부분만 fetch 함.</p>
+<blockquote>
+<p>  Indicates whether the eureka client should disable fetching of delta and should rather resort to getting the full registry information. Note that the delta fetches can reduce the traffic tremendously, because the rate of change with the eureka server is normally much lower than the rate of fetches. The changes are effective at runtime at the next registry fetch cycle as specified by registryFetchIntervalSeconds </p>
+</blockquote>
+<h5 id="참고-2"><a href="#참고-2" class="headerlink" title="참고"></a>참고</h5><blockquote>
+<p><a href="https://www.docs4dev.com/docs/en/spring-cloud/Finchley.SR2/reference/multi__appendix_compendium_of_configuration_properties.html" rel="external nofollow noopener noreferrer" target="_blank">Eureka configuration_properties</a></p>
+</blockquote>
+<h3 id="Instance-Scale-Out-상황에서의-로그-확인"><a href="#Instance-Scale-Out-상황에서의-로그-확인" class="headerlink" title="Instance Scale Out 상황에서의 로그 확인"></a>Instance Scale Out 상황에서의 로그 확인</h3><p>TEST-SERVICE가 레지스트리에 등록되어 있는 상황에서 TEST-SEVICE 의 Instance가 1개 더 생성되었을 때의 로그를 확인해보자.</p>
+<h4 id="Eureka-Server"><a href="#Eureka-Server" class="headerlink" title="Eureka Server"></a>Eureka Server</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.627</span>  INFO <span class="number">1</span> --- [nio-<span class="number">8761</span>-exec-<span class="number">3</span>] c.n.e.registry.AbstractInstanceRegistry  : Registered instance TEST-SERVICE/<span class="number">364</span>b4deadbc7:test-service:<span class="number">20233</span> <span class="function">with status <span class="title">UP</span> <span class="params">(replication=<span class="keyword">false</span>)</span></span></span><br><span class="line"><span class="function">2019-11-29 13:42:32.160  INFO 1 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms</span></span><br><span class="line"><span class="function">...</span></span><br></pre></td></tr></table></figure>
+<h4 id="Eureka-Client"><a href="#Eureka-Client" class="headerlink" title="Eureka Client"></a>Eureka Client</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.546</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp <span class="number">1575002541545</span> with initial instances count: <span class="number">2</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.548</span>  INFO <span class="number">1</span> --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application TEST-SERVICE with eureka with status UP</span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.549</span>  INFO <span class="number">1</span> --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=<span class="number">1575002541549</span>, current=UP, previous=STARTING]</span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.554</span>  INFO <span class="number">1</span> --- [nfoReplicator-<span class="number">0</span>] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TEST-SERVICE/<span class="number">364</span>b4deadbc7:test-service:<span class="number">20233</span>: registering service...</span><br><span class="line"><span class="number">2019</span>-<span class="number">11</span>-<span class="number">29</span> <span class="number">13</span>:<span class="number">42</span>:<span class="number">21.632</span>  INFO <span class="number">1</span> --- [nfoReplicator-<span class="number">0</span>] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_TEST-SERVICE/<span class="number">364</span>b4deadbc7:test-service:<span class="number">20233</span> - registration status: <span class="number">204</span></span><br></pre></td></tr></table></figure>
+<h5 id="서버로그와-클라이언트-로그를-대조해-보면"><a href="#서버로그와-클라이언트-로그를-대조해-보면" class="headerlink" title="서버로그와 클라이언트 로그를 대조해 보면.."></a>서버로그와 클라이언트 로그를 대조해 보면..</h5><p><code>클라이언트</code> - <code>2019-11-29 13:42:21.554 registering service ...</code></p>
+<p><code>서버</code> - <code>2019-11-29 13:42:21.627 Registered instance ...</code></p>
+<p><code>클라이언트</code> - <code>2019-11-29 13:42:21.632 registration status: 204</code></p>
+<table>
+<thead>
+<tr>
+<th><strong>Operation</strong></th>
+<th><strong>HTTP action</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Register new application instance</td>
+<td>POST /eureka/v2/apps/<strong>appID</strong></td>
+<td>Input: JSON/XML payload HTTP Code: 204 on success</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>서비스 등록요청</li>
+<li>유레카 레지스트리 인스턴스 등록</li>
+<li>등록완료</li>
+</ol>
+<h3 id="Instance-Scale-In-상황에서의-로그-확인"><a href="#Instance-Scale-In-상황에서의-로그-확인" class="headerlink" title="Instance Scale In 상황에서의 로그 확인"></a>Instance Scale In 상황에서의 로그 확인</h3><h4 id="Eureka-Server-1"><a href="#Eureka-Server-1" class="headerlink" title="Eureka Server"></a>Eureka Server</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span>-<span class="number">12</span>-<span class="number">07</span> <span class="number">11</span>:<span class="number">18</span>:<span class="number">25.478</span>  INFO <span class="number">1</span> --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime <span class="number">0</span>ms</span><br><span class="line"><span class="number">2019</span>-<span class="number">12</span>-<span class="number">07</span> <span class="number">11</span>:<span class="number">18</span>:<span class="number">28.611</span>  INFO <span class="number">1</span> --- [nio-<span class="number">8761</span>-exec-<span class="number">5</span>] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance TEST-SERVICE/<span class="number">291358</span>de0d8d:test-service:<span class="number">9300</span> (replication=<span class="keyword">false</span>)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th><strong>Operation</strong></th>
+<th><strong>HTTP action</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>De-register application instance</td>
+<td>DELETE /eureka/v2/apps/<strong>appID</strong>/<strong>instanceID</strong></td>
+<td>HTTP Code: 200 on success</td>
+</tr>
+</tbody>
+</table>
+<h2 id="끝"><a href="#끝" class="headerlink" title="끝"></a>끝</h2><p><img src="/images/eureka-server-client.jpg" alt="eureka-server-client"></p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/MSA/">MSA</a> <a class="tag tag--primary tag--small t-link" href="/tags/docker/">docker</a> <a class="tag tag--primary tag--small t-link" href="/tags/spring/">spring</a> <a class="tag tag--primary tag--small t-link" href="/tags/springboot/">springboot</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/12/01/20191201-flask-restplus/" data-tooltip="Flask 기반의 API 서버 만들기" aria-label="NEXT: Flask 기반의 API 서버 만들기">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/12/08/20191208-eureka-log/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/12/08/20191208-eureka-log/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/12/08/20191208-eureka-log/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 Pora. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/12/01/20191201-flask-restplus/" data-tooltip="Flask 기반의 API 서버 만들기" aria-label="NEXT: Flask 기반의 API 서버 만들기">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/12/08/20191208-eureka-log/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/12/08/20191208-eureka-log/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/12/08/20191208-eureka-log/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2019/12/08/20191208-eureka-log/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2019/12/08/20191208-eureka-log/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2019/12/08/20191208-eureka-log/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=110" alt="Author&#39;s picture">
+        
+            <h4 id="about-card-name">Pora</h4>
+        
+            <div id="about-card-bio"><p>:)</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="external nofollow noopener noreferrer" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search" class="form-control input--large search-input" placeholder="Search ">
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/">
+                            <h3 class="media-heading">Hexo blog framework 를 이용한 Github Pages Blog 만들기.</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    May 15, 2018
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/03/20190603-aws-free-tier/">
+                            <h3 class="media-heading">AWS 프리티어 사용 및 계정 생성</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 3, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 프리티어 사용 방법을 알아보고, 사용하는 과정에서 확인한 사항을 기록해보자.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/">
+                            <h3 class="media-heading">QR코드 생성 어떻게 할까</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 5, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/">
+                            <h3 class="media-heading">PHP 서비스 개발에 필요한 최소한의 것</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 9, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP 언어에 대해서 알아보고 PHP 웹 프레임워크, 템플릿엔진, 개발 시 사용한 IDE 에 대해 정리해본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/">
+                            <h3 class="media-heading">PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 9, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고<br>Docker를 활용해 개발환경을 구성해본다.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/">
+                            <h3 class="media-heading">Mysql 설치</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 15, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>docker를 이용해서 빠르게 데이터베이스 개발환경을 만들어 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/24/20190624-angular-start/">
+                            <h3 class="media-heading">Angular 빠르게 시작하기</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 24, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Bootstrap, Material 테마 설치 후 Angular CLI 이용해 빠르게 개발을 시작해 본다.<br>별도의 API서버가 없는 상태에서 프로토타입을 개발하는 방법을 확인해 본다.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/28/20190628-custom-header-x/">
+                            <h3 class="media-heading">Custom HTTP 헤더 네이밍 컨벤션?</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 28, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>개발을 하다보면 추가적인 정보를 헤더에 담아야 할 때가 있다.<br>이 때 헤더의 이름을 어떻게 지으면 좋을까?<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/28/20190628-aws-instance-ssh/">
+                            <h3 class="media-heading">AWS 인스턴스 생성하고 SSH 원격 접속 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 28, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 인스턴스 생성 시 보안그룹 설정 할 때 참고할 사항과 인스턴스 요금을 알아보고<br>인스턴스 생성 후 SSH Config 설정을 통해 원격접속 해본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/07/08/20190708-travis-angular-s3/">
+                            <h3 class="media-heading">Angular 프로젝트 Travis 빌드 후 Amazon S3에 업로드 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jul 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Angular 웹 프로젝트 배포는 어떻게 할까? <code>GitHub - Travis CI - S3</code> - Ansible Deploy<br><a href="https://travis-ci.com/" rel="external nofollow noopener noreferrer" target="_blank">Travis CI</a> 에 대해서 알아보고 프로젝트 빌드 후 Amazon S3에 업로드 하는 예제를 만들어 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium" data-message-zero="no post found" data-message-one="1 post found" data-message-other="{n} posts found">
+                17 posts found
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://borakim-b.github.io/2019/12/08/20191208-eureka-log/';
+                 
+                    this.page.identifier = '2019/12/08/20191208-eureka-log/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'borakim-b';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('H3PVV9NBL2', 'e4acc2614ed0e6947c524bc3280d28a2');
+        var algoliaIndex = algoliaClient.initIndex('my-hexo-blog');
+    </script>
+
+
+    </body>
+</html>
