@@ -1,0 +1,761 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="시간이 지나면 또 봐야지">
+    <title>Docker Client와 Kubernetes Client 역할을 하는 API 서버를 구축할 수 있을까?</title>
+    <meta name="author" content="Pora">
+    
+        <meta name="keywords" content="it,hexo,java,php,python,angular,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"docker client 와 kubernetes client에 대해서 알아보고, Python 기반의 공식 라이브러리를 사용하여 테스트해보자.\nDocker Client도커 클라이언트는 도커 데몬과 UNIX Socket 또는 REST API를 사용하여 통신한다.도커 데몬과 통신하는 방법은 Docker CLI, SDK (Go, Python) 사용하여 자체적으로 구축, Docker Engine API를 직접 호출 하는 방법이 존재한다. \n공식적으로 지원되는 라이브러리 의 경우 Go, Python, HTTP 가 있다.커뮤니티에 의해 관리되는 Unofficial libraries 중에 Java 등이 존재 한다.\n테스트Python 기반의 공식 라이브러리(Python Docker Engine SDK)를 사용했다.\n설치1&gt; pip install docker\n예제도커 이미지 목록을 조회하는 예시\n1234567import dockerclient = docker.from_env()containers = client.containers.list()for c in containers:    print(c.image)\n결과12&lt;Image: &apos;test-app:0.1&apos;&gt;&lt;Image: &apos;eureka-server:0.1&apos;&gt;\n참고비공식 라이브러리 중에 자바기반의 docker-client 에 대해서 우선 테스트를 해보았다.기존 스프링 부트 프로젝트 라이브러리의 버전과 docker-client에서 사용되는 라이브러리들 간의 Conflict가 발생했다. (예)\nKubernetes Client쿠버네티스 API를 사용하기 위해서 공식적으로 지원되는 쿠버네티스 클라이언트 라이브러리를 사용한다.\n\n쿠버네티스 REST API를 사용해 애플리케이션을 작성하기 위해 API 호출 또는 요청/응답 타입을 직접 구현할 필요는 없다. 사용하고 있는 프로그래밍 언어를 위한 클라이언트 라이브러리를 사용하면 된다.\n…\n\n쿠버네티스 클라이언트 라이브러리는 Go, Python, Java 등이 공식적으로 관리되고 있다.Python 라이브러리 를 이용해서 테스트해보자.\n개발환경Python 2.7 and 3.4 + \n설치1234&gt; pip install kubernetes...Installing collected packages: pyyaml, oauthlib, requests-oauthlib, pyasn1, rsa, cachetools, pyasn1-modules, google-auth, python-dateutil, kubernetesSuccessfully installed cachetools-4.0.0 google-auth-1.11.0 kubernetes-10.0.1 oauthlib-3.1.0 pyasn1-0.4.8 pyasn1-modules-0.2.8 python-dateutil-2.8.1 pyyaml-5.3 requests-oauthlib-1.3.0 rsa-4.0\n예제12345678910from kubernetes import client, config# Configs can be set in Configuration class directly or using helper utilityconfig.load_kube_config()v1 = client.CoreV1Api()print(\"Listing pods with their IPs:\")ret = v1.list_pod_for_all_namespaces(watch=False)for i in ret.items:    print(\"%s\\t%s\\t%s\" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))\n라이브러리에 구현되어있는 함수를 통해서 쿠버네티스 API /api/v1/pods 를 호출하게 된다. \n123456789101112131415...return self.api_client.call_api('/api/v1/pods', 'GET',                                        path_params,                                        query_params,                                        header_params,                                        body=body_params,                                        post_params=form_params,                                        files=local_var_files,                                        response_type='V1PodList',                                        auth_settings=auth_settings,                                        async_req=params.get('async_req'),                                        _return_http_data_only=params.get('_return_http_data_only'),                                        _preload_content=params.get('_preload_content', True),                                        _request_timeout=params.get('_request_timeout'),                                        collection_formats=collection_formats)\n샘플 코드의 경우 아래와 같은 결과 데이터를 출력하게 된다.(단일 노드의 kubernetes cluster 구성을 지원해주는 Docker Desktop을 사용해서 테스트 함.)\n123456710.1.0.36\tkube-system\tcoredns-5c98db65d4-5kvwh10.1.0.37\tkube-system\tcoredns-5c98db65d4-6vfrz192.168.65.3\tkube-system\tetcd-docker-desktop192.168.65.3\tkube-system\tkube-apiserver-docker-desktop192.168.65.3\tkube-system\tkube-controller-manager-docker-desktop192.168.65.3\tkube-system\tkube-proxy-9l6jq192.168.65.3\tkube-system\tkube-scheduler-docker-desktop\nDocumentdocumentation-for-api-endpoints\n쿠버네티스 API에 대한 문서는\n\n전체 API 관례는 API conventions doc에 기술되어 있다.\nAPI 엔드포인트, 리소스 타입과 샘플은 API Reference에 기술되어 있다.\nAPI에 원격 접속하는 방법은 Controlling API Access doc에서 논의되었다\n\n끝공식적으로 지원되는 Python Docker Engine SDK,  쿠버네티스 클라이언트 라이브러리 사용하여 컨테이너 관리에 필요한 기능을 구현한 API 서버를 구축해 볼 수 있다.\n","dateCreated":"2020-02-10T18:29:03+09:00","dateModified":"2020-02-10T18:37:41+09:00","datePublished":"2020-02-10T18:29:03+09:00","description":"docker client 와 kubernetes client에 대해서 알아보고, Python 기반의 공식 라이브러리를 사용하여 테스트해보자.","headline":"Docker Client와 Kubernetes Client 역할을 하는 API 서버를 구축할 수 있을까?","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2020/02/10/20200210-d-k-client/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2020/02/10/20200210-d-k-client/","keywords":"docker, kubernetes"}</script>
+    <meta name="description" content="docker client 와 kubernetes client에 대해서 알아보고, Python 기반의 공식 라이브러리를 사용하여 테스트해보자.">
+<meta name="keywords" content="docker,kubernetes">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Docker Client와 Kubernetes Client 역할을 하는 API 서버를 구축할 수 있을까?">
+<meta property="og:url" content="https://borakim-b.github.io/2020/02/10/20200210-d-k-client/index.html">
+<meta property="og:site_name" content="시간이 지나면 또 봐야지">
+<meta property="og:description" content="docker client 와 kubernetes client에 대해서 알아보고, Python 기반의 공식 라이브러리를 사용하여 테스트해보자.">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-02-10T09:37:41.107Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker Client와 Kubernetes Client 역할을 하는 API 서버를 구축할 수 있을까?">
+<meta name="twitter:description" content="docker client 와 kubernetes client에 대해서 알아보고, Python 기반의 공식 라이브러리를 사용하여 테스트해보자.">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=640">
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-119521365-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+    
+    <link rel="canonical" href="https://borakim-b.github.io/2020/02/10/20200210-d-k-client/">
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">시간이 지나면 또 봐야지</a>
+    </div>
+    
+        
+            <a class="header-right-icon st-search-show-outputs" href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=110" alt="Author&#39;s picture">
+                </a>
+                <h4 class="sidebar-profile-name">Pora</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>:)</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="Home">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="Categories">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="Tags">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="Archives">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link open-algolia-search" href="#search" title="Search">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="About">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/borakim-b/" target="_blank" rel="external nofollow noopener noreferrer" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/atom.xml" title="RSS">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4" class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Docker Client와 Kubernetes Client 역할을 하는 API 서버를 구축할 수 있을까?
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-02-10T18:29:03+09:00">
+	
+		    Feb 10, 2020
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/Docker/">Docker</a>, <a class="category-link" href="/categories/Tech/Kubernetes/">Kubernetes</a>, <a class="category-link" href="/categories/Tech/Python/">Python</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>docker client 와 kubernetes client에 대해서 알아보고, Python 기반의 공식 라이브러리를 사용하여 테스트해보자.<br><a id="more"></a></p>
+<h2 id="Docker-Client"><a href="#Docker-Client" class="headerlink" title="Docker Client"></a>Docker Client</h2><p>도커 클라이언트는 도커 데몬과 UNIX Socket 또는 REST API를 사용하여 통신한다.<br>도커 데몬과 통신하는 방법은 Docker CLI, SDK (Go, Python) 사용하여 자체적으로 구축, Docker Engine API를 직접 호출 하는 방법이 존재한다. </p>
+<p><a href="https://docs.docker.com/develop/sdk/" rel="external nofollow noopener noreferrer" target="_blank">공식적으로 지원되는 라이브러리</a> 의 경우 Go, Python, HTTP 가 있다.<br>커뮤니티에 의해 관리되는 Unofficial libraries 중에 Java 등이 존재 한다.</p>
+<h3 id="테스트"><a href="#테스트" class="headerlink" title="테스트"></a>테스트</h3><p>Python 기반의 공식 라이브러리(<a href="https://docker-py.readthedocs.io/en/stable/index.html" rel="external nofollow noopener noreferrer" target="_blank">Python Docker Engine SDK</a>)를 사용했다.</p>
+<h4 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; pip install docker</span><br></pre></td></tr></table></figure>
+<h4 id="예제"><a href="#예제" class="headerlink" title="예제"></a>예제</h4><p>도커 이미지 목록을 조회하는 예시</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> docker</span><br><span class="line"></span><br><span class="line">client = docker.from_env()</span><br><span class="line">containers = client.containers.list()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> containers:</span><br><span class="line">    print(c.image)</span><br></pre></td></tr></table></figure>
+<h4 id="결과"><a href="#결과" class="headerlink" title="결과"></a>결과</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;Image: &apos;test-app:0.1&apos;&gt;</span><br><span class="line">&lt;Image: &apos;eureka-server:0.1&apos;&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h4><p>비공식 라이브러리 중에 자바기반의 <a href="https://github.com/spotify/docker-client" rel="external nofollow noopener noreferrer" target="_blank">docker-client</a> 에 대해서 우선 테스트를 해보았다.<br>기존 스프링 부트 프로젝트 라이브러리의 버전과 docker-client에서 사용되는 라이브러리들 간의 Conflict가 발생했다. (<a href="https://github.com/spotify/docker-client/issues/1030" rel="external nofollow noopener noreferrer" target="_blank">예</a>)</p>
+<h2 id="Kubernetes-Client"><a href="#Kubernetes-Client" class="headerlink" title="Kubernetes Client"></a>Kubernetes Client</h2><p>쿠버네티스 API를 사용하기 위해서 공식적으로 지원되는 <a href="https://kubernetes.io/ko/docs/reference/using-api/client-libraries/" rel="external nofollow noopener noreferrer" target="_blank">쿠버네티스 클라이언트 라이브러리</a>를 사용한다.</p>
+<blockquote>
+<p><a href="https://kubernetes.io/ko/docs/reference/using-api/api-overview/" rel="external nofollow noopener noreferrer" target="_blank">쿠버네티스 REST API</a>를 사용해 애플리케이션을 작성하기 위해 API 호출 또는 요청/응답 타입을 직접 구현할 필요는 없다. 사용하고 있는 프로그래밍 언어를 위한 클라이언트 라이브러리를 사용하면 된다.</p>
+<p>…</p>
+</blockquote>
+<p>쿠버네티스 클라이언트 라이브러리는 Go, Python, Java 등이 공식적으로 관리되고 있다.<br><a href="https://github.com/kubernetes-client/python/" rel="external nofollow noopener noreferrer" target="_blank">Python 라이브러리</a> 를 이용해서 테스트해보자.</p>
+<h3 id="개발환경"><a href="#개발환경" class="headerlink" title="개발환경"></a>개발환경</h3><p>Python 2.7 and 3.4 + </p>
+<h3 id="설치-1"><a href="#설치-1" class="headerlink" title="설치"></a>설치</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; pip install kubernetes</span><br><span class="line">...</span><br><span class="line">Installing collected packages: pyyaml, oauthlib, requests-oauthlib, pyasn1, rsa, cachetools, pyasn1-modules, google-auth, python-dateutil, kubernetes</span><br><span class="line">Successfully installed cachetools-<span class="number">4.0</span>.<span class="number">0</span> google-auth-<span class="number">1.11</span>.<span class="number">0</span> kubernetes-<span class="number">10.0</span>.<span class="number">1</span> oauthlib-<span class="number">3.1</span>.<span class="number">0</span> pyasn1-<span class="number">0.4</span>.<span class="number">8</span> pyasn1-modules-<span class="number">0.2</span>.<span class="number">8</span> python-dateutil-<span class="number">2.8</span>.<span class="number">1</span> pyyaml-<span class="number">5.3</span> requests-oauthlib-<span class="number">1.3</span>.<span class="number">0</span> rsa-<span class="number">4.0</span></span><br></pre></td></tr></table></figure>
+<h3 id="예제-1"><a href="#예제-1" class="headerlink" title="예제"></a>예제</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> kubernetes <span class="keyword">import</span> client, config</span><br><span class="line"></span><br><span class="line"><span class="comment"># Configs can be set in Configuration class directly or using helper utility</span></span><br><span class="line">config.load_kube_config()</span><br><span class="line"></span><br><span class="line">v1 = client.CoreV1Api()</span><br><span class="line">print(<span class="string">"Listing pods with their IPs:"</span>)</span><br><span class="line">ret = v1.list_pod_for_all_namespaces(watch=<span class="keyword">False</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> ret.items:</span><br><span class="line">    print(<span class="string">"%s\t%s\t%s"</span> % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))</span><br></pre></td></tr></table></figure>
+<p>라이브러리에 구현되어있는 함수를 통해서 쿠버네티스 API <code>/api/v1/pods</code> 를 호출하게 된다. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">return</span> self.api_client.call_api(<span class="string">'/api/v1/pods'</span>, <span class="string">'GET'</span>,</span><br><span class="line">                                        path_params,</span><br><span class="line">                                        query_params,</span><br><span class="line">                                        header_params,</span><br><span class="line">                                        body=body_params,</span><br><span class="line">                                        post_params=form_params,</span><br><span class="line">                                        files=local_var_files,</span><br><span class="line">                                        response_type=<span class="string">'V1PodList'</span>,</span><br><span class="line">                                        auth_settings=auth_settings,</span><br><span class="line">                                        async_req=params.get(<span class="string">'async_req'</span>),</span><br><span class="line">                                        _return_http_data_only=params.get(<span class="string">'_return_http_data_only'</span>),</span><br><span class="line">                                        _preload_content=params.get(<span class="string">'_preload_content'</span>, <span class="keyword">True</span>),</span><br><span class="line">                                        _request_timeout=params.get(<span class="string">'_request_timeout'</span>),</span><br><span class="line">                                        collection_formats=collection_formats)</span><br></pre></td></tr></table></figure>
+<p>샘플 코드의 경우 아래와 같은 결과 데이터를 출력하게 된다.<br>(단일 노드의 kubernetes cluster 구성을 지원해주는 Docker Desktop을 사용해서 테스트 함.)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">10.1.0.36	kube-system	coredns-5c98db65d4-5kvwh</span><br><span class="line">10.1.0.37	kube-system	coredns-5c98db65d4-6vfrz</span><br><span class="line">192.168.65.3	kube-system	etcd-docker-desktop</span><br><span class="line">192.168.65.3	kube-system	kube-apiserver-docker-desktop</span><br><span class="line">192.168.65.3	kube-system	kube-controller-manager-docker-desktop</span><br><span class="line">192.168.65.3	kube-system	kube-proxy-9l6jq</span><br><span class="line">192.168.65.3	kube-system	kube-scheduler-docker-desktop</span><br></pre></td></tr></table></figure>
+<h3 id="Document"><a href="#Document" class="headerlink" title="Document"></a>Document</h3><p><a href="https://github.com/kubernetes-client/python/blob/master/kubernetes/README.md#documentation-for-api-endpoints" rel="external nofollow noopener noreferrer" target="_blank">documentation-for-api-endpoints</a></p>
+<p>쿠버네티스 API에 대한 문서는</p>
+<blockquote>
+<p>전체 API 관례는 <a href="https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md" rel="external nofollow noopener noreferrer" target="_blank">API conventions doc</a>에 기술되어 있다.</p>
+<p>API 엔드포인트, 리소스 타입과 샘플은 <a href="https://kubernetes.io/docs/reference" rel="external nofollow noopener noreferrer" target="_blank">API Reference</a>에 기술되어 있다.</p>
+<p>API에 원격 접속하는 방법은 <a href="https://kubernetes.io/docs/reference/access-authn-authz/controlling-access/" rel="external nofollow noopener noreferrer" target="_blank">Controlling API Access doc</a>에서 논의되었다</p>
+</blockquote>
+<h2 id="끝"><a href="#끝" class="headerlink" title="끝"></a>끝</h2><p>공식적으로 지원되는 <a href="https://docker-py.readthedocs.io/en/stable/index.html" rel="external nofollow noopener noreferrer" target="_blank">Python Docker Engine SDK</a>,  <a href="https://kubernetes.io/ko/docs/reference/using-api/client-libraries/" rel="external nofollow noopener noreferrer" target="_blank">쿠버네티스 클라이언트 라이브러리</a> 사용하여 컨테이너 관리에 필요한 기능을 구현한 API 서버를 구축해 볼 수 있다.</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/docker/">docker</a> <a class="tag tag--primary tag--small t-link" href="/tags/kubernetes/">kubernetes</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/12/08/20191208-eureka-log/" data-tooltip="유레카 서버와 유레카 클라이언트 어떻게 동작할까?" aria-label="NEXT: 유레카 서버와 유레카 클라이언트 어떻게 동작할까?">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2020/02/10/20200210-d-k-client/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2020/02/10/20200210-d-k-client/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2020/02/10/20200210-d-k-client/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2020 Pora. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/12/08/20191208-eureka-log/" data-tooltip="유레카 서버와 유레카 클라이언트 어떻게 동작할까?" aria-label="NEXT: 유레카 서버와 유레카 클라이언트 어떻게 동작할까?">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2020/02/10/20200210-d-k-client/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2020/02/10/20200210-d-k-client/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2020/02/10/20200210-d-k-client/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2020/02/10/20200210-d-k-client/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2020/02/10/20200210-d-k-client/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2020/02/10/20200210-d-k-client/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=110" alt="Author&#39;s picture">
+        
+            <h4 id="about-card-name">Pora</h4>
+        
+            <div id="about-card-bio"><p>:)</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="external nofollow noopener noreferrer" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search" class="form-control input--large search-input" placeholder="Search ">
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/">
+                            <h3 class="media-heading">Hexo blog framework 를 이용한 Github Pages Blog 만들기.</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    May 15, 2018
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/03/20190603-aws-free-tier/">
+                            <h3 class="media-heading">AWS 프리티어 사용 및 계정 생성</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 3, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 프리티어 사용 방법을 알아보고, 사용하는 과정에서 확인한 사항을 기록해보자.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/">
+                            <h3 class="media-heading">QR코드 생성 어떻게 할까</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 5, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/">
+                            <h3 class="media-heading">PHP 서비스 개발에 필요한 최소한의 것</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 9, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP 언어에 대해서 알아보고 PHP 웹 프레임워크, 템플릿엔진, 개발 시 사용한 IDE 에 대해 정리해본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/">
+                            <h3 class="media-heading">PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 9, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고<br>Docker를 활용해 개발환경을 구성해본다.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/">
+                            <h3 class="media-heading">Mysql 설치</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 15, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>docker를 이용해서 빠르게 데이터베이스 개발환경을 만들어 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/24/20190624-angular-start/">
+                            <h3 class="media-heading">Angular 빠르게 시작하기</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 24, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Bootstrap, Material 테마 설치 후 Angular CLI 이용해 빠르게 개발을 시작해 본다.<br>별도의 API서버가 없는 상태에서 프로토타입을 개발하는 방법을 확인해 본다.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/28/20190628-custom-header-x/">
+                            <h3 class="media-heading">Custom HTTP 헤더 네이밍 컨벤션?</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 28, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>개발을 하다보면 추가적인 정보를 헤더에 담아야 할 때가 있다.<br>이 때 헤더의 이름을 어떻게 지으면 좋을까?<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/28/20190628-aws-instance-ssh/">
+                            <h3 class="media-heading">AWS 인스턴스 생성하고 SSH 원격 접속 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 28, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 인스턴스 생성 시 보안그룹 설정 할 때 참고할 사항과 인스턴스 요금을 알아보고<br>인스턴스 생성 후 SSH Config 설정을 통해 원격접속 해본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/07/08/20190708-travis-angular-s3/">
+                            <h3 class="media-heading">Angular 프로젝트 Travis 빌드 후 Amazon S3에 업로드 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jul 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Angular 웹 프로젝트 배포는 어떻게 할까? <code>GitHub - Travis CI - S3</code> - Ansible Deploy<br><a href="https://travis-ci.com/" rel="external nofollow noopener noreferrer" target="_blank">Travis CI</a> 에 대해서 알아보고 프로젝트 빌드 후 Amazon S3에 업로드 하는 예제를 만들어 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium" data-message-zero="no post found" data-message-one="1 post found" data-message-other="{n} posts found">
+                18 posts found
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://borakim-b.github.io/2020/02/10/20200210-d-k-client/';
+                 
+                    this.page.identifier = '2020/02/10/20200210-d-k-client/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'borakim-b';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('H3PVV9NBL2', 'e4acc2614ed0e6947c524bc3280d28a2');
+        var algoliaIndex = algoliaClient.initIndex('my-hexo-blog');
+    </script>
+
+
+    </body>
+</html>
