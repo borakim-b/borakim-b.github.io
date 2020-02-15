@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://borakim-b.github.io/2019/12/01/20191201-flask-restplus/</loc>
+    
+    <lastmod>2020-02-15T05:09:27.688Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://borakim-b.github.io/2020/02/10/20200210-d-k-client/</loc>
     
     <lastmod>2020-02-10T09:37:41.107Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>https://borakim-b.github.io/2019/12/08/20191208-eureka-log/</loc>
     
     <lastmod>2019-12-26T08:08:09.314Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://borakim-b.github.io/2019/12/01/20191201-flask-restplus/</loc>
-    
-    <lastmod>2019-12-01T12:54:58.601Z</lastmod>
     
   </url>
   
@@ -135,14 +135,14 @@
   </url>
   
   <url>
-    <loc>https://borakim-b.github.io/all-categories/index.html</loc>
+    <loc>https://borakim-b.github.io/all-archives/index.html</loc>
     
     <lastmod>2019-05-31T08:20:33.910Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://borakim-b.github.io/all-archives/index.html</loc>
+    <loc>https://borakim-b.github.io/all-categories/index.html</loc>
     
     <lastmod>2019-05-31T08:20:33.910Z</lastmod>
     
