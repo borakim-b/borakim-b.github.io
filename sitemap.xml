@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://borakim-b.github.io/2020/02/15/20200215-kubectl-alias/</loc>
+    
+    <lastmod>2020-02-15T05:27:46.713Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://borakim-b.github.io/2019/12/01/20191201-flask-restplus/</loc>
     
     <lastmod>2020-02-15T05:09:27.688Z</lastmod>
