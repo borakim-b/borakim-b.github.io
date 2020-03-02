@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://borakim-b.github.io/2020/03/01/20200301-kubernetes-rbac/</loc>
+    
+    <lastmod>2020-03-02T02:18:44.656Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://borakim-b.github.io/2020/02/15/20200215-kubectl-alias/</loc>
     
     <lastmod>2020-02-15T05:34:39.167Z</lastmod>

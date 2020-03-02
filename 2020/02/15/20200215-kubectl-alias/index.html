@@ -15,9 +15,9 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"kubectl 명령어 사용 시 shell alias 등록을 통해 생산성을 향상시키는 방법을 알아보자.\n\nWindows윈도우 환경에서 사용하고 있다면.. PowerShell에서 별칭을 등록해서 사용할 수 있다.kubectl-aliases 프로젝트 Fork해서 작성된 https://github.com/shanoor/kubectl-aliases-powershell 을 이용해서 쉽게 설정할 수 있다.\n예시\nkubectl_aliases.ps1 파일을 $Home\\Documents\\WindowsPowerShell\\ 경로에 다운로드\nCommand 실행\n1&gt; &apos;. $Home\\Documents\\WindowsPowerShell\\kubectl_aliases.ps1&apos; | Out-File $PROFILE.CurrentUserAllHosts -Encoding ascii -Append\n\nPowerShell 재실행\n\n확인\n1&gt; kubectl get namespaces\nalias 사용\n1234&gt; kgns                                                               NAME              STATUS   AGEdefault           Active   21d...\n\n\nLinux.bash_profile에 별칭을 추가해서 관리하면 된다.\n예시1234alias k='kubectl'alias kg='kubectl get'alias kgpo='kubectl get pod'..\n자세한 설정방법은 아래 링크 참고한다https://github.com/ahmetb/kubectl-aliases800 여개의 별칭이 정의되어서 자동으로 등록할 수 있는 스크립트를 제공한다.\n비교\n기본\n1&gt; kubectl get services\n\n단축형 사용\n1&gt; kubectl get svc\n\nalias 사용\n1&gt; kgsvc\n\nalias + 단축형\n1&gt; kg svc\n\n\n끝.OS 종류에 맞게 자주사용하는 alias를 등록해서 사용할 수 있다.\n","dateCreated":"2020-02-15T14:13:57+09:00","dateModified":"2020-02-15T14:34:39+09:00","datePublished":"2020-02-15T14:13:57+09:00","description":"kubectl 명령어 사용 시 shell alias 등록을 통해 생산성을 향상시키는 방법을 알아보자.","headline":"Windows PowerShell 에서 kubectl 명령어에 대한 별칭(alias)을 등록해서 사용해 보자","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2020/02/15/20200215-kubectl-alias/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2020/02/15/20200215-kubectl-alias/","keywords":"kubernetes, windows"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"kubectl 명령어 사용 시 shell alias 등록을 통해 생산성을 향상시키는 방법을 알아보자.\n\nWindows윈도우 환경에서 사용하고 있다면.. PowerShell에서 별칭을 등록해서 사용할 수 있다.kubectl-aliases 프로젝트 Fork해서 작성된 https://github.com/shanoor/kubectl-aliases-powershell 을 이용해서 쉽게 설정할 수 있다.\n예시\nkubectl_aliases.ps1 파일을 $Home\\Documents\\WindowsPowerShell\\ 경로에 다운로드\nCommand 실행\n1&gt; &apos;. $Home\\Documents\\WindowsPowerShell\\kubectl_aliases.ps1&apos; | Out-File $PROFILE.CurrentUserAllHosts -Encoding ascii -Append\n\nPowerShell 재실행\n\n확인\n1&gt; kubectl get namespaces\nalias 사용\n1234&gt; kgns                                                               NAME              STATUS   AGEdefault           Active   21d...\n\n\nLinux.bash_profile에 별칭을 추가해서 관리하면 된다.\n예시1234alias k='kubectl'alias kg='kubectl get'alias kgpo='kubectl get pod'..\n자세한 설정방법은 아래 링크 참고한다https://github.com/ahmetb/kubectl-aliases800 여개의 별칭이 정의되어서 자동으로 등록할 수 있는 스크립트를 제공한다.\n비교\n기본\n1&gt; kubectl get services\n\n단축형 사용\n1&gt; kubectl get svc\n\nalias 사용\n1&gt; kgsvc\n\nalias + 단축형\n1&gt; kg svc\n\n\n끝.OS 종류에 맞게 자주사용하는 alias를 등록해서 사용할 수 있다.\n","dateCreated":"2020-02-15T14:13:57+09:00","dateModified":"2020-02-15T14:34:39+09:00","datePublished":"2020-02-15T14:13:57+09:00","description":"kubectl 명령어 사용 시 shell alias 등록을 통해 생산성을 향상시키는 방법을 알아보자.","headline":"Windows PowerShell 에서 kubectl 명령어에 대한 별칭(alias)을 등록해서 사용해 보자","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2020/02/15/20200215-kubectl-alias/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2020/02/15/20200215-kubectl-alias/","keywords":"windows, kubernetes"}</script>
     <meta name="description" content="kubectl 명령어 사용 시 shell alias 등록을 통해 생산성을 향상시키는 방법을 알아보자.">
-<meta name="keywords" content="kubernetes,windows">
+<meta name="keywords" content="windows,kubernetes">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Windows PowerShell 에서 kubectl 명령어에 대한 별칭(alias)을 등록해서 사용해 보자">
 <meta property="og:url" content="https://borakim-b.github.io/2020/02/15/20200215-kubectl-alias/index.html">
@@ -278,7 +278,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/03/01/20200301-kubernetes-rbac/" data-tooltip="쿠버네티스 인증(authentication)" aria-label="PREVIOUS: 쿠버네티스 인증(authentication)">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -373,7 +374,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/03/01/20200301-kubernetes-rbac/" data-tooltip="쿠버네티스 인증(authentication)" aria-label="PREVIOUS: 쿠버네티스 인증(authentication)">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -717,7 +719,7 @@
         </div>
         <div class="modal-footer">
             <p class="results-count text-medium" data-message-zero="no post found" data-message-one="1 post found" data-message-other="{n} posts found">
-                19 posts found
+                20 posts found
             </p>
         </div>
     </div>
