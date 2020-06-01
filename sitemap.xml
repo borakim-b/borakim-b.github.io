@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://borakim-b.github.io/2020/06/01/vuejs/</loc>
+    
+    <lastmod>2020-06-01T15:15:24.451Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://borakim-b.github.io/2019/06/24/20190624-angular-start/</loc>
+    
+    <lastmod>2020-06-01T14:34:31.227Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://borakim-b.github.io/2020/03/01/20200301-kubernetes-rbac/</loc>
     
     <lastmod>2020-03-02T03:53:45.429Z</lastmod>
@@ -124,13 +138,6 @@
     <loc>https://borakim-b.github.io/2019/06/28/20190628-aws-instance-ssh/</loc>
     
     <lastmod>2019-06-28T10:22:47.053Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://borakim-b.github.io/2019/06/24/20190624-angular-start/</loc>
-    
-    <lastmod>2019-06-24T09:39:11.896Z</lastmod>
     
   </url>
   
