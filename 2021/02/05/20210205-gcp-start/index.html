@@ -1,0 +1,791 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="시간이 지나면 또 봐야지">
+    <title>Google Cloud 시작하기</title>
+    <meta name="author" content="Pora">
+    
+        <meta name="keywords" content="it,hexo,java,php,python,angular,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/rss2.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"articleBody":"GCP 프리티어 사용 방법과, Google Cloud SDK 설치 과정\nFree Tier 가입구글 클라우드를 무료로 실행해보기 위한 안내가 되어있다.\n\nCompute Engine 및 Cloud Storage를 포함한 인기 제품을 월별 한도까지 무료로 실습해 보세요. 이러한 무료 서비스에는 유효기간이 없습니다.\n…\n\n신규 Google Cloud 사용자는 90일 동안 $300 상당의 무료 크레딧을 사용하여 Google Cloud 제품과 서비스를 체험할 수 있다.\n가입 후에는 예상하지 못한 금액이 청구되는 것을 방지하기 위해서 알림설정을 해두자.\n리소스별 무료 등급 사용량 한도를 참고하자.\n준비GCP 프로젝트 생성구글 클라우드 가입 후에 콘솔에서 프로젝트를 생성한다.\nCREDENTIAL 설정GCP에서 프로젝트 생성이 되면 프로젝트 내에 서비스계정(소유자권한)을 생성한다.서비스 계정 생성 후 키생성 및 비공개키 다운로드(xx.json)~/.zshrc 수정1GOOGLE_APPLICATION_CREDENTIALS=\"~/dev/gcloud-key/teavana-297565179a81.json\"\nSDK 설치 진행 후  login 할 때 사용된다.\n클라우드 SDK(gcloud) 설치클라우드 SDK 설치해서 gcloud CLI와 클라우드 클라이언트 라이브러리 및 Google API 클라이언트 라이브러리를 사용할 수 있다.\n\ngcloud CLI는 인증, 로컬 구성, 개발자 워크플로, Google Cloud API와의 상호작용을 관리합니다. gcloud 명령줄 도구를 사용하면 Compute Engine VM 인스턴스 생성, Google Kubernetes Engine 클러스터 관리, 명령줄에서 또는 스크립트 및 기타 자동화에서 App Engine 애플리케이션 배포와 같은 일반적인 클라우드 작업을 쉽게 수행할 수 있습니다.\n..주요특징\n\n파이썬 설치 확인Cloud SDK에는 Python이 필요하다. (지원되는 버전은 3.5~3.7 및 2.7.9 이상)\n1❯ python -V\n클라우드 SDK(gcloud) 설치 - Ubuntu패키지 소스로 Cloud SDK 배포 URI 추가1❯ echo \"deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main\" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list\n1❯ sudo apt-get install apt-transport-https ca-certificates gnupg\n에러!\n12Err:1 http://security.ubuntu.com/ubuntu focal-updates/universe amd64 apt-transport-https all 2.0.2ubuntu0.1...\n설치가 잘 안될 경우 업데이트 후에 실행해보자\n123❯ sudo apt-get update❯ sudo apt-get upgrade❯ sudo apt-get dist-upgrade\nGoogle Cloud 공개 키를 가져옵니다1❯ curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -\nCloud SDK 설치1❯ sudo apt-get install google-cloud-sdk\n확인12345678❯ gcloud --versionGoogle Cloud SDK 320.0.0alpha 2020.12.04beta 2020.12.04bq 2.0.64core 2020.12.04gsutil 4.55kubectl 1.17.14\n구글계정 연결을 위한 초기화1❯ gcloud init\n클라우드 SDK(gcloud) 설치 - macOSmacOS 설치 가이드문서 에서 64비트 패키지를 다운로드한다.\n\nxx.tar.gz 파일 압축해제\n\n설치\n1❯ ./google-cloud-sd/install.sh\n\n터미널 재시작\n\n버전확인\n12345❯ gcloud --versionGoogle Cloud SDK 308.0.0bq 2.0.60core 2020.08.28gsutil 4.53\n\nSDK 초기화 및 사용자인증\n1❯ gcloud init\n\n\ngcloud 명령어 사용로그인1❯ gcloud auth login\nGCP 프로젝트 조회 및 설정1234❯ gcloud projects listPROJECT_ID  NAME     PROJECT_NUMBERteavana     teavana  416882724345❯ gcloud config set project teavana\n접근성 기능 사용 설정1❯ gcloud config set accessibility/screen_reader true\n추가 컴포넌트 설치1234567891011121314151617181920212223❯ gcloud components listStatus: Not InstalledName: kubectlID: kubectlSize: &lt; 1 MiBStatus: InstalledName: BigQuery Command Line ToolID: bqSize: &lt; 1 MiB...❯ gcloud components update❯ gcloud components install app-engine-python app-engine-python-extras...❯ gcloud --versionGoogle Cloud SDK 321.0.0app-engine-python 1.9.91app-engine-python-extras 1.9.90bq 2.0.64cloud-datastore-emulator 2.1.0core 2020.12.11gsutil 4.57\n","dateCreated":"2021-02-05T22:46:14+09:00","dateModified":"2021-02-05T23:41:34+09:00","datePublished":"2021-02-05T22:46:14+09:00","description":"GCP 프리티어 사용 방법과, Google Cloud SDK 설치 과정","headline":"Google Cloud 시작하기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://borakim-b.github.io/2021/02/05/20210205-gcp-start/"},"publisher":{"@type":"Organization","name":"Pora","sameAs":["https://github.com/borakim-b/"]},"url":"https://borakim-b.github.io/2021/02/05/20210205-gcp-start/","keywords":"GCP"}</script>
+    <meta name="description" content="GCP 프리티어 사용 방법과, Google Cloud SDK 설치 과정">
+<meta name="keywords" content="GCP">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Google Cloud 시작하기">
+<meta property="og:url" content="https://borakim-b.github.io/2021/02/05/20210205-gcp-start/index.html">
+<meta property="og:site_name" content="시간이 지나면 또 봐야지">
+<meta property="og:description" content="GCP 프리티어 사용 방법과, Google Cloud SDK 설치 과정">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-02-05T14:41:34.390Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Google Cloud 시작하기">
+<meta name="twitter:description" content="GCP 프리티어 사용 방법과, Google Cloud SDK 설치 과정">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=640">
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-119521365-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+    
+    <link rel="canonical" href="https://borakim-b.github.io/2021/02/05/20210205-gcp-start/">
+    <script data-ad-client="ca-pub-8296742082102559" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">시간이 지나면 또 봐야지</a>
+    </div>
+    
+        
+            <a class="header-right-icon st-search-show-outputs" href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=110" alt="Author&#39;s picture">
+                </a>
+                <h4 class="sidebar-profile-name">Pora</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>:)</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="Home">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="Categories">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="Tags">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="Archives">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link open-algolia-search" href="#search" title="Search">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="#about" title="About">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/borakim-b/" target="_blank" rel="external nofollow noopener noreferrer" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/atom.xml" title="RSS">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4" class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Google Cloud 시작하기
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2021-02-05T22:46:14+09:00">
+	
+		    Feb 05, 2021
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Tech/">Tech</a>, <a class="category-link" href="/categories/Tech/GCP/">GCP</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>GCP 프리티어 사용 방법과, Google Cloud SDK 설치 과정<br><a id="more"></a></p>
+<h2 id="Free-Tier-가입"><a href="#Free-Tier-가입" class="headerlink" title="Free Tier 가입"></a>Free Tier 가입</h2><p>구글 클라우드를 무료로 실행해보기 위한 <a href="https://cloud.google.com/free?hl=ko" rel="external nofollow noopener noreferrer" target="_blank">안내</a>가 되어있다.</p>
+<blockquote>
+<p>Compute Engine 및 Cloud Storage를 포함한 인기 제품을 <a href="https://cloud.google.com/free/docs/gcp-free-tier?hl=ko" rel="external nofollow noopener noreferrer" target="_blank">월별 한도까지</a> 무료로 실습해 보세요. 이러한 무료 서비스에는 유효기간이 없습니다.</p>
+<p>…</p>
+</blockquote>
+<p>신규 Google Cloud 사용자는 <strong>90일 동안 $300 상당의 무료 크레딧</strong>을 사용하여 Google Cloud 제품과 서비스를 체험할 수 있다.</p>
+<p><strong>가입 후에는 예상하지 못한 금액이 청구되는 것을 방지</strong>하기 위해서 <a href="https://cloud.google.com/billing/docs/how-to/budgets?hl=ko" rel="external nofollow noopener noreferrer" target="_blank">알림설정</a>을 해두자.</p>
+<p><a href="https://cloud.google.com/free/docs/gcp-free-tier?_ga=2.240391233.-353323300.1607473622&amp;_gac=1.118604539.1607991509.CjwKCAiAt9z-BRBCEiwA_bWv-DtISqnrZT4HuGpa25Usu0p6chgX3v1GtJH-tCamNEpkkfmukRC2tRoCABAQAvD_BwE#free-tier-usage-limits" rel="external nofollow noopener noreferrer" target="_blank">리소스별 무료 등급 사용량 한도</a>를 참고하자.</p>
+<h2 id="준비"><a href="#준비" class="headerlink" title="준비"></a>준비</h2><h3 id="GCP-프로젝트-생성"><a href="#GCP-프로젝트-생성" class="headerlink" title="GCP 프로젝트 생성"></a>GCP 프로젝트 생성</h3><p>구글 클라우드 가입 후에 <a href="https://console.cloud.google.com/?hl=ko&amp;pli=1" rel="external nofollow noopener noreferrer" target="_blank">콘솔</a>에서 프로젝트를 생성한다.</p>
+<h4 id="CREDENTIAL-설정"><a href="#CREDENTIAL-설정" class="headerlink" title="CREDENTIAL 설정"></a>CREDENTIAL 설정</h4><p>GCP에서 프로젝트 생성이 되면 프로젝트 내에 <strong>서비스계정(소유자권한)을 생성</strong>한다.<br>서비스 계정 생성 후 키생성 및 비공개키 다운로드(xx.json)<br><code>~/.zshrc</code> 수정<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GOOGLE_APPLICATION_CREDENTIALS=<span class="string">"~/dev/gcloud-key/teavana-297565179a81.json"</span></span><br></pre></td></tr></table></figure></p>
+<p>SDK 설치 진행 후  <code>login</code> 할 때 사용된다.</p>
+<h2 id="클라우드-SDK-gcloud-설치"><a href="#클라우드-SDK-gcloud-설치" class="headerlink" title="클라우드 SDK(gcloud) 설치"></a>클라우드 SDK(gcloud) 설치</h2><p><a href="https://cloud.google.com/sdk/install/?hl=ko" rel="external nofollow noopener noreferrer" target="_blank">클라우드 SDK 설치</a>해서 <a href="https://cloud.google.com/sdk/gcloud/reference?hl=ko" rel="external nofollow noopener noreferrer" target="_blank">gcloud CLI</a>와 클라우드 클라이언트 라이브러리 및 Google API 클라이언트 라이브러리를 사용할 수 있다.</p>
+<blockquote>
+<p>gcloud CLI는 인증, 로컬 구성, 개발자 워크플로, Google Cloud API와의 상호작용을 관리합니다. gcloud 명령줄 도구를 사용하면 Compute Engine VM 인스턴스 생성, Google Kubernetes Engine 클러스터 관리, 명령줄에서 또는 스크립트 및 기타 자동화에서 App Engine 애플리케이션 배포와 같은 일반적인 클라우드 작업을 쉽게 수행할 수 있습니다.</p>
+<p>..<a href="https://cloud.google.com/sdk?hl=ko" rel="external nofollow noopener noreferrer" target="_blank">주요특징</a></p>
+</blockquote>
+<p><strong>파이썬 설치 확인</strong><br>Cloud SDK에는 Python이 필요하다. (지원되는 버전은 3.5~3.7 및 2.7.9 이상)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ python -V</span><br></pre></td></tr></table></figure>
+<h3 id="클라우드-SDK-gcloud-설치-Ubuntu"><a href="#클라우드-SDK-gcloud-설치-Ubuntu" class="headerlink" title="클라우드 SDK(gcloud) 설치 - Ubuntu"></a>클라우드 SDK(gcloud) 설치 - Ubuntu</h3><h5 id="패키지-소스로-Cloud-SDK-배포-URI-추가"><a href="#패키지-소스로-Cloud-SDK-배포-URI-추가" class="headerlink" title="패키지 소스로 Cloud SDK 배포 URI 추가"></a>패키지 소스로 Cloud SDK 배포 URI 추가</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ sudo apt-get install apt-transport-https ca-certificates gnupg</span><br></pre></td></tr></table></figure>
+<p>에러!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Err:1 http://security.ubuntu.com/ubuntu focal-updates/universe amd64 apt-transport-https all 2.0.2ubuntu0.1</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>설치가 잘 안될 경우 업데이트 후에 실행해보자</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">❯ sudo apt-get update</span><br><span class="line">❯ sudo apt-get upgrade</span><br><span class="line">❯ sudo apt-get dist-upgrade</span><br></pre></td></tr></table></figure>
+<h5 id="Google-Cloud-공개-키를-가져옵니다"><a href="#Google-Cloud-공개-키를-가져옵니다" class="headerlink" title="Google Cloud 공개 키를 가져옵니다"></a>Google Cloud 공개 키를 가져옵니다</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -</span><br></pre></td></tr></table></figure>
+<h5 id="Cloud-SDK-설치"><a href="#Cloud-SDK-설치" class="headerlink" title="Cloud SDK 설치"></a>Cloud SDK 설치</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ sudo apt-get install google-cloud-sdk</span><br></pre></td></tr></table></figure>
+<h5 id="확인"><a href="#확인" class="headerlink" title="확인"></a>확인</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">❯ gcloud --version</span><br><span class="line">Google Cloud SDK 320.0.0</span><br><span class="line">alpha 2020.12.04</span><br><span class="line">beta 2020.12.04</span><br><span class="line">bq 2.0.64</span><br><span class="line">core 2020.12.04</span><br><span class="line">gsutil 4.55</span><br><span class="line">kubectl 1.17.14</span><br></pre></td></tr></table></figure>
+<h5 id="구글계정-연결을-위한-초기화"><a href="#구글계정-연결을-위한-초기화" class="headerlink" title="구글계정 연결을 위한 초기화"></a>구글계정 연결을 위한 초기화</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ gcloud init</span><br></pre></td></tr></table></figure>
+<h3 id="클라우드-SDK-gcloud-설치-macOS"><a href="#클라우드-SDK-gcloud-설치-macOS" class="headerlink" title="클라우드 SDK(gcloud) 설치 - macOS"></a>클라우드 SDK(gcloud) 설치 - macOS</h3><p><a href="https://cloud.google.com/sdk/docs/quickstart-macos?hl=ko#before-you-begin" rel="external nofollow noopener noreferrer" target="_blank">macOS 설치 가이드문서</a> 에서 64비트 패키지를 다운로드한다.</p>
+<ol>
+<li><p><code>xx.tar.gz</code> 파일 압축해제</p>
+</li>
+<li><p>설치</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ ./google-cloud-sd/install.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>터미널 재시작</p>
+</li>
+<li><p>버전확인</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">❯ gcloud --version</span><br><span class="line">Google Cloud SDK 308.0.0</span><br><span class="line">bq 2.0.60</span><br><span class="line">core 2020.08.28</span><br><span class="line">gsutil 4.53</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SDK 초기화 및 사용자인증</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ gcloud init</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="gcloud-명령어-사용"><a href="#gcloud-명령어-사용" class="headerlink" title="gcloud 명령어 사용"></a>gcloud 명령어 사용</h2><h5 id="로그인"><a href="#로그인" class="headerlink" title="로그인"></a>로그인</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ gcloud auth login</span><br></pre></td></tr></table></figure>
+<h5 id="GCP-프로젝트-조회-및-설정"><a href="#GCP-프로젝트-조회-및-설정" class="headerlink" title="GCP 프로젝트 조회 및 설정"></a>GCP 프로젝트 조회 및 설정</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">❯ gcloud projects list</span><br><span class="line">PROJECT_ID  NAME     PROJECT_NUMBER</span><br><span class="line">teavana     teavana  416882724345</span><br><span class="line">❯ gcloud config set project teavana</span><br></pre></td></tr></table></figure>
+<h5 id="접근성-기능-사용-설정"><a href="#접근성-기능-사용-설정" class="headerlink" title="접근성 기능 사용 설정"></a>접근성 기능 사용 <a href="https://cloud.google.com/sdk/docs/enabling-accessibility-features?hl=ko" rel="external nofollow noopener noreferrer" target="_blank">설정</a></h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ gcloud config set accessibility/screen_reader true</span><br></pre></td></tr></table></figure>
+<h5 id="추가-컴포넌트-설치"><a href="#추가-컴포넌트-설치" class="headerlink" title="추가 컴포넌트 설치"></a>추가 컴포넌트 <a href="https://cloud.google.com/sdk/gcloud/reference/components/install" rel="external nofollow noopener noreferrer" target="_blank">설치</a></h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">❯ gcloud components list</span><br><span class="line">Status: Not Installed</span><br><span class="line">Name: kubectl</span><br><span class="line">ID: kubectl</span><br><span class="line">Size: &lt; 1 MiB</span><br><span class="line"></span><br><span class="line">Status: Installed</span><br><span class="line">Name: BigQuery Command Line Tool</span><br><span class="line">ID: bq</span><br><span class="line">Size: &lt; 1 MiB</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">❯ gcloud components update</span><br><span class="line">❯ gcloud components install app-engine-python app-engine-python-extras</span><br><span class="line">...</span><br><span class="line">❯ gcloud --version</span><br><span class="line">Google Cloud SDK 321.0.0</span><br><span class="line">app-engine-python 1.9.91</span><br><span class="line">app-engine-python-extras 1.9.90</span><br><span class="line">bq 2.0.64</span><br><span class="line">cloud-datastore-emulator 2.1.0</span><br><span class="line">core 2020.12.11</span><br><span class="line">gsutil 4.57</span><br></pre></td></tr></table></figure>
+
+            
+
+        </div>
+        <div class="ads-content boxes text-center">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 컨텐츠기본 -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8296742082102559" data-ad-slot="9727826064" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/GCP/">GCP</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/12/10/20201210-windows-wsl/" data-tooltip="WSL2 (Windows Subsystem for Linux)" aria-label="NEXT: WSL2 (Windows Subsystem for Linux)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2021/02/05/20210205-gcp-start/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2021/02/05/20210205-gcp-start/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2021/02/05/20210205-gcp-start/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2021 Pora. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/12/10/20201210-windows-wsl/" data-tooltip="WSL2 (Windows Subsystem for Linux)" aria-label="NEXT: WSL2 (Windows Subsystem for Linux)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2021/02/05/20210205-gcp-start/" title="Share on Facebook" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2021/02/05/20210205-gcp-start/" title="Share on Twitter" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2021/02/05/20210205-gcp-start/" title="Share on Google+" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://borakim-b.github.io/2021/02/05/20210205-gcp-start/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://twitter.com/intent/tweet?text=https://borakim-b.github.io/2021/02/05/20210205-gcp-start/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="_blank" href="https://plus.google.com/share?url=https://borakim-b.github.io/2021/02/05/20210205-gcp-start/" rel="external nofollow noopener noreferrer">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/47164adb1d108af5446020e371821ffb?s=110" alt="Author&#39;s picture">
+        
+            <h4 id="about-card-name">Pora</h4>
+        
+            <div id="about-card-bio"><p>:)</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="external nofollow noopener noreferrer" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>algolia
+                <!--
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-logo-light.svg">
+                -->
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search" class="form-control input--large search-input" placeholder="Search ">
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2018/05/15/github-blog-hexo-tranquilpeak/">
+                            <h3 class="media-heading">Hexo blog framework 를 이용한 Github Pages Blog 만들기.</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    May 15, 2018
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Hexo 블로그 프레임워크에 tranquilpeak Theme를 적용해서 블로그를 만들어보고 Markdown을 사용하여 포스팅 해보자.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/03/20190603-aws-free-tier/">
+                            <h3 class="media-heading">AWS 프리티어 사용 및 계정 생성</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 3, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 프리티어 사용 방법을 알아보고, 사용하는 과정에서 확인한 사항을 기록해보자.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/05/20190605-python-qrcode-generator/">
+                            <h3 class="media-heading">QR코드 생성 어떻게 할까</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 5, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>QR코드 관련 개발을 진행할 때 필요한 배경지식과 python 라이브러리를 활용해 QR이미지를 생성해 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/09/20190609-php-start-tip/">
+                            <h3 class="media-heading">PHP 서비스 개발에 필요한 최소한의 것</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 9, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP 언어에 대해서 알아보고 PHP 웹 프레임워크, 템플릿엔진, 개발 시 사용한 IDE 에 대해 정리해본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/09/20190609-php-env-docker/">
+                            <h3 class="media-heading">PHP 개발환경 구성 (Docker, CodeIgniter, Nginx, mariadb ..)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 9, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>PHP framework 중 CodeIgniter를 이용한 웹 서비스 개발 방법을 알아보고<br>Docker를 활용해 개발환경을 구성해본다.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/15/20190615-docker-mysql/">
+                            <h3 class="media-heading">Mysql 설치</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 15, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>docker를 이용해서 빠르게 데이터베이스 개발환경을 만들어 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/24/20190624-angular-start/">
+                            <h3 class="media-heading">Angular 빠르게 시작하기</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 24, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Bootstrap, Material 테마 설치 후 Angular CLI 이용해 빠르게 개발을 시작해 본다.<br>별도의 API서버가 없는 상태에서 프로토타입을 개발하는 방법을 확인해 본다.</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/28/20190628-custom-header-x/">
+                            <h3 class="media-heading">Custom HTTP 헤더 네이밍 컨벤션?</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 28, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>개발을 하다보면 추가적인 정보를 헤더에 담아야 할 때가 있다.<br>이 때 헤더의 이름을 어떻게 지으면 좋을까?<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/06/28/20190628-aws-instance-ssh/">
+                            <h3 class="media-heading">AWS 인스턴스 생성하고 SSH 원격 접속 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jun 28, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>AWS 인스턴스 생성 시 보안그룹 설정 할 때 참고할 사항과 인스턴스 요금을 알아보고<br>인스턴스 생성 후 SSH Config 설정을 통해 원격접속 해본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://borakim-b.github.io/2019/07/08/20190708-travis-angular-s3/">
+                            <h3 class="media-heading">Angular 프로젝트 Travis 빌드 후 Amazon S3에 업로드 해보자</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Jul 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Angular 웹 프로젝트 배포는 어떻게 할까? <code>GitHub - Travis CI - S3</code> - Ansible Deploy<br><a href="https://travis-ci.com/" rel="external nofollow noopener noreferrer" target="_blank">Travis CI</a> 에 대해서 알아보고 프로젝트 빌드 후 Amazon S3에 업로드 하는 예제를 만들어 본다.<br></p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium" data-message-zero="no post found" data-message-one="1 post found" data-message-other="{n} posts found">
+                23 posts found
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://borakim-b.github.io/2021/02/05/20210205-gcp-start/';
+                 
+                    this.page.identifier = '2021/02/05/20210205-gcp-start/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'borakim-b';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('H3PVV9NBL2', 'e4acc2614ed0e6947c524bc3280d28a2');
+        var algoliaIndex = algoliaClient.initIndex('my-hexo-blog');
+    </script>
+
+
+    </body>
+</html>

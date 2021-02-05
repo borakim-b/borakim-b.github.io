@@ -257,7 +257,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Installing, this may take a few minutes...</span><br><span class="line">Please create a default UNIX user account. The username does not need to match your Windows username.</span><br><span class="line">For more information visit: https://aka.ms/wslusers</span><br><span class="line">Enter new UNIX username: brkim</span><br><span class="line">New password:</span><br><span class="line">Retype new password:</span><br><span class="line">passwd: password updated successfully</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Windows Terminal 실행 후 리눅스 배포판 설치 확인</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> wsl -l</span><br><span class="line">Linux용 Windows 하위 시스템 배포:</span><br><span class="line">Ubuntu(기본값)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> wsl -l</span></span><br><span class="line">Linux용 Windows 하위 시스템 배포:</span><br><span class="line">Ubuntu(기본값)</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h3 id="WSL-2로-업데이트"><a href="#WSL-2로-업데이트" class="headerlink" title="WSL 2로 업데이트"></a>WSL 2로 업데이트</h3><ol>
@@ -272,8 +272,8 @@
 <p><img src="/images/windows-wsl.png" alt="windows-wsl"></p>
 <h2 id="결과"><a href="#결과" class="headerlink" title="결과"></a>결과</h2><p><code>apt-get</code> 패키지 관리자를 통해 다운로드 및 설치가 가능하다.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brkim@kimbora:/mnt/c/Users/bora.kim$ sudo apt update</span><br></pre></td></tr></table></figure>
-<h3 id="Git-설치"><a href="#Git-설치" class="headerlink" title="Git 설치"></a><a href="https://docs.microsoft.com/ko-kr/windows/wsl/tutorials/wsl-git" rel="external nofollow noopener noreferrer" target="_blank">Git</a> 설치</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo apt-get install git</span><br></pre></td></tr></table></figure>
-<h3 id="zsh-설치"><a href="#zsh-설치" class="headerlink" title="zsh 설치"></a>zsh 설치</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo apt install git zsh -y</span><br><span class="line">..</span><br><span class="line"><span class="meta">$</span> sudo chsh -s $(which zsh)</span><br><span class="line">..</span><br><span class="line"><span class="meta">$</span> sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</span><br><span class="line">..</span><br><span class="line">Time to change your default shell to zsh:</span><br><span class="line">Do you want to change your default shell to zsh? [Y/n] Y</span><br><span class="line">..</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> vi ~/.zshrc</span><br><span class="line"><span class="meta">#</span> ZSH_DISABLE_COMPFIX=true 추가.</span><br></pre></td></tr></table></figure>
+<h3 id="Git-설치"><a href="#Git-설치" class="headerlink" title="Git 설치"></a><a href="https://docs.microsoft.com/ko-kr/windows/wsl/tutorials/wsl-git" rel="external nofollow noopener noreferrer" target="_blank">Git</a> 설치</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install git</span></span><br></pre></td></tr></table></figure>
+<h3 id="zsh-설치"><a href="#zsh-설치" class="headerlink" title="zsh 설치"></a>zsh 설치</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install git zsh -y</span></span><br><span class="line">..</span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo chsh -s $(<span class="built_in">which</span> zsh)</span></span><br><span class="line">..</span><br><span class="line"><span class="meta">$</span><span class="bash"> sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span></span><br><span class="line">..</span><br><span class="line">Time to change your default shell to zsh:</span><br><span class="line">Do you want to change your default shell to zsh? [Y/n] Y</span><br><span class="line">..</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> vi ~/.zshrc</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ZSH_DISABLE_COMPFIX=<span class="literal">true</span> 추가.</span></span><br></pre></td></tr></table></figure>
 <p><a href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes" rel="external nofollow noopener noreferrer" target="_blank">zsh 테마</a></p>
 <h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><p><a href="https://docs.microsoft.com/ko-kr/windows/wsl/about" rel="external nofollow noopener noreferrer" target="_blank">https://docs.microsoft.com/ko-kr/windows/wsl/about</a><br><a href="https://docs.microsoft.com/ko-kr/windows/wsl/install-win10" rel="external nofollow noopener noreferrer" target="_blank">https://docs.microsoft.com/ko-kr/windows/wsl/install-win10</a><br><a href="https://devblogs.microsoft.com/commandline/do-not-change-linux-files-using-windows-apps-and-tools/" rel="external nofollow noopener noreferrer" target="_blank">https://devblogs.microsoft.com/commandline/do-not-change-linux-files-using-windows-apps-and-tools/</a><br>윈도우즈 응용 프로그램, 도구, 스크립트, 콘솔등을 사용하여 Linux 파일을 작성 및 수정하면 안됨.</p>
 
@@ -304,7 +304,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/02/05/20210205-gcp-start/" data-tooltip="Google Cloud 시작하기" aria-label="PREVIOUS: Google Cloud 시작하기">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -387,7 +388,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2020 Pora. All Rights Reserved.
+        Copyrights &copy; 2021 Pora. All Rights Reserved.
     </span>
 </footer>
 
@@ -399,7 +400,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/02/05/20210205-gcp-start/" data-tooltip="Google Cloud 시작하기" aria-label="PREVIOUS: Google Cloud 시작하기">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -745,7 +747,7 @@
         </div>
         <div class="modal-footer">
             <p class="results-count text-medium" data-message-zero="no post found" data-message-one="1 post found" data-message-other="{n} posts found">
-                22 posts found
+                23 posts found
             </p>
         </div>
     </div>
